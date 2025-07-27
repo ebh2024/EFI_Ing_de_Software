@@ -33,11 +33,24 @@ class Pasajero(models.Model):
     def historial_vuelos(self):
         return self.reserva_set.all()
 
+class Asiento(models.Model):
+    ESTADOS = (
+        ('disponible', 'Disponible'),
+        ('reservado', 'Reservado'),
+        ('ocupado', 'Ocupado'),
+    )
+    vuelo = models.ForeignKey(Vuelo, on_delete=models.CASCADE)
+    numero = models.CharField(max_length=10)
+    estado = models.CharField(max_length=20, choices=ESTADOS, default='disponible')
+
+    def __str__(self):
+        return f"Asiento {self.numero} en vuelo {self.vuelo}"
+
 class Reserva(models.Model):
     vuelo = models.ForeignKey(Vuelo, on_delete=models.CASCADE)
     pasajero = models.ForeignKey(Pasajero, on_delete=models.CASCADE)
+    asiento = models.OneToOneField(Asiento, on_delete=models.CASCADE, null=True)
     fecha_reserva = models.DateTimeField(auto_now_add=True)
-    asientos = models.IntegerField()
 
     def __str__(self):
-        return f"Reserva de {self.pasajero} en vuelo {self.vuelo}"
+        return f"Reserva de {self.pasajero} en vuelo {self.vuelo}, asiento {self.asiento.numero}"

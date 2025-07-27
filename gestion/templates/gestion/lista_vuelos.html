@@ -7,7 +7,7 @@
     <h1>Lista de Vuelos</h1>
     <ul>
         {% for vuelo in vuelos %}
-            <li>{{ vuelo.origen }} a {{ vuelo.destino }} - {{ vuelo.fecha_salida }}</li>
+            <li><a href="{% url 'detalle_vuelo' vuelo.id %}">{{ vuelo.origen }} a {{ vuelo.destino }} - {{ vuelo.fecha_salida }}</a></li>
         {% endfor %}
     </ul>
 </body>

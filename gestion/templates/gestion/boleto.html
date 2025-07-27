@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Boleto Electrónico</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+        .boleto {
+            border: 1px solid black;
+            padding: 20px;
+            width: 500px;
+            margin: 20px auto;
+        }
+        .header {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .info {
+            margin-top: 20px;
+        }
+        .info p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="boleto">
+        <div class="header">
+            Boleto Electrónico
+        </div>
+        <div class="info">
+            <p><strong>Pasajero:</strong> {{ reserva.pasajero.nombre }} {{ reserva.pasajero.apellido }}</p>
+            <p><strong>Vuelo:</strong> {{ reserva.vuelo.origen }} a {{ reserva.vuelo.destino }}</p>
+            <p><strong>Fecha de Salida:</strong> {{ reserva.vuelo.fecha_salida }}</p>
+            <p><strong>Fecha de Llegada:</strong> {{ reserva.vuelo.fecha_llegada }}</p>
+            <p><strong>Asiento:</strong> {{ reserva.asiento.numero }}</p>
+            <p><strong>Fecha de Reserva:</strong> {{ reserva.fecha_reserva }}</p>
+        </div>
+    </div>
+</body>
+</html>

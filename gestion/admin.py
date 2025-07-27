@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Vuelo, Pasajero, Reserva, Avion
+from .models import Vuelo, Pasajero, Reserva, Avion, Asiento
 
 class ReservaInline(admin.TabularInline):
     model = Reserva
@@ -12,3 +12,4 @@ admin.site.register(Vuelo)
 admin.site.register(Pasajero, PasajeroAdmin)
 admin.site.register(Reserva)
 admin.site.register(Avion)
+admin.site.register(Asiento)
