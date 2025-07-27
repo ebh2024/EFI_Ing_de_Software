@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Vuelos</title>
+</head>
+<body>
+    <h1>Lista de Vuelos</h1>
+    <ul>
+        {% for vuelo in vuelos %}
+            <li>{{ vuelo.origen }} a {{ vuelo.destino }} - {{ vuelo.fecha_salida }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
