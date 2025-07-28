@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Reporte de Pasajeros</title>
-</head>
-<body>
+{% extends 'gestion/base.html' %}
+
+{% block title %}Reporte de Pasajeros{% endblock %}
+
+{% block content %}
     <h1>Reporte de Pasajeros para el Vuelo: {{ vuelo.origen }} a {{ vuelo.destino }}</h1>
     <table>
         <thead>
@@ -21,5 +20,4 @@
             {% endfor %}
         </tbody>
     </table>
-</body>
-</html>
+{% endblock %}

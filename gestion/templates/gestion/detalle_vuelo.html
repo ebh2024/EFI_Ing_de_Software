@@ -1,7 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Detalle del Vuelo</title>
+{% extends 'gestion/base.html' %}
+
+{% block title %}Detalle del Vuelo{% endblock %}
+
+{% block content %}
     <style>
         .asiento {
             width: 50px;
@@ -22,8 +23,6 @@
             background-color: red;
         }
     </style>
-</head>
-<body>
     <h1>Detalle del Vuelo: {{ vuelo.origen }} a {{ vuelo.destino }}</h1>
     <h2>Asientos</h2>
     {% for asiento in asientos %}
@@ -39,5 +38,4 @@
             </div>
         {% endif %}
     {% endfor %}
-</body>
-</html>
+{% endblock %}

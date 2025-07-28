@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Lista de Vuelos</title>
-</head>
-<body>
+{% extends 'gestion/base.html' %}
+
+{% block title %}Lista de Vuelos{% endblock %}
+
+{% block content %}
     <h1>Lista de Vuelos</h1>
     <ul>
         {% for vuelo in vuelos %}
@@ -13,5 +12,4 @@
             </li>
         {% endfor %}
     </ul>
-</body>
-</html>
+{% endblock %}

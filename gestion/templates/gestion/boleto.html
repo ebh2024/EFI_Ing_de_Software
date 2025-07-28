@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Boleto Electrónico</title>
+{% extends 'gestion/base.html' %}
+
+{% block title %}Boleto Electrónico{% endblock %}
+
+{% block content %}
     <style>
-        body {
-            font-family: sans-serif;
-        }
         .boleto {
             border: 1px solid black;
             padding: 20px;
@@ -24,8 +22,6 @@
             margin: 5px 0;
         }
     </style>
-</head>
-<body>
     <div class="boleto">
         <div class="header">
             Boleto Electrónico
@@ -39,5 +35,4 @@
             <p><strong>Fecha de Reserva:</strong> {{ reserva.fecha_reserva }}</p>
         </div>
     </div>
-</body>
-</html>
+{% endblock %}
