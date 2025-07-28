@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 class Avion(models.Model):
     modelo = models.CharField(max_length=100)
     capacidad = models.IntegerField()
+    layout_asientos = models.JSONField(default=dict)
+    informacion_tecnica = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.modelo
@@ -18,6 +20,14 @@ class Vuelo(models.Model):
 
     def __str__(self):
         return f"{self.origen} a {self.destino}"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if self.avion and not Asiento.objects.filter(vuelo=self).exists():
+            layout = self.avion.layout_asientos
+            for fila in layout.get('filas', []):
+                for asiento_info in fila.get('asientos', []):
+                    Asiento.objects.create(vuelo=self, numero=asiento_info['numero'])
 
 class Pasajero(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
