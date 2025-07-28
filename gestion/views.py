@@ -28,3 +28,8 @@ def reservar_asiento(request, asiento_id):
 def boleto(request, reserva_id):
     reserva = get_object_or_404(Reserva, pk=reserva_id)
     return render(request, 'gestion/boleto.html', {'reserva': reserva})
+
+def reporte_pasajeros_por_vuelo(request, vuelo_id):
+    vuelo = get_object_or_404(Vuelo, pk=vuelo_id)
+    reservas = Reserva.objects.filter(vuelo=vuelo)
+    return render(request, 'gestion/reporte_pasajeros.html', {'vuelo': vuelo, 'reservas': reservas})

@@ -6,4 +6,5 @@ urlpatterns = [
     path('vuelo/<int:vuelo_id>/', views.detalle_vuelo, name='detalle_vuelo'),
     path('reservar/<int:asiento_id>/', views.reservar_asiento, name='reservar_asiento'),
     path('boleto/<int:reserva_id>/', views.boleto, name='boleto'),
+    path('reporte/vuelo/<int:vuelo_id>/', views.reporte_pasajeros_por_vuelo, name='reporte_pasajeros_por_vuelo'),
 ]
