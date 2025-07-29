@@ -1,0 +1,21 @@
+{% extends 'gestion/base.html' %}
+
+{% block title %}Reservar Asiento{% endblock %}
+
+{% block content %}
+    <h2>Reservar Asiento {{ asiento.numero }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Confirmar Reserva</button>
+    </form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var inputs = document.querySelectorAll('input, select, textarea');
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].setAttribute('required', '');
+            }
+        });
+    </script>
+{% endblock %}
