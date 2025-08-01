@@ -1,0 +1,19 @@
+{% extends 'gestion/base.html' %}
+
+{% block title %}Lista de Vuelos{% endblock %}
+
+{% block content %}
+    <h1>Lista de Vuelos</h1>
+    <div class="list-group">
+        {% for vuelo in vuelos %}
+            <a href="{% url 'detalle_vuelo' vuelo.id %}" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{ vuelo.origen }} a {{ vuelo.destino }}</h5>
+                    <small>{{ vuelo.fecha_salida|date:"d/m/Y H:i" }}</small>
+                </div>
+                <p class="mb-1">Precio: ${{ vuelo.precio }}</p>
+                <a href="{% url 'reporte_pasajeros_por_vuelo' vuelo.id %}" class="btn btn-secondary btn-sm">Ver Reporte</a>
+            </a>
+        {% endfor %}
+    </div>
+{% endblock %}
