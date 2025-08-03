@@ -3,39 +3,21 @@
 {% block title %}Detalle del Vuelo{% endblock %}
 
 {% block content %}
-    <style>
-        .asiento {
-            width: 50px;
-            height: 50px;
-            border: 1px solid black;
-            margin: 5px;
-            display: inline-block;
-            text-align: center;
-            line-height: 50px;
-        }
-        .disponible {
-            background-color: green;
-        }
-        .reservado {
-            background-color: yellow;
-        }
-        .ocupado {
-            background-color: red;
-        }
-    </style>
     <h1>Detalle del Vuelo: {{ vuelo.origen }} a {{ vuelo.destino }}</h1>
     <h2>Asientos</h2>
-    {% for asiento in asientos %}
-        {% if asiento.estado == 'disponible' %}
-            <a href="{% url 'reservar_asiento' asiento.id %}">
+    <div class="d-flex flex-wrap">
+        {% for asiento in asientos %}
+            {% if asiento.estado == 'disponible' %}
+                <a href="{% url 'reservar_asiento' asiento.id %}" class="text-decoration-none">
+                    <div class="asiento disponible">
+                        {{ asiento.numero }}
+                    </div>
+                </a>
+            {% else %}
                 <div class="asiento {{ asiento.estado }}">
                     {{ asiento.numero }}
                 </div>
-            </a>
-        {% else %}
-            <div class="asiento {{ asiento.estado }}">
-                {{ asiento.numero }}
-            </div>
-        {% endif %}
-    {% endfor %}
+            {% endif %}
+        {% endfor %}
+    </div>
 {% endblock %}
