@@ -48,6 +48,9 @@ class ReservaService:
         
         pasajero = self.pasajero_repository.get_by_user(user)
         
+        if self.reserva_repository.get_by_vuelo(asiento.vuelo).filter(pasajero=pasajero).exists():
+            raise Exception("Ya tienes una reserva en este vuelo.")
+            
         asiento.estado = 'reservado'
         self.asiento_repository.save(asiento)
         

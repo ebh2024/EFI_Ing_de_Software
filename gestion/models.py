@@ -10,6 +10,8 @@ class Avion(models.Model):
     def __str__(self):
         return self.modelo
 
+from django.core.exceptions import ValidationError
+
 class Vuelo(models.Model):
     origen = models.CharField(max_length=100)
     destino = models.CharField(max_length=100)
@@ -21,7 +23,12 @@ class Vuelo(models.Model):
     def __str__(self):
         return f"{self.origen} a {self.destino}"
 
+    def clean(self):
+        if self.fecha_llegada <= self.fecha_salida:
+            raise ValidationError('La fecha de llegada debe ser posterior a la fecha de salida.')
+
     def save(self, *args, **kwargs):
+        self.clean()
         super().save(*args, **kwargs)
         if self.avion and not Asiento.objects.filter(vuelo=self).exists():
             layout = self.avion.layout_asientos
@@ -33,7 +40,7 @@ class Pasajero(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=100)
     apellido = models.CharField(max_length=100)
-    documento = models.CharField(max_length=20, null=True)
+    documento = models.CharField(max_length=20, null=True, unique=True)
     email = models.EmailField()
     telefono = models.CharField(max_length=20)
 

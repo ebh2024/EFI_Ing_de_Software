@@ -3,6 +3,11 @@
 {% block title %}Detalle del Vuelo{% endblock %}
 
 {% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-danger">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
     <h1>Detalle del Vuelo: {{ vuelo.origen }} a {{ vuelo.destino }}</h1>
     <h2>Asientos</h2>
     <div class="d-flex flex-wrap">
@@ -14,7 +19,7 @@
                     </div>
                 </a>
             {% else %}
-                <div class="asiento {{ asiento.estado }}">
+                <div class="asiento {{ asiento.estado }}" style="pointer-events: none; cursor: default;">
                     {{ asiento.numero }}
                 </div>
             {% endif %}
