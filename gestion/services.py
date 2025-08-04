@@ -2,6 +2,8 @@ from .repositories import VueloRepository, PasajeroRepository, AsientoRepository
 from django.contrib.auth.models import User
 import secrets
 import string
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
 class VueloService:
     def __init__(self):
@@ -54,7 +56,19 @@ class ReservaService:
         asiento.estado = 'reservado'
         self.asiento_repository.save(asiento)
         
-        return self.reserva_repository.create(asiento.vuelo, pasajero, asiento)
+        reserva = self.reserva_repository.create(asiento.vuelo, pasajero, asiento)
+        
+        # Enviar correo electrónico
+        mensaje = render_to_string('gestion/boleto_email.html', {'reserva': reserva})
+        send_mail(
+            'Confirmación de tu reserva',
+            mensaje,
+            'no-reply@aerolinea.com',
+            [pasajero.email],
+            fail_silently=False,
+        )
+        
+        return reserva
 
     def get_boleto(self, reserva_id):
         return self.reserva_repository.get_by_id(reserva_id)
