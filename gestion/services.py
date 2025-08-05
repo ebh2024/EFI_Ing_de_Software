@@ -59,13 +59,14 @@ class ReservaService:
         reserva = self.reserva_repository.create(asiento.vuelo, pasajero, asiento)
         
         # Enviar correo electrónico
-        mensaje = render_to_string('gestion/boleto_email.html', {'reserva': reserva})
+        html_mensaje = render_to_string('gestion/boleto_email.html', {'reserva': reserva})
         send_mail(
             'Confirmación de tu reserva',
-            mensaje,
+            '',
             'no-reply@aerolinea.com',
             [pasajero.email],
             fail_silently=False,
+            html_message=html_mensaje
         )
         
         return reserva

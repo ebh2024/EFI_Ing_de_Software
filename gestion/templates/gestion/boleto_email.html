@@ -1,10 +1,18 @@
-Hola {{ reserva.pasajero.nombre }},
-
-Gracias por tu reserva. Aquí están los detalles de tu boleto:
-
-Vuelo: {{ reserva.vuelo.origen }} a {{ reserva.vuelo.destino }}
-Fecha de Salida: {{ reserva.vuelo.fecha_salida }}
-Fecha de Llegada: {{ reserva.vuelo.fecha_llegada }}
-Asiento: {{ reserva.asiento.numero }}
-
-¡Buen viaje!
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Boleto Electrónico</title>
+</head>
+<body>
+    <p>Hola {{ reserva.pasajero.nombre }},</p>
+    <p>Gracias por tu reserva. Aquí están los detalles de tu boleto:</p>
+    <ul>
+        <li><strong>Vuelo:</strong> {{ reserva.vuelo.origen }} a {{ reserva.vuelo.destino }}</li>
+        <li><strong>Fecha de Salida:</strong> {{ reserva.vuelo.fecha_salida }}</li>
+        <li><strong>Fecha de Llegada:</strong> {{ reserva.vuelo.fecha_llegada }}</li>
+        <li><strong>Asiento:</strong> {{ reserva.asiento.numero }}</li>
+    </ul>
+    <p>¡Buen viaje!</p>
+    <button onclick="window.print()">Imprimir</button>
+</body>
+</html>
