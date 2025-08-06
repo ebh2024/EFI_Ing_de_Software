@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse # Importar reverse para obtener URLs de forma dinámica
 from .forms import PassengerForm
 from django.contrib.auth.decorators import login_required
 from .services import FlightService, PassengerService, BookingService, NotificationService
@@ -32,7 +33,10 @@ def book_seat(request, seat_id):
             return redirect('process_payment', booking_id=booking.id)
         except Exception as e:
             messages.error(request, str(e))
-            seat = booking_service.seat_repository.get_by_id(seat_id)
+            # En caso de error, obtenemos el asiento nuevamente para redirigir al detalle del vuelo.
+            # Asegúrate de que el modelo Seat esté importado si no lo está ya.
+            from .models import Seat
+            seat = get_object_or_404(Seat, id=seat_id)
             return redirect('flight_detail', flight_id=seat.flight.id)
     else:
         # Si la solicitud no es POST, simplemente renderiza la página de reserva de asiento.
@@ -98,8 +102,13 @@ def create_passenger(request):
     return render(request, 'gestion/create_passenger.html', {'form': form})
 
 # Vista para mostrar el perfil del usuario autenticado y sus reservas.
+# Vista para mostrar el perfil del usuario autenticado y sus reservas.
 @login_required
 def user_profile(request):
+    # Si el usuario es un miembro del staff (administrador), redirigirlo al panel de administración.
+    if request.user.is_staff:
+        return redirect(reverse('admin:index')) # Redirige a la URL del panel de administración de Django.
+
     passenger_service = PassengerService()
     booking_service = BookingService()
     passenger = passenger_service.get_passenger_by_user(request.user)
