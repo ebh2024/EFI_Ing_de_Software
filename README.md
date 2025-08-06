@@ -40,7 +40,7 @@ Sigue estos pasos para configurar y ejecutar el proyecto localmente:
 
 3.  **Instalar Dependencias**:
     ```bash
-    pip install Django crispy-forms crispy-bootstrap5
+    pip install -r requirements.txt
     ```
 
 4.  **Aplicar Migraciones de la Base de Datos**:
