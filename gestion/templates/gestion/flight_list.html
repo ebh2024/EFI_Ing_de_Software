@@ -1,0 +1,30 @@
+{% extends 'gestion/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Flight List" %}{% endblock %}
+
+{% block content %}
+    <h1 class="text-center mb-4">{% trans "Flight List" %}</h1>
+    <div class="row">
+        {% for flight in flights %}
+            <div class="col-md-4 mb-4">
+                <div class="card text-center">
+                    <div class="card-body text-start">
+                        <h5 class="card-title text-center">{{ flight.origin }} to {{ flight.destination }}</h5>
+                        <p class="card-text">
+                            <strong>{% trans "Departure" %}:</strong> {{ flight.departure_date|date:"d/m/Y H:i" }}<br>
+                            <strong>{% trans "Arrival" %}:</strong> {{ flight.arrival_date|date:"d/m/Y H:i" }}<br>
+                            <strong>{% trans "Price" %}:</strong> ${{ flight.price }}
+                        </p>
+                        <div class="text-center">
+                        <a href="{% url 'flight_detail' flight.id %}" class="btn btn-primary me-2">{% trans "View Seats" %}</a>
+                        {% if user.is_staff %}
+                            <a href="{% url 'passenger_report_by_flight' flight.id %}" class="btn btn-secondary">{% trans "View Report" %}</a>
+                        {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,46 +1,46 @@
-from .models import Vuelo, Pasajero, Avion, Reserva, Asiento
+from .models import Flight, Passenger, Aircraft, Booking, Seat
 
-class VueloRepository:
+class FlightRepository:
     def get_all(self):
-        return Vuelo.objects.all()
+        return Flight.objects.all()
 
-    def get_by_id(self, vuelo_id):
-        return Vuelo.objects.get(pk=vuelo_id)
+    def get_by_id(self, flight_id):
+        return Flight.objects.get(pk=flight_id)
 
-class PasajeroRepository:
+class PassengerRepository:
     def get_by_user(self, user):
-        return Pasajero.objects.get(user=user)
+        return Passenger.objects.get(user=user)
 
-    def create(self, user, nombre, apellido, documento, email, telefono):
-        return Pasajero.objects.create(
+    def create(self, user, first_name, last_name, document_id, email, phone):
+        return Passenger.objects.create(
             user=user,
-            nombre=nombre,
-            apellido=apellido,
-            documento=documento,
+            first_name=first_name,
+            last_name=last_name,
+            document_id=document_id,
             email=email,
-            telefono=telefono
+            phone=phone
         )
 
-class AsientoRepository:
-    def get_by_id(self, asiento_id):
-        return Asiento.objects.get(pk=asiento_id)
+class SeatRepository:
+    def get_by_id(self, seat_id):
+        return Seat.objects.get(pk=seat_id)
 
-    def get_by_vuelo(self, vuelo):
-        return Asiento.objects.filter(vuelo=vuelo)
+    def get_by_flight(self, flight):
+        return Seat.objects.filter(flight=flight)
 
-    def save(self, asiento):
-        asiento.save()
+    def save(self, seat):
+        seat.save()
 
-class ReservaRepository:
-    def create(self, vuelo, pasajero, asiento):
-        return Reserva.objects.create(
-            vuelo=vuelo,
-            pasajero=pasajero,
-            asiento=asiento
+class BookingRepository:
+    def create(self, flight, passenger, seat):
+        return Booking.objects.create(
+            flight=flight,
+            passenger=passenger,
+            seat=seat
         )
 
-    def get_by_id(self, reserva_id):
-        return Reserva.objects.get(pk=reserva_id)
+    def get_by_id(self, booking_id):
+        return Booking.objects.get(pk=booking_id)
 
-    def get_by_vuelo(self, vuelo):
-        return Reserva.objects.filter(vuelo=vuelo)
+    def get_by_flight(self, flight):
+        return Booking.objects.filter(flight=flight)

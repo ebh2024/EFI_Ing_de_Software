@@ -1,0 +1,30 @@
+{% extends 'gestion/base.html' %}
+{% load i18n %}
+
+{% block title %{% trans "Passenger Report" %}{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            <h1>{% trans "Passenger Report for Flight" %}: {{ flight.origin }} to {{ flight.destination }}</h1>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>{% trans "Passenger" %}</th>
+                        <th>{% trans "Seat" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in bookings %}
+                        <tr>
+                            <td>{{ booking.passenger.first_name }} {{ booking.passenger.last_name }}</td>
+                            <td>{{ booking.seat.number }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

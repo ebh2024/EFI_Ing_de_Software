@@ -1,0 +1,21 @@
+{% extends 'gestion/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "E-Ticket" %}{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            {% trans "E-Ticket" %}
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">{% trans "Flight" %}: {{ booking.flight.origin }} to {{ booking.flight.destination }}</h5>
+            <p class="card-text"><strong>{% trans "Passenger" %}:</strong> {{ booking.passenger.first_name }} {{ booking.passenger.last_name }}</p>
+            <p class="card-text"><strong>{% trans "Departure Date" %}:</strong> {{ booking.flight.departure_date|date:"d/m/Y H:i" }}</p>
+            <p class="card-text"><strong>{% trans "Arrival Date" %}:</strong> {{ booking.flight.arrival_date|date:"d/m/Y H:i" }}</p>
+            <p class="card-text"><strong>{% trans "Seat" %}:</strong> {{ booking.seat.number }}</p>
+            <p class="card-text"><strong>{% trans "Booking Date" %}:</strong> {{ booking.booking_date|date:"d/m/Y H:i" }}</p>
+            <button onclick="window.print()" class="btn btn-primary">{% trans "Print" %}</button>
+        </div>
+    </div>
+{% endblock %}

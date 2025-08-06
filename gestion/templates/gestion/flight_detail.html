@@ -1,0 +1,29 @@
+{% extends 'gestion/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Flight Detail" %}{% endblock %}
+
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-danger">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    <h1>{% trans "Flight Detail" %}: {{ flight.origin }} to {{ flight.destination }}</h1>
+    <h2>{% trans "Seats" %}</h2>
+    <div class="d-flex flex-wrap">
+        {% for seat in seats %}
+            {% if seat.status == 'available' %}
+                <a href="{% url 'book_seat' seat.id %}" class="text-decoration-none">
+                    <div class="seat available">
+                        {{ seat.number }}
+                    </div>
+                </a>
+            {% else %}
+                <div class="seat {{ seat.status }}" style="pointer-events: none; cursor: default;">
+                    {{ seat.number }}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

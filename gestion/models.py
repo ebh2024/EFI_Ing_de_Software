@@ -1,73 +1,73 @@
 from django.db import models
 from django.contrib.auth.models import User
-
-class Avion(models.Model):
-    modelo = models.CharField(max_length=100)
-    capacidad = models.IntegerField()
-    layout_asientos = models.JSONField(default=dict)
-    informacion_tecnica = models.TextField(blank=True, null=True)
-
-    def __str__(self):
-        return self.modelo
-
+from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
 
-class Vuelo(models.Model):
-    origen = models.CharField(max_length=100)
-    destino = models.CharField(max_length=100)
-    fecha_salida = models.DateTimeField()
-    fecha_llegada = models.DateTimeField()
-    precio = models.DecimalField(max_digits=10, decimal_places=2)
-    avion = models.ForeignKey(Avion, on_delete=models.CASCADE, null=True)
+class Aircraft(models.Model):
+    model = models.CharField(max_length=100)
+    capacity = models.IntegerField()
+    seat_layout = models.JSONField(default=dict)
+    technical_information = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.origen} a {self.destino}"
+        return self.model
+
+class Flight(models.Model):
+    origin = models.CharField(max_length=100)
+    destination = models.CharField(max_length=100)
+    departure_date = models.DateTimeField()
+    arrival_date = models.DateTimeField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    aircraft = models.ForeignKey(Aircraft, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return f"{self.origin} to {self.destination}"
 
     def clean(self):
-        if self.fecha_llegada <= self.fecha_salida:
-            raise ValidationError('La fecha de llegada debe ser posterior a la fecha de salida.')
+        if self.arrival_date <= self.departure_date:
+            raise ValidationError(_('Arrival date must be after departure date.'))
 
     def save(self, *args, **kwargs):
         self.clean()
         super().save(*args, **kwargs)
-        if self.avion and not Asiento.objects.filter(vuelo=self).exists():
-            layout = self.avion.layout_asientos
-            for fila in layout.get('filas', []):
-                for asiento_info in fila.get('asientos', []):
-                    Asiento.objects.create(vuelo=self, numero=asiento_info['numero'])
+        if self.aircraft and not Seat.objects.filter(flight=self).exists():
+            layout = self.aircraft.seat_layout
+            for row in layout.get('rows', []):
+                for seat_info in row.get('seats', []):
+                    Seat.objects.create(flight=self, number=seat_info['number'])
 
-class Pasajero(models.Model):
+class Passenger(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    nombre = models.CharField(max_length=100)
-    apellido = models.CharField(max_length=100)
-    documento = models.CharField(max_length=20, null=True, unique=True)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    document_id = models.CharField(max_length=20, null=True, unique=True)
     email = models.EmailField()
-    telefono = models.CharField(max_length=20)
+    phone = models.CharField(max_length=20)
 
     def __str__(self):
-        return f"{self.nombre} {self.apellido}"
+        return f"{self.first_name} {self.last_name}"
 
-    def historial_vuelos(self):
-        return self.reserva_set.all()
+    def flight_history(self):
+        return self.booking_set.all()
 
-class Asiento(models.Model):
-    ESTADOS = (
-        ('disponible', 'Disponible'),
-        ('reservado', 'Reservado'),
-        ('ocupado', 'Ocupado'),
+class Seat(models.Model):
+    STATUS_CHOICES = (
+        ('available', _('Available')),
+        ('reserved', _('Reserved')),
+        ('occupied', _('Occupied')),
     )
-    vuelo = models.ForeignKey(Vuelo, on_delete=models.CASCADE)
-    numero = models.CharField(max_length=10)
-    estado = models.CharField(max_length=20, choices=ESTADOS, default='disponible')
+    flight = models.ForeignKey(Flight, on_delete=models.CASCADE)
+    number = models.CharField(max_length=10)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='available')
 
     def __str__(self):
-        return f"Asiento {self.numero} en vuelo {self.vuelo}"
+        return _("Seat %(number)s on flight %(flight)s") % {'number': self.number, 'flight': self.flight}
 
-class Reserva(models.Model):
-    vuelo = models.ForeignKey(Vuelo, on_delete=models.CASCADE)
-    pasajero = models.ForeignKey(Pasajero, on_delete=models.CASCADE)
-    asiento = models.OneToOneField(Asiento, on_delete=models.CASCADE, null=True)
-    fecha_reserva = models.DateTimeField(auto_now_add=True)
+class Booking(models.Model):
+    flight = models.ForeignKey(Flight, on_delete=models.CASCADE)
+    passenger = models.ForeignKey(Passenger, on_delete=models.CASCADE)
+    seat = models.OneToOneField(Seat, on_delete=models.CASCADE, null=True)
+    booking_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Reserva de {self.pasajero} en vuelo {self.vuelo}, asiento {self.asiento.numero}"
+        return _("Booking for %(passenger)s on flight %(flight)s, seat %(seat)s") % {'passenger': self.passenger, 'flight': self.flight, 'seat': self.seat.number}

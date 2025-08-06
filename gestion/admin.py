@@ -1,15 +1,15 @@
 from django.contrib import admin
-from .models import Vuelo, Pasajero, Reserva, Avion, Asiento
+from .models import Flight, Passenger, Booking, Aircraft, Seat
 
-class ReservaInline(admin.TabularInline):
-    model = Reserva
+class BookingInline(admin.TabularInline):
+    model = Booking
     extra = 1
 
-class PasajeroAdmin(admin.ModelAdmin):
-    inlines = [ReservaInline]
+class PassengerAdmin(admin.ModelAdmin):
+    inlines = [BookingInline]
 
-admin.site.register(Vuelo)
-admin.site.register(Pasajero, PasajeroAdmin)
-admin.site.register(Reserva)
-admin.site.register(Avion)
-admin.site.register(Asiento)
+admin.site.register(Flight)
+admin.site.register(Passenger, PassengerAdmin)
+admin.site.register(Booking)
+admin.site.register(Aircraft)
+admin.site.register(Seat)

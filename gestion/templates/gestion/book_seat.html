@@ -1,0 +1,19 @@
+{% extends 'gestion/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Book Seat" %}{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            <h2>{% trans "Confirm Booking" %}</h2>
+        </div>
+        <div class="card-body">
+            <p>{% trans "Are you sure you want to book this seat?" %}</p>
+            <form method="post" action="{% url 'book_seat' seat_id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">{% trans "Confirm" %}</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

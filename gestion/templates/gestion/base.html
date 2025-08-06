@@ -1,47 +1,63 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{% block title %}Aerolínea{% endblock %}</title>
+    <title>{% block title %}{% endblock %}</title>
     <link href="{% static 'gestion/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'gestion/css/styles.css' %}" rel="stylesheet">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'lista_vuelos' %}">Aerolínea</a>
+            <a class="navbar-brand" href="{% url 'flight_list' %}">{% trans "Airline" %}</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'lista_vuelos' %}">Vuelos</a>
+                        <a class="nav-link" href="{% url 'flight_list' %}">{% trans "Flights" %}</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
+                            <a class="nav-link" href="{% url 'admin:index' %}">{% trans "Admin" %}</a>
                         </li>
                         <li class="nav-item">
                             <form action="{% url 'logout' %}" method="post" class="d-flex">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-link nav-link">Logout</button>
+                                <button type="submit" class="btn btn-link nav-link">{% trans "Logout" %}</button>
                             </form>
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'login' %}">Login</a>
+                            <a class="nav-link" href="{% url 'login' %}">{% trans "Login" %}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'crear_pasajero' %}">Registrarse</a>
+                            <a class="nav-link" href="{% url 'create_passenger' %}">{% trans "Register" %}</a>
                         </li>
                     {% endif %}
                 </ul>
             </div>
         </div>
     </nav>
+
+    <div class="container mt-4">
+        <form action="{% url 'set_language' %}" method="post" class="text-end mb-3">
+            {% csrf_token %}
+            <input name="next" type="hidden" value="{{ request.path }}">
+            <select name="language" onchange="this.form.submit()" class="form-select w-auto d-inline-block">
+                {% get_current_language as LANGUAGE_CODE %}
+                {% get_available_languages as LANGUAGES %}
+                {% for lang_code, lang_name in LANGUAGES %}
+                    <option value="{{ lang_code }}" {% if lang_code == LANGUAGE_CODE %}selected{% endif %}>
+                        {{ lang_name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </form>
 
     <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
         <div class="col-md-6">

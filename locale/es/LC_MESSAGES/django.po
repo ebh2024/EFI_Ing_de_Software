@@ -1,0 +1,196 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-06 01:15+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
+"1 : 2;\n"
+
+#: gestion/forms.py:10
+msgid "First Name"
+msgstr "Nombre"
+
+#: gestion/forms.py:11
+msgid "Last Name"
+msgstr "Apellido"
+
+#: gestion/forms.py:12
+msgid "Document ID"
+msgstr "Documento"
+
+#: gestion/forms.py:13
+msgid "Email"
+msgstr "Email"
+
+#: gestion/forms.py:14
+msgid "Phone"
+msgstr "Teléfono"
+
+#: gestion/forms.py:25
+msgid "This seat is not available."
+msgstr "Este asiento no está disponible."
+
+#: gestion/models.py:28
+msgid "Arrival date must be after departure date."
+msgstr "La fecha de llegada debe ser posterior a la fecha de salida."
+
+#: gestion/models.py:55
+msgid "Available"
+msgstr "Disponible"
+
+#: gestion/models.py:56
+msgid "Reserved"
+msgstr "Reservado"
+
+#: gestion/models.py:57
+msgid "Occupied"
+msgstr "Ocupado"
+
+#: gestion/models.py:64
+#, python-format
+msgid "Seat %(number)s on flight %(flight)s"
+msgstr "Asiento %(number)s en vuelo %(flight)s"
+
+#: gestion/models.py:73
+#, python-format
+msgid "Booking for %(passenger)s on flight %(flight)s, seat %(seat)s"
+msgstr "Reserva de %(passenger)s en vuelo %(flight)s, asiento %(seat)s"
+
+#: gestion/templates/gestion/base.html:13
+msgid "Airline"
+msgstr "Aerolínea"
+
+#: gestion/templates/gestion/base.html:20
+msgid "Flights"
+msgstr "Vuelos"
+
+#: gestion/templates/gestion/base.html:26
+msgid "Admin"
+msgstr "Admin"
+
+#: gestion/templates/gestion/base.html:31
+msgid "Logout"
+msgstr "Cerrar Sesión"
+
+#: gestion/templates/gestion/base.html:36
+#: gestion/templates/gestion/login.html:5
+#: gestion/templates/gestion/login.html:10
+#: gestion/templates/gestion/login.html:16
+msgid "Login"
+msgstr "Iniciar Sesión"
+
+#: gestion/templates/gestion/base.html:39
+#: gestion/templates/gestion/create_passenger.html:5
+#: gestion/templates/gestion/create_passenger.html:10
+msgid "Register"
+msgstr "Registrarse"
+
+#: gestion/templates/gestion/ticket.html:4
+#: gestion/templates/gestion/ticket.html:9
+msgid "E-Ticket"
+msgstr "Boleto Electrónico"
+
+#: gestion/templates/gestion/ticket.html:12
+msgid "Flight"
+msgstr "Vuelo"
+
+#: gestion/templates/gestion/ticket.html:13
+#: gestion/templates/gestion/passenger_report.html:15
+msgid "Passenger"
+msgstr "Pasajero"
+
+#: gestion/templates/gestion/ticket.html:14
+msgid "Departure Date"
+msgstr "Fecha de Salida"
+
+#: gestion/templates/gestion/ticket.html:15
+msgid "Arrival Date"
+msgstr "Fecha de Llegada"
+
+#: gestion/templates/gestion/ticket.html:16
+#: gestion/templates/gestion/passenger_report.html:16
+msgid "Seat"
+msgstr "Asiento"
+
+#: gestion/templates/gestion/ticket.html:17
+msgid "Booking Date"
+msgstr "Fecha de Reserva"
+
+#: gestion/templates/gestion/ticket.html:18
+msgid "Print"
+msgstr "Imprimir"
+
+#: gestion/templates/gestion/create_passenger.html:16
+msgid "Create"
+msgstr "Crear"
+
+#: gestion/templates/gestion/flight_detail.html:4
+#: gestion/templates/gestion/flight_detail.html:12
+msgid "Flight Detail"
+msgstr "Detalle del Vuelo"
+
+#: gestion/templates/gestion/flight_detail.html:13
+msgid "Seats"
+msgstr "Asientos"
+
+#: gestion/templates/gestion/flight_list.html:4
+#: gestion/templates/gestion/flight_list.html:7
+msgid "Flight List"
+msgstr "Lista de Vuelos"
+
+#: gestion/templates/gestion/flight_list.html:15
+msgid "Departure"
+msgstr "Salida"
+
+#: gestion/templates/gestion/flight_list.html:16
+msgid "Arrival"
+msgstr "Llegada"
+
+#: gestion/templates/gestion/flight_list.html:17
+msgid "Price"
+msgstr "Precio"
+
+#: gestion/templates/gestion/flight_list.html:20
+msgid "View Seats"
+msgstr "Ver Asientos"
+
+#: gestion/templates/gestion/flight_list.html:22
+msgid "View Report"
+msgstr "Ver Reporte"
+
+#: gestion/templates/gestion/passenger_report.html:4
+msgid "Passenger Report"
+msgstr "Reporte de Pasajeros"
+
+#: gestion/templates/gestion/passenger_report.html:9
+msgid "Passenger Report for Flight"
+msgstr "Reporte de Pasajeros para el Vuelo"
+
+#: gestion/templates/gestion/book_seat.html:4
+msgid "Book Seat"
+msgstr "Reservar Asiento"
+
+#: gestion/templates/gestion/book_seat.html:9
+msgid "Confirm Booking"
+msgstr "Confirmar Reserva"
+
+#: gestion/templates/gestion/book_seat.html:12
+msgid "Are you sure you want to book this seat?"
+msgstr "¿Está seguro de que desea reservar este asiento?"
+
+#: gestion/templates/gestion/book_seat.html:15
+msgid "Confirm"
+msgstr "Confirmar"
