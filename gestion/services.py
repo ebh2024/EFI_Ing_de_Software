@@ -4,9 +4,11 @@ from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-import uuid # For generating unique transaction IDs
+import uuid # Importa uuid para generar IDs de transacción únicos.
 
+# Servicio para gestionar operaciones relacionadas con vuelos.
 class FlightService:
+    # Busca vuelos basándose en el origen, destino y fecha de salida.
     def search_flights(self, origin, destination, departure_date):
         flights = Flight.objects.all()
         if origin:
@@ -17,25 +19,30 @@ class FlightService:
             flights = flights.filter(departure_date__date=departure_date)
         return flights
 
+    # Obtiene los detalles de un vuelo específico y sus asientos asociados.
     def get_flight_details(self, flight_id):
         flight = get_object_or_404(Flight, id=flight_id)
         seats = Seat.objects.filter(flight=flight).order_by('number')
         return flight, seats
 
+    # Obtiene un reporte de pasajeros para un vuelo específico (reservas completadas).
     def get_passenger_report(self, flight_id):
         flight = get_object_or_404(Flight, id=flight_id)
         bookings = Booking.objects.filter(flight=flight, payment_status='completed').select_related('passenger', 'seat')
         return flight, bookings
 
+# Servicio para gestionar operaciones relacionadas con pasajeros.
 class PassengerService:
+    # Crea un nuevo pasajero y, si es necesario, un usuario asociado.
     def create_passenger(self, first_name, last_name, document_id, email, phone):
-        # Assuming user is already created or will be created separately
-        # For simplicity, let's assume a user is passed or created here
+        # Intenta obtener un usuario existente o crea uno nuevo con el email como username.
         user, created = User.objects.get_or_create(username=email, defaults={'email': email})
         if created:
-            user.set_unusable_password() # User will set password later or use social login
+            # Si el usuario es nuevo, establece una contraseña inutilizable para que la configure después.
+            user.set_unusable_password()
             user.save()
 
+        # Crea el objeto Passenger.
         passenger = Passenger.objects.create(
             user=user,
             first_name=first_name,
@@ -46,9 +53,11 @@ class PassengerService:
         )
         return passenger
 
+    # Obtiene un pasajero por el objeto User asociado.
     def get_passenger_by_user(self, user):
         return get_object_or_404(Passenger, user=user)
 
+    # Actualiza la información de un pasajero existente.
     def update_passenger(self, passenger, data):
         passenger.first_name = data.get('first_name', passenger.first_name)
         passenger.last_name = data.get('last_name', passenger.last_name)
@@ -58,60 +67,63 @@ class PassengerService:
         passenger.save()
         return passenger
 
+# Servicio para gestionar operaciones relacionadas con reservas.
 class BookingService:
+    # Realiza la reserva de un asiento para un usuario.
     def book_seat(self, seat_id, user):
-        with transaction.atomic():
+        with transaction.atomic(): # Asegura que todas las operaciones se completen o se reviertan.
             seat = get_object_or_404(Seat, id=seat_id)
             if seat.status != 'available':
                 raise ValidationError("Seat is not available.")
 
             passenger = get_object_or_404(Passenger, user=user)
 
-            # Check if the passenger already has a booking for this flight
+            # Verifica si el pasajero ya tiene una reserva completada para este vuelo.
             if Booking.objects.filter(flight=seat.flight, passenger=passenger, payment_status='completed').exists():
                 raise ValidationError("You already have a completed booking for this flight.")
 
-            # Create a pending booking
+            # Crea una reserva con estado pendiente de pago.
             booking = Booking.objects.create(
                 flight=seat.flight,
                 passenger=passenger,
                 seat=seat,
-                payment_status='pending' # Initial status is pending payment
+                payment_status='pending'
             )
-            seat.status = 'reserved'
+            seat.status = 'reserved' # Marca el asiento como reservado.
             seat.save()
             return booking
 
+    # Obtiene los detalles de una reserva por su ID.
     def get_ticket(self, booking_id):
         return get_object_or_404(Booking, id=booking_id)
 
+    # Obtiene todas las reservas de un pasajero, ordenadas por fecha de reserva.
     def get_bookings_by_passenger(self, passenger):
         return Booking.objects.filter(passenger=passenger).order_by('-booking_date')
 
+    # Procesa el pago de una reserva.
     def process_payment(self, booking_id):
-        with transaction.atomic():
+        with transaction.atomic(): # Asegura la atomicidad de la transacción de pago.
             booking = get_object_or_404(Booking, id=booking_id)
 
             if booking.payment_status == 'completed':
                 raise ValidationError("Payment for this booking has already been completed.")
 
-            # Simulate payment processing
-            # In a real application, this would involve calling a payment gateway API
-            # and handling success/failure responses.
-            payment_successful = True # Simulate a successful payment
+            # Simulación del procesamiento de pago. En una aplicación real, se integraría con una pasarela de pago.
+            payment_successful = True # Simula un pago exitoso.
 
             if payment_successful:
                 booking.payment_status = 'completed'
-                booking.transaction_id = str(uuid.uuid4()) # Generate a unique transaction ID
-                booking.payment_date = timezone.now()
+                booking.transaction_id = str(uuid.uuid4()) # Genera un ID de transacción único.
+                booking.payment_date = timezone.now() # Registra la fecha y hora del pago.
                 booking.save()
 
-                # Update seat status to occupied after successful payment
+                # Actualiza el estado del asiento a 'occupied' si el pago es exitoso.
                 if booking.seat:
                     booking.seat.status = 'occupied'
                     booking.seat.save()
 
-                # Optionally send a notification
+                # Envía una notificación al usuario sobre el pago exitoso.
                 NotificationService().create_notification(
                     booking.passenger.user,
                     f"Your payment for flight {booking.flight.origin} to {booking.flight.destination} has been successfully processed. Booking ID: {booking.id}",
@@ -123,13 +135,17 @@ class BookingService:
                 booking.save()
                 raise ValidationError("Payment failed. Please try again.")
 
+# Servicio para gestionar operaciones relacionadas con notificaciones.
 class NotificationService:
+    # Crea una nueva notificación para un destinatario.
     def create_notification(self, recipient, message, flight=None):
         Notification.objects.create(recipient=recipient, message=message, flight=flight)
 
+    # Obtiene todas las notificaciones no leídas para un usuario, ordenadas por fecha de creación.
     def get_unread_notifications(self, user):
         return Notification.objects.filter(recipient=user, is_read=False).order_by('-created_at')
 
+    # Marca una notificación como leída.
     def mark_notification_as_read(self, notification):
         notification.is_read = True
         notification.save()
