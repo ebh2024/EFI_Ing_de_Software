@@ -15,7 +15,7 @@
                 <input type="text" name="destination" class="form-control" placeholder="{% trans "Destination" %}" value="{{ request.GET.destination }}">
             </div>
             <div class="col-md-3">
-                <input type="date" name="departure_date" class="form-control" placeholder="{% trans "Departure Date" %}" value="{{ request.GET.departure_date }}">
+                <input type="text" name="departure_date" class="form-control datepicker" placeholder="{% trans "Departure Date" %}" value="{{ request.GET.departure_date }}">
             </div>
             <div class="col-md-3">
                 <button type="submit" class="btn btn-primary w-100">{% trans "Search" %}</button>
