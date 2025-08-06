@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-06 01:15+0000\n"
+"POT-Creation-Date: 2025-08-06 22:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,23 +19,23 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
 "1 : 2;\n"
 
-#: gestion/forms.py:10
+#: gestion/forms.py:10 gestion/templates/gestion/user_profile.html:14
 msgid "First Name"
 msgstr "Nombre"
 
-#: gestion/forms.py:11
+#: gestion/forms.py:11 gestion/templates/gestion/user_profile.html:15
 msgid "Last Name"
 msgstr "Apellido"
 
-#: gestion/forms.py:12
+#: gestion/forms.py:12 gestion/templates/gestion/user_profile.html:16
 msgid "Document ID"
 msgstr "Documento"
 
-#: gestion/forms.py:13
+#: gestion/forms.py:13 gestion/templates/gestion/user_profile.html:17
 msgid "Email"
 msgstr "Email"
 
-#: gestion/forms.py:14
+#: gestion/forms.py:14 gestion/templates/gestion/user_profile.html:18
 msgid "Phone"
 msgstr "Teléfono"
 
@@ -64,78 +64,98 @@ msgstr "Ocupado"
 msgid "Seat %(number)s on flight %(flight)s"
 msgstr "Asiento %(number)s en vuelo %(flight)s"
 
-#: gestion/models.py:73
+#: gestion/models.py:68
+msgid "Pending"
+msgstr "Pendiente"
+
+#: gestion/models.py:69
+msgid "Completed"
+msgstr "Completado"
+
+#: gestion/models.py:70
+msgid "Failed"
+msgstr "Fallido"
+
+#: gestion/models.py:71
+msgid "Refunded"
+msgstr "Reembolsado"
+
+#: gestion/models.py:82
 #, python-format
 msgid "Booking for %(passenger)s on flight %(flight)s, seat %(seat)s"
 msgstr "Reserva de %(passenger)s en vuelo %(flight)s, asiento %(seat)s"
 
-#: gestion/templates/gestion/base.html:13
+#: gestion/templates/gestion/base.html:47
 msgid "Airline"
 msgstr "Aerolínea"
 
-#: gestion/templates/gestion/base.html:20
+#: gestion/templates/gestion/base.html:54
 msgid "Flights"
 msgstr "Vuelos"
 
-#: gestion/templates/gestion/base.html:26
+#: gestion/templates/gestion/base.html:60
+msgid "Profile"
+msgstr "Perfil"
+
+#: gestion/templates/gestion/base.html:63
+#: gestion/templates/gestion/notifications.html:4
+msgid "Notifications"
+msgstr "Notificaciones"
+
+#: gestion/templates/gestion/base.html:66
 msgid "Admin"
 msgstr "Admin"
 
-#: gestion/templates/gestion/base.html:31
+#: gestion/templates/gestion/base.html:71
 msgid "Logout"
 msgstr "Cerrar Sesión"
 
-#: gestion/templates/gestion/base.html:36
+#: gestion/templates/gestion/base.html:76
 #: gestion/templates/gestion/login.html:5
 #: gestion/templates/gestion/login.html:10
 #: gestion/templates/gestion/login.html:16
 msgid "Login"
 msgstr "Iniciar Sesión"
 
-#: gestion/templates/gestion/base.html:39
+#: gestion/templates/gestion/base.html:79
 #: gestion/templates/gestion/create_passenger.html:5
 #: gestion/templates/gestion/create_passenger.html:10
 msgid "Register"
 msgstr "Registrarse"
 
-#: gestion/templates/gestion/ticket.html:4
-#: gestion/templates/gestion/ticket.html:9
-msgid "E-Ticket"
-msgstr "Boleto Electrónico"
+#: gestion/templates/gestion/book_seat.html:4
+msgid "Book Seat"
+msgstr "Reservar Asiento"
 
-#: gestion/templates/gestion/ticket.html:12
-msgid "Flight"
-msgstr "Vuelo"
+#: gestion/templates/gestion/book_seat.html:9
+msgid "Confirm Booking"
+msgstr "Confirmar Reserva"
 
-#: gestion/templates/gestion/ticket.html:13
-#: gestion/templates/gestion/passenger_report.html:15
-msgid "Passenger"
-msgstr "Pasajero"
+#: gestion/templates/gestion/book_seat.html:12
+msgid "Are you sure you want to book this seat?"
+msgstr "¿Está seguro de que desea reservar este asiento?"
 
-#: gestion/templates/gestion/ticket.html:14
-msgid "Departure Date"
-msgstr "Fecha de Salida"
-
-#: gestion/templates/gestion/ticket.html:15
-msgid "Arrival Date"
-msgstr "Fecha de Llegada"
-
-#: gestion/templates/gestion/ticket.html:16
-#: gestion/templates/gestion/passenger_report.html:16
-msgid "Seat"
-msgstr "Asiento"
-
-#: gestion/templates/gestion/ticket.html:17
-msgid "Booking Date"
-msgstr "Fecha de Reserva"
-
-#: gestion/templates/gestion/ticket.html:18
-msgid "Print"
-msgstr "Imprimir"
+#: gestion/templates/gestion/book_seat.html:15
+msgid "Confirm and Proceed to Payment"
+msgstr "Confirmar y Proceder al Pago"
 
 #: gestion/templates/gestion/create_passenger.html:16
 msgid "Create"
 msgstr "Crear"
+
+#: gestion/templates/gestion/edit_profile.html:4
+#: gestion/templates/gestion/edit_profile.html:7
+#: gestion/templates/gestion/user_profile.html:20
+msgid "Edit Profile"
+msgstr "Editar Perfil"
+
+#: gestion/templates/gestion/edit_profile.html:15
+msgid "Save Changes"
+msgstr "Guardar Cambios"
+
+#: gestion/templates/gestion/edit_profile.html:16
+msgid "Cancel"
+msgstr "Cancelar"
 
 #: gestion/templates/gestion/flight_detail.html:4
 #: gestion/templates/gestion/flight_detail.html:12
@@ -151,25 +171,60 @@ msgstr "Asientos"
 msgid "Flight List"
 msgstr "Lista de Vuelos"
 
+#: gestion/templates/gestion/flight_list.html:12
+msgid "Origin"
+msgstr "Origen"
+
 #: gestion/templates/gestion/flight_list.html:15
+msgid "Destination"
+msgstr "Destino"
+
+#: gestion/templates/gestion/flight_list.html:18
+#: gestion/templates/gestion/ticket.html:14
+msgid "Departure Date"
+msgstr "Fecha de Salida"
+
+#: gestion/templates/gestion/flight_list.html:21
+msgid "Search"
+msgstr "Buscar"
+
+#: gestion/templates/gestion/flight_list.html:33
+#: gestion/templates/gestion/payment_confirmation.html:26
 msgid "Departure"
 msgstr "Salida"
 
-#: gestion/templates/gestion/flight_list.html:16
+#: gestion/templates/gestion/flight_list.html:34
 msgid "Arrival"
 msgstr "Llegada"
 
-#: gestion/templates/gestion/flight_list.html:17
+#: gestion/templates/gestion/flight_list.html:35
+#: gestion/templates/gestion/payment_confirmation.html:28
 msgid "Price"
 msgstr "Precio"
 
-#: gestion/templates/gestion/flight_list.html:20
+#: gestion/templates/gestion/flight_list.html:38
 msgid "View Seats"
 msgstr "Ver Asientos"
 
-#: gestion/templates/gestion/flight_list.html:22
+#: gestion/templates/gestion/flight_list.html:40
 msgid "View Report"
 msgstr "Ver Reporte"
+
+#: gestion/templates/gestion/flight_list.html:48
+msgid "No flights found matching your criteria."
+msgstr "No se encontraron vuelos que coincidan con sus criterios."
+
+#: gestion/templates/gestion/notifications.html:7
+msgid "Your Notifications"
+msgstr "Tus Notificaciones"
+
+#: gestion/templates/gestion/notifications.html:19
+msgid "Mark as Read"
+msgstr "Marcar como Leído"
+
+#: gestion/templates/gestion/notifications.html:24
+msgid "No new notifications."
+msgstr "No hay nuevas notificaciones."
 
 #: gestion/templates/gestion/passenger_report.html:4
 msgid "Passenger Report"
@@ -179,18 +234,114 @@ msgstr "Reporte de Pasajeros"
 msgid "Passenger Report for Flight"
 msgstr "Reporte de Pasajeros para el Vuelo"
 
-#: gestion/templates/gestion/book_seat.html:4
-msgid "Book Seat"
-msgstr "Reservar Asiento"
+#: gestion/templates/gestion/passenger_report.html:15
+#: gestion/templates/gestion/ticket.html:13
+msgid "Passenger"
+msgstr "Pasajero"
 
-#: gestion/templates/gestion/book_seat.html:9
-msgid "Confirm Booking"
-msgstr "Confirmar Reserva"
+#: gestion/templates/gestion/passenger_report.html:16
+#: gestion/templates/gestion/payment_confirmation.html:27
+#: gestion/templates/gestion/ticket.html:16
+#: gestion/templates/gestion/user_profile.html:36
+msgid "Seat"
+msgstr "Asiento"
 
-#: gestion/templates/gestion/book_seat.html:12
-msgid "Are you sure you want to book this seat?"
-msgstr "¿Está seguro de que desea reservar este asiento?"
+#: gestion/templates/gestion/payment_confirmation.html:4
+msgid "Confirm Payment"
+msgstr "Confirmar Pago"
 
-#: gestion/templates/gestion/book_seat.html:15
-msgid "Confirm"
-msgstr "Confirmar"
+#: gestion/templates/gestion/payment_confirmation.html:12
+msgid "Confirm Your Payment"
+msgstr "Confirma Tu Pago"
+
+#: gestion/templates/gestion/payment_confirmation.html:23
+msgid "You are about to pay for the following booking:"
+msgstr "Estás a punto de pagar la siguiente reserva:"
+
+#: gestion/templates/gestion/payment_confirmation.html:25
+#: gestion/templates/gestion/ticket.html:12
+#: gestion/templates/gestion/user_profile.html:35
+msgid "Flight"
+msgstr "Vuelo"
+
+#: gestion/templates/gestion/payment_confirmation.html:29
+msgid "Current Status"
+msgstr "Estado Actual"
+
+#: gestion/templates/gestion/payment_confirmation.html:35
+msgid "Click the button below to proceed with the payment."
+msgstr "Haz clic en el botón de abajo para proceder con el pago."
+
+#: gestion/templates/gestion/payment_confirmation.html:36
+msgid "Pay Now"
+msgstr "Pagar Ahora"
+
+#: gestion/templates/gestion/payment_confirmation.html:40
+msgid "This booking has already been paid for."
+msgstr "Esta reserva ya ha sido pagada."
+
+#: gestion/templates/gestion/user_profile.html:39
+msgid "View Ticket"
+msgstr "Ver Boleto"
+
+#: gestion/templates/gestion/payment_confirmation.html:45
+msgid "Payment status is"
+msgstr "El estado del pago es"
+
+#: gestion/templates/gestion/payment_confirmation.html:45
+msgid "Please contact support if you have issues."
+msgstr "Por favor, contacta a soporte si tienes problemas."
+
+#: gestion/templates/gestion/ticket.html:4
+#: gestion/templates/gestion/ticket.html:9
+msgid "E-Ticket"
+msgstr "Boleto Electrónico"
+
+#: gestion/templates/gestion/ticket.html:15
+msgid "Arrival Date"
+msgstr "Fecha de Llegada"
+
+#: gestion/templates/gestion/ticket.html:17
+msgid "Booking Date"
+msgstr "Fecha de Reserva"
+
+#: gestion/templates/gestion/ticket.html:18
+msgid "Payment Status"
+msgstr "Estado del Pago"
+
+#: gestion/templates/gestion/ticket.html:20
+msgid "Transaction ID"
+msgstr "ID de Transacción"
+
+#: gestion/templates/gestion/ticket.html:21
+msgid "Payment Date"
+msgstr "Fecha de Pago"
+
+#: gestion/templates/gestion/ticket.html:23
+msgid "Complete Payment"
+msgstr "Completar Pago"
+
+#: gestion/templates/gestion/ticket.html:25
+msgid "Print"
+msgstr "Imprimir"
+
+#: gestion/templates/gestion/user_profile.html:4
+#: gestion/templates/gestion/user_profile.html:7
+msgid "User Profile"
+msgstr "Perfil de Usuario"
+
+#: gestion/templates/gestion/user_profile.html:11
+msgid "Personal Information"
+msgstr "Información Personal"
+
+#: gestion/templates/gestion/user_profile.html:27
+msgid "Your Bookings"
+msgstr "Tus Reservas"
+
+#: gestion/templates/gestion/user_profile.html:37
+msgid "Booking ID"
+msgstr "ID de Reserva"
+
+#: gestion/templates/gestion/user_profile.html:44
+msgid "You have no bookings yet."
+msgstr "Aún no tienes reservas."
