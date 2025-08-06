@@ -1,0 +1,28 @@
+{% extends 'gestion/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Notifications" %}{% endblock %}
+
+{% block content %}
+    <h1 class="text-center mb-4">{% trans "Your Notifications" %}</h1>
+
+    <div class="card">
+        <div class="card-body">
+            {% if notifications %}
+                <ul class="list-group">
+                    {% for notification in notifications %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <p class="mb-1">{{ notification.message }}</p>
+                                <small class="text-muted">{{ notification.created_at|date:"d/m/Y H:i" }}</small>
+                            </div>
+                            <a href="{% url 'mark_notification_read' notification.id %}" class="btn btn-sm btn-outline-secondary">{% trans "Mark as Read" %}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-center">{% trans "No new notifications." %}</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

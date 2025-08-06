@@ -71,3 +71,13 @@ class Booking(models.Model):
 
     def __str__(self):
         return _("Booking for %(passenger)s on flight %(flight)s, seat %(seat)s") % {'passenger': self.passenger, 'flight': self.flight, 'seat': self.seat.number}
+
+class Notification(models.Model):
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+    flight = models.ForeignKey(Flight, on_delete=models.CASCADE, null=True, blank=True) # Optional: link to a specific flight
+
+    def __str__(self):
+        return f"Notification for {self.recipient.username}: {self.message[:50]}..."
