@@ -164,5 +164,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField' # Tipo de campo de clave pr
 LOGIN_REDIRECT_URL = '/' # URL a la que se redirige después de iniciar sesión.
 LOGIN_URL = 'login' # URL para la página de inicio de sesión.
 
+# Configuración de la sesión para que expire cuando el navegador se cierre.
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
 # Backend de correo electrónico para desarrollo (imprime correos en la consola).
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
