@@ -1,0 +1,53 @@
+{% extends 'gestion/base.html' %}
+{% load i18n %}
+
+{% block title %}{% translate "Confirm Payment" %}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3>{% translate "Confirm Your Payment" %}</h3>
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                        <ul class="messages list-unstyled">
+                            {% for message in messages %}
+                                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <p>{% translate "You are about to pay for the following booking:" %}</p>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item"><strong>{% translate "Flight" %}:</strong> {{ booking.flight.origin }} to {{ booking.flight.destination }}</li>
+                        <li class="list-group-item"><strong>{% translate "Departure" %}:</strong> {{ booking.flight.departure_date|date:"F j, Y H:i" }}</li>
+                        <li class="list-group-item"><strong>{% translate "Seat" %}:</strong> {{ booking.seat.number }}</li>
+                        <li class="list-group-item"><strong>{% translate "Price" %}:</strong> ${{ booking.flight.price }}</li>
+                        <li class="list-group-item"><strong>{% translate "Current Status" %}:</strong> {{ booking.get_payment_status_display }}</li>
+                    </ul>
+
+                    {% if booking.payment_status == 'pending' %}
+                        <form method="post" action="{% url 'process_payment' booking.id %}">
+                            {% csrf_token %}
+                            <p>{% translate "Click the button below to proceed with the payment." %}</p>
+                            <button type="submit" class="btn btn-success btn-lg">{% translate "Pay Now" %}</button>
+                        </form>
+                    {% elif booking.payment_status == 'completed' %}
+                        <div class="alert alert-success" role="alert">
+                            {% translate "This booking has already been paid for." %}
+                        </div>
+                        <a href="{% url 'ticket' booking.id %}" class="btn btn-primary">{% translate "View Ticket" %}</a>
+                    {% else %}
+                        <div class="alert alert-warning" role="alert">
+                            {% translate "Payment status is" %} {{ booking.get_payment_status_display }}. {% translate "Please contact support if you have issues." %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

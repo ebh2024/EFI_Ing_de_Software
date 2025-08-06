@@ -15,6 +15,13 @@
             <p class="card-text"><strong>{% trans "Arrival Date" %}:</strong> {{ booking.flight.arrival_date|date:"d/m/Y H:i" }}</p>
             <p class="card-text"><strong>{% trans "Seat" %}:</strong> {{ booking.seat.number }}</p>
             <p class="card-text"><strong>{% trans "Booking Date" %}:</strong> {{ booking.booking_date|date:"d/m/Y H:i" }}</p>
+            <p class="card-text"><strong>{% trans "Payment Status" %}:</strong> {{ booking.get_payment_status_display }}</p>
+            {% if booking.payment_status == 'completed' %}
+                <p class="card-text"><strong>{% trans "Transaction ID" %}:</strong> {{ booking.transaction_id }}</p>
+                <p class="card-text"><strong>{% trans "Payment Date" %}:</strong> {{ booking.payment_date|date:"d/m/Y H:i" }}</p>
+            {% else %}
+                <a href="{% url 'process_payment' booking.id %}" class="btn btn-success">{% trans "Complete Payment" %}</a>
+            {% endif %}
             <button onclick="window.print()" class="btn btn-primary">{% trans "Print" %}</button>
         </div>
     </div>

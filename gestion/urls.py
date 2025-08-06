@@ -12,4 +12,5 @@ urlpatterns = [
     path('profile/edit/', views.edit_profile, name='edit_profile'),
     path('notifications/', views.notifications, name='notifications'),
     path('notifications/mark_read/<int:notification_id>/', views.mark_notification_read, name='mark_notification_read'),
+    path('payment/<int:booking_id>/', views.process_payment, name='process_payment'),
 ]

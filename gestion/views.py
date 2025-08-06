@@ -3,7 +3,7 @@ from .forms import PassengerForm
 from django.contrib.auth.decorators import login_required
 from .services import FlightService, PassengerService, BookingService, NotificationService
 from django.contrib import messages
-from .models import Notification
+from .models import Notification, Booking # Added Booking
 
 def flight_list(request):
     flight_service = FlightService()
@@ -39,6 +39,27 @@ def ticket(request, booking_id):
     booking_service = BookingService()
     booking = booking_service.get_ticket(booking_id)
     return render(request, 'gestion/ticket.html', {'booking': booking})
+
+@login_required
+def process_payment(request, booking_id):
+    booking_service = BookingService()
+    booking = get_object_or_404(Booking, id=booking_id, passenger__user=request.user)
+
+    if request.method == 'POST':
+        try:
+            # In a real scenario, you would get payment token/details from the frontend
+            # and pass them to the service. For simulation, we just call process_payment.
+            booking = booking_service.process_payment(booking_id)
+            messages.success(request, "Payment successful! Your booking is confirmed.")
+            return redirect('ticket', booking_id=booking.id)
+        except ValidationError as e:
+            messages.error(request, str(e))
+        except Exception as e:
+            messages.error(request, f"An unexpected error occurred: {e}")
+    else:
+        messages.info(request, "Please confirm your payment for this booking.")
+
+    return render(request, 'gestion/payment_confirmation.html', {'booking': booking})
 
 from django.contrib.admin.views.decorators import staff_member_required
 

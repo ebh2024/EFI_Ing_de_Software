@@ -1,24 +1,14 @@
-from .repositories import FlightRepository, PassengerRepository, SeatRepository, BookingRepository, NotificationRepository
+from .models import Flight, Seat, Passenger, Booking, Notification
+from django.db import transaction
+from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from django.contrib.auth.models import User
-import secrets
-import string
-from django.core.mail import send_mail
-from django.template.loader import render_to_string
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from .models import Flight
+from django.core.exceptions import ValidationError
+import uuid # For generating unique transaction IDs
 
 class FlightService:
-    def __init__(self):
-        self.flight_repository = FlightRepository()
-        self.seat_repository = SeatRepository()
-        self.booking_repository = BookingRepository()
-
-    def get_all_flights(self):
-        return self.flight_repository.get_all()
-
     def search_flights(self, origin, destination, departure_date):
-        flights = self.flight_repository.get_all()
+        flights = Flight.objects.all()
         if origin:
             flights = flights.filter(origin__icontains=origin)
         if destination:
@@ -28,109 +18,118 @@ class FlightService:
         return flights
 
     def get_flight_details(self, flight_id):
-        flight = self.flight_repository.get_by_id(flight_id)
-        seats = self.seat_repository.get_by_flight(flight)
+        flight = get_object_or_404(Flight, id=flight_id)
+        seats = Seat.objects.filter(flight=flight).order_by('number')
         return flight, seats
 
     def get_passenger_report(self, flight_id):
-        flight = self.flight_repository.get_by_id(flight_id)
-        bookings = self.booking_repository.get_by_flight(flight)
+        flight = get_object_or_404(Flight, id=flight_id)
+        bookings = Booking.objects.filter(flight=flight, payment_status='completed').select_related('passenger', 'seat')
         return flight, bookings
 
 class PassengerService:
-    def __init__(self):
-        self.passenger_repository = PassengerRepository()
-
     def create_passenger(self, first_name, last_name, document_id, email, phone):
-        # Create a new user
-        user = User.objects.create_user(
-            username=email,
-            email=email,
-            password=''.join(secrets.choice(string.ascii_letters + string.digits) for i in range(12))
-        )
-        return self.passenger_repository.create(user, first_name, last_name, document_id, email, phone)
+        # Assuming user is already created or will be created separately
+        # For simplicity, let's assume a user is passed or created here
+        user, created = User.objects.get_or_create(username=email, defaults={'email': email})
+        if created:
+            user.set_unusable_password() # User will set password later or use social login
+            user.save()
 
-    def get_passenger_by_user(self, user):
-        passenger, created = self.passenger_repository.get_or_create_by_user(user)
+        passenger = Passenger.objects.create(
+            user=user,
+            first_name=first_name,
+            last_name=last_name,
+            document_id=document_id,
+            email=email,
+            phone=phone
+        )
         return passenger
 
+    def get_passenger_by_user(self, user):
+        return get_object_or_404(Passenger, user=user)
+
     def update_passenger(self, passenger, data):
-        passenger.first_name = data['first_name']
-        passenger.last_name = data['last_name']
-        passenger.document_id = data['document_id']
-        passenger.email = data['email']
-        passenger.phone = data['phone']
+        passenger.first_name = data.get('first_name', passenger.first_name)
+        passenger.last_name = data.get('last_name', passenger.last_name)
+        passenger.document_id = data.get('document_id', passenger.document_id)
+        passenger.email = data.get('email', passenger.email)
+        passenger.phone = data.get('phone', passenger.phone)
         passenger.save()
-        # Update the associated User model's email as well
-        passenger.user.email = data['email']
-        passenger.user.username = data['email'] # Assuming username is also email
-        passenger.user.save()
         return passenger
 
 class BookingService:
-    def __init__(self):
-        self.seat_repository = SeatRepository()
-        self.booking_repository = BookingRepository()
-        self.passenger_repository = PassengerRepository()
-
     def book_seat(self, seat_id, user):
-        seat = self.seat_repository.get_by_id(seat_id)
-        if seat.status != 'available':
-            raise Exception("This seat is not available.")
-        
-        passenger = self.passenger_repository.get_by_user(user)
-        
-        if self.booking_repository.get_by_flight(seat.flight).filter(passenger=passenger).exists():
-            raise Exception("You already have a booking on this flight.")
-            
-        seat.status = 'reserved'
-        self.seat_repository.save(seat)
-        
-        booking = self.booking_repository.create(seat.flight, passenger, seat)
-        
-        # Send email
-        html_message = render_to_string('gestion/ticket_email.html', {'booking': booking})
-        send_mail(
-            'Booking Confirmation',
-            '',
-            'no-reply@airline.com',
-            [passenger.email],
-            fail_silently=False,
-            html_message=html_message
-        )
-        
-        return booking
+        with transaction.atomic():
+            seat = get_object_or_404(Seat, id=seat_id)
+            if seat.status != 'available':
+                raise ValidationError("Seat is not available.")
+
+            passenger = get_object_or_404(Passenger, user=user)
+
+            # Check if the passenger already has a booking for this flight
+            if Booking.objects.filter(flight=seat.flight, passenger=passenger, payment_status='completed').exists():
+                raise ValidationError("You already have a completed booking for this flight.")
+
+            # Create a pending booking
+            booking = Booking.objects.create(
+                flight=seat.flight,
+                passenger=passenger,
+                seat=seat,
+                payment_status='pending' # Initial status is pending payment
+            )
+            seat.status = 'reserved'
+            seat.save()
+            return booking
 
     def get_ticket(self, booking_id):
-        return self.booking_repository.get_by_id(booking_id)
+        return get_object_or_404(Booking, id=booking_id)
 
     def get_bookings_by_passenger(self, passenger):
-        return self.booking_repository.get_by_passenger(passenger)
+        return Booking.objects.filter(passenger=passenger).order_by('-booking_date')
+
+    def process_payment(self, booking_id):
+        with transaction.atomic():
+            booking = get_object_or_404(Booking, id=booking_id)
+
+            if booking.payment_status == 'completed':
+                raise ValidationError("Payment for this booking has already been completed.")
+
+            # Simulate payment processing
+            # In a real application, this would involve calling a payment gateway API
+            # and handling success/failure responses.
+            payment_successful = True # Simulate a successful payment
+
+            if payment_successful:
+                booking.payment_status = 'completed'
+                booking.transaction_id = str(uuid.uuid4()) # Generate a unique transaction ID
+                booking.payment_date = timezone.now()
+                booking.save()
+
+                # Update seat status to occupied after successful payment
+                if booking.seat:
+                    booking.seat.status = 'occupied'
+                    booking.seat.save()
+
+                # Optionally send a notification
+                NotificationService().create_notification(
+                    booking.passenger.user,
+                    f"Your payment for flight {booking.flight.origin} to {booking.flight.destination} has been successfully processed. Booking ID: {booking.id}",
+                    booking.flight
+                )
+                return booking
+            else:
+                booking.payment_status = 'failed'
+                booking.save()
+                raise ValidationError("Payment failed. Please try again.")
 
 class NotificationService:
-    def __init__(self):
-        self.notification_repository = NotificationRepository()
-
     def create_notification(self, recipient, message, flight=None):
-        return self.notification_repository.create(recipient, message, flight)
+        Notification.objects.create(recipient=recipient, message=message, flight=flight)
 
     def get_unread_notifications(self, user):
-        return self.notification_repository.get_unread_notifications(user)
+        return Notification.objects.filter(recipient=user, is_read=False).order_by('-created_at')
 
     def mark_notification_as_read(self, notification):
-        self.notification_repository.mark_as_read(notification)
-
-@receiver(post_save, sender=Flight)
-def flight_update_notification(sender, instance, created, **kwargs):
-    if not created: # Only send notifications for updates, not new flights
-        # This is a simplified example. In a real app, you'd compare old vs. new instance
-        # to determine what changed (e.g., departure_date, status).
-        # For now, let's assume any save means a potential change.
-        
-        # Get all passengers booked on this flight
-        bookings = instance.booking_set.all()
-        notification_service = NotificationService()
-        
-        for booking in bookings:
-            message = f"Update for your flight {instance.origin} to {instance.destination} on {instance.departure_date.strftime('%d/%m/%Y %H:%M')}. Please check flight details."
-            notification_service.create_notification(booking.passenger.user, message, instance)
+        notification.is_read = True
+        notification.save()

@@ -12,7 +12,7 @@
             <p>{% trans "Are you sure you want to book this seat?" %}</p>
             <form method="post" action="{% url 'book_seat' seat_id %}">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-primary">{% trans "Confirm" %}</button>
+                <button type="submit" class="btn btn-primary">{% trans "Confirm and Proceed to Payment" %}</button>
             </form>
         </div>
     </div>

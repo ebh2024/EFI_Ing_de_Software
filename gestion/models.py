@@ -64,10 +64,19 @@ class Seat(models.Model):
         return _("Seat %(number)s on flight %(flight)s") % {'number': self.number, 'flight': self.flight}
 
 class Booking(models.Model):
+    PAYMENT_STATUS_CHOICES = (
+        ('pending', _('Pending')),
+        ('completed', _('Completed')),
+        ('failed', _('Failed')),
+        ('refunded', _('Refunded')),
+    )
     flight = models.ForeignKey(Flight, on_delete=models.CASCADE)
     passenger = models.ForeignKey(Passenger, on_delete=models.CASCADE)
     seat = models.OneToOneField(Seat, on_delete=models.CASCADE, null=True)
     booking_date = models.DateTimeField(auto_now_add=True)
+    payment_status = models.CharField(max_length=20, choices=PAYMENT_STATUS_CHOICES, default='pending')
+    transaction_id = models.CharField(max_length=255, blank=True, null=True)
+    payment_date = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return _("Booking for %(passenger)s on flight %(flight)s, seat %(seat)s") % {'passenger': self.passenger, 'flight': self.flight, 'seat': self.seat.number}
