@@ -28,7 +28,7 @@
             <div class="col-md-4 mb-4">
                 <div class="card text-center">
                     <div class="card-body text-start">
-                        <h5 class="card-title text-center">{{ flight.origin }} to {{ flight.destination }}</h5>
+                        <h5 class="card-title text-center">{% blocktrans with origin=flight.origin destination=flight.destination %}{{ origin }} to {{ destination }}{% endblocktrans %}</h5>
                         <p class="card-text">
                             <strong>{% trans "Departure" %}:</strong> {{ flight.departure_date|date:"d/m/Y H:i" }}<br>
                             <strong>{% trans "Arrival" %}:</strong> {{ flight.arrival_date|date:"d/m/Y H:i" }}<br>

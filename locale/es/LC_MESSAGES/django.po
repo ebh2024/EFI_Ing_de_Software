@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-06 22:45+0000\n"
+"POT-Creation-Date: 2025-08-07 14:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,68 +19,68 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
 "1 : 2;\n"
 
-#: gestion/forms.py:10 gestion/templates/gestion/user_profile.html:14
+#: gestion/forms.py:13 gestion/templates/gestion/user_profile.html:14
 msgid "First Name"
 msgstr "Nombre"
 
-#: gestion/forms.py:11 gestion/templates/gestion/user_profile.html:15
+#: gestion/forms.py:14 gestion/templates/gestion/user_profile.html:15
 msgid "Last Name"
 msgstr "Apellido"
 
-#: gestion/forms.py:12 gestion/templates/gestion/user_profile.html:16
+#: gestion/forms.py:15 gestion/templates/gestion/user_profile.html:16
 msgid "Document ID"
 msgstr "Documento"
 
-#: gestion/forms.py:13 gestion/templates/gestion/user_profile.html:17
+#: gestion/forms.py:16 gestion/templates/gestion/user_profile.html:17
 msgid "Email"
 msgstr "Email"
 
-#: gestion/forms.py:14 gestion/templates/gestion/user_profile.html:18
+#: gestion/forms.py:17 gestion/templates/gestion/user_profile.html:18
 msgid "Phone"
 msgstr "Teléfono"
 
-#: gestion/forms.py:25
+#: gestion/forms.py:32
 msgid "This seat is not available."
 msgstr "Este asiento no está disponible."
 
-#: gestion/models.py:28
+#: gestion/models.py:41
 msgid "Arrival date must be after departure date."
 msgstr "La fecha de llegada debe ser posterior a la fecha de salida."
 
-#: gestion/models.py:55
+#: gestion/models.py:80
 msgid "Available"
 msgstr "Disponible"
 
-#: gestion/models.py:56
+#: gestion/models.py:81
 msgid "Reserved"
 msgstr "Reservado"
 
-#: gestion/models.py:57
+#: gestion/models.py:82
 msgid "Occupied"
 msgstr "Ocupado"
 
-#: gestion/models.py:64
+#: gestion/models.py:92
 #, python-format
 msgid "Seat %(number)s on flight %(flight)s"
 msgstr "Asiento %(number)s en vuelo %(flight)s"
 
-#: gestion/models.py:68
+#: gestion/models.py:98
 msgid "Pending"
 msgstr "Pendiente"
 
-#: gestion/models.py:69
+#: gestion/models.py:99
 msgid "Completed"
 msgstr "Completado"
 
-#: gestion/models.py:70
+#: gestion/models.py:100
 msgid "Failed"
 msgstr "Fallido"
 
-#: gestion/models.py:71
+#: gestion/models.py:101
 msgid "Refunded"
 msgstr "Reembolsado"
 
-#: gestion/models.py:82
+#: gestion/models.py:119
 #, python-format
 msgid "Booking for %(passenger)s on flight %(flight)s, seat %(seat)s"
 msgstr "Reserva de %(passenger)s en vuelo %(flight)s, asiento %(seat)s"
@@ -102,22 +102,22 @@ msgstr "Perfil"
 msgid "Notifications"
 msgstr "Notificaciones"
 
-#: gestion/templates/gestion/base.html:66
+#: gestion/templates/gestion/base.html:67
 msgid "Admin"
 msgstr "Admin"
 
-#: gestion/templates/gestion/base.html:71
+#: gestion/templates/gestion/base.html:73
 msgid "Logout"
 msgstr "Cerrar Sesión"
 
-#: gestion/templates/gestion/base.html:76
+#: gestion/templates/gestion/base.html:78
 #: gestion/templates/gestion/login.html:5
 #: gestion/templates/gestion/login.html:10
 #: gestion/templates/gestion/login.html:16
 msgid "Login"
 msgstr "Iniciar Sesión"
 
-#: gestion/templates/gestion/base.html:79
+#: gestion/templates/gestion/base.html:81
 #: gestion/templates/gestion/create_passenger.html:5
 #: gestion/templates/gestion/create_passenger.html:10
 msgid "Register"
@@ -139,6 +139,11 @@ msgstr "¿Está seguro de que desea reservar este asiento?"
 msgid "Confirm and Proceed to Payment"
 msgstr "Confirmar y Proceder al Pago"
 
+#: gestion/templates/gestion/book_seat.html:16
+#: gestion/templates/gestion/edit_profile.html:16
+msgid "Cancel"
+msgstr "Cancelar"
+
 #: gestion/templates/gestion/create_passenger.html:16
 msgid "Create"
 msgstr "Crear"
@@ -152,10 +157,6 @@ msgstr "Editar Perfil"
 #: gestion/templates/gestion/edit_profile.html:15
 msgid "Save Changes"
 msgstr "Guardar Cambios"
-
-#: gestion/templates/gestion/edit_profile.html:16
-msgid "Cancel"
-msgstr "Cancelar"
 
 #: gestion/templates/gestion/flight_detail.html:4
 #: gestion/templates/gestion/flight_detail.html:12
@@ -187,6 +188,11 @@ msgstr "Fecha de Salida"
 #: gestion/templates/gestion/flight_list.html:21
 msgid "Search"
 msgstr "Buscar"
+
+#: gestion/templates/gestion/flight_list.html:31
+#, python-format
+msgid "%(origin)s to %(destination)s"
+msgstr "%(origin)s a %(destination)s"
 
 #: gestion/templates/gestion/flight_list.html:33
 #: gestion/templates/gestion/payment_confirmation.html:26
@@ -280,6 +286,7 @@ msgstr "Pagar Ahora"
 msgid "This booking has already been paid for."
 msgstr "Esta reserva ya ha sido pagada."
 
+#: gestion/templates/gestion/payment_confirmation.html:42
 #: gestion/templates/gestion/user_profile.html:39
 msgid "View Ticket"
 msgstr "Ver Boleto"
