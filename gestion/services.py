@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 import uuid # Importa uuid para generar IDs de transacción únicos.
+import datetime # Import datetime for date parsing.
 
 # Servicio para gestionar operaciones relacionadas con vuelos.
 class FlightService:
@@ -16,7 +17,15 @@ class FlightService:
         if destination:
             flights = flights.filter(destination__icontains=destination)
         if departure_date:
-            flights = flights.filter(departure_date__date=departure_date)
+            try:
+                # Parse the datetime string and extract only the date part
+                parsed_date = datetime.datetime.strptime(departure_date, "%Y-%m-%d %H:%M").date()
+                flights = flights.filter(departure_date__date=parsed_date)
+            except ValueError:
+                # If the format is already YYYY-MM-DD, or another valid date format,
+                # Django's filter will handle it. If it's completely invalid,
+                # the original error might still occur, but this handles the common case.
+                flights = flights.filter(departure_date__date=departure_date)
         return flights
 
     # Obtiene los detalles de un vuelo específico y sus asientos asociados.
