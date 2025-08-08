@@ -4,45 +4,47 @@
 {% block title %}{% trans "User Profile" %}{% endblock %}
 
 {% block content %}
-    <h1 class="text-center mb-4">{% trans "User Profile" %}</h1>
-
-    <div class="card mb-4">
-        <div class="card-header">
-            <h5 class="mb-0">{% trans "Personal Information" %}</h5>
-        </div>
-        <div class="card-body">
-            <p><strong>{% trans "First Name" %}:</strong> {{ passenger.first_name }}</p>
-            <p><strong>{% trans "Last Name" %}:</strong> {{ passenger.last_name }}</p>
-            <p><strong>{% trans "Document ID" %}:</strong> {{ passenger.document_id }}</p>
-            <p><strong>{% trans "Email" %}:</strong> {{ passenger.email }}</p>
-            <p><strong>{% trans "Phone" %}:</strong> {{ passenger.phone }}</p>
-            <div class="text-center">
-                <a href="{% url 'edit_profile' %}" class="btn btn-primary">{% trans "Edit Profile" %}</a>
+<div class="card">
+    <div class="card-body">
+        <h1 class="card-title text-center mb-4">{% trans "User Profile" %}</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{% trans "Personal Information" %}</h5>
+                        <p><strong>{% trans "First Name" %}:</strong> {{ passenger.first_name }}</p>
+                        <p><strong>{% trans "Last Name" %}:</strong> {{ passenger.last_name }}</p>
+                        <p><strong>{% trans "Document ID" %}:</strong> {{ passenger.document_id }}</p>
+                        <p><strong>{% trans "Email" %}:</strong> {{ passenger.email }}</p>
+                        <p><strong>{% trans "Phone" %}:</strong> {{ passenger.phone }}</p>
+                        <a href="{% url 'edit_profile' %}" class="btn btn-primary">{% trans "Edit Profile" %}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{% trans "Your Bookings" %}</h5>
+                        {% if bookings %}
+                            <div class="list-group">
+                                {% for booking in bookings %}
+                                    <a href="{% url 'ticket' booking.id %}" class="list-group-item list-group-item-action">
+                                        <strong>{% trans "Flight" %}:</strong> {{ booking.flight.origin }} to {{ booking.flight.destination }}
+                                        <br>
+                                        <small class="text-muted">{{ booking.flight.departure_date|date:"d/m/Y H:i" }}</small>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="text-center text-muted">{% trans "You have no bookings yet." %}</p>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-
-    <div class="card">
-        <div class="card-header">
-            <h5 class="mb-0">{% trans "Your Bookings" %}</h5>
-        </div>
-        <div class="card-body">
-            {% if bookings %}
-                <ul class="list-group">
-                    {% for booking in bookings %}
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <div>
-                                <strong>{% trans "Flight" %}:</strong> {{ booking.flight.origin }} to {{ booking.flight.destination }} ({{ booking.flight.departure_date|date:"d/m/Y H:i" }})<br>
-                                <strong>{% trans "Seat" %}:</strong> {{ booking.seat.seat_number }}<br>
-                                <strong>{% trans "Booking ID" %}:</strong> {{ booking.id }}
-                            </div>
-                            <a href="{% url 'ticket' booking.id %}" class="btn btn-info btn-sm">{% trans "View Ticket" %}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p class="text-center">{% trans "You have no bookings yet." %}</p>
-            {% endif %}
+        <div class="text-center mt-4">
+            <a href="{% url 'flight_list' %}" class="btn btn-outline-secondary">{% trans "Back to Flights" %}</a>
         </div>
     </div>
+</div>
 {% endblock %}

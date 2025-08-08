@@ -26,19 +26,19 @@
     <div class="row">
         {% for flight in flights %}
             <div class="col-md-4 mb-4">
-                <div class="card text-center">
-                    <div class="card-body text-start">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body d-flex flex-column">
                         <h5 class="card-title text-center">{% blocktrans with origin=flight.origin destination=flight.destination %}{{ origin }} to {{ destination }}{% endblocktrans %}</h5>
-                        <p class="card-text">
+                        <p class="card-text flex-grow-1">
                             <strong>{% trans "Departure" %}:</strong> {{ flight.departure_date|date:"d/m/Y H:i" }}<br>
                             <strong>{% trans "Arrival" %}:</strong> {{ flight.arrival_date|date:"d/m/Y H:i" }}<br>
                             <strong>{% trans "Price" %}:</strong> ${{ flight.price }}
                         </p>
-                        <div class="text-center">
-                        <a href="{% url 'flight_detail' flight.id %}" class="btn btn-primary me-2">{% trans "View Seats" %}</a>
-                        {% if user.is_staff %}
-                            <a href="{% url 'passenger_report_by_flight' flight.id %}" class="btn btn-secondary">{% trans "View Report" %}</a>
-                        {% endif %}
+                        <div class="text-center mt-auto">
+                            <a href="{% url 'flight_detail' flight.id %}" class="btn btn-primary me-2">{% trans "View Seats" %}</a>
+                            {% if user.is_staff %}
+                                <a href="{% url 'passenger_report_by_flight' flight.id %}" class="btn btn-outline-secondary">{% trans "View Report" %}</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

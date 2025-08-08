@@ -166,6 +166,82 @@ LOGIN_URL = 'login' # URL para la página de inicio de sesión.
 
 # Configuración de la sesión para que expire cuando el navegador se cierre.
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 1209600  # 2 weeks, in seconds
 
 # Backend de correo electrónico para desarrollo (imprime correos en la consola).
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+import os
+from dotenv import load_dotenv
+import logging
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+from sentry_sdk.integrations.logging import LoggingIntegration
+
+load_dotenv()
+
+sentry_logging = LoggingIntegration(
+    level=logging.INFO,  # Captura mensajes de nivel INFO y superiores
+    event_level=logging.ERROR  # Captura mensajes de nivel ERROR y superiores como eventos
+)
+
+sentry_sdk.init(
+    dsn=os.getenv("SENTRY_DSN"),  # DSN de Sentry para la aplicación.
+
+    integrations=[
+        DjangoIntegration(),
+        sentry_logging
+    ],
+
+    # Add data like request headers and IP for users,
+    # see https://docs.sentry.io/platforms/python/data-management/data-collected/ for more info
+    send_default_pii=True,
+)
+
+# Configuración de Sentry para monitoreo de errores.
+
+# Configuración de Logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR / 'debug.log',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'gestion': { # Logger para tu aplicación 'gestion'
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'WARNING',
+    },
+}

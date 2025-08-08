@@ -4,17 +4,15 @@
 {% block title %}{% trans "Book Seat" %}{% endblock %}
 
 {% block content %}
-    <div class="card">
-        <div class="card-header">
-            <h2>{% trans "Confirm Booking" %}</h2>
-        </div>
-        <div class="card-body">
-            <p>{% trans "Are you sure you want to book this seat?" %}</p>
-            <form method="post" action="{% url 'book_seat' seat_id %}">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-primary">{% trans "Confirm and Proceed to Payment" %}</button>
-                <a href="{% url 'flight_list' %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
-            </form>
-        </div>
+<div class="card">
+    <div class="card-body text-center">
+        <h2 class="card-title">{% trans "Confirm Booking" %}</h2>
+        <p>{% trans "Are you sure you want to book this seat?" %}</p>
+        <form method="post" action="{% url 'book_seat' seat_id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">{% trans "Confirm and Proceed to Payment" %}</button>
+            <a href="{{ request.META.HTTP_REFERER|escape }}" class="btn btn-outline-secondary">{% trans "Back" %}</a>
+        </form>
     </div>
+</div>
 {% endblock %}

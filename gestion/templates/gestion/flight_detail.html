@@ -4,24 +4,23 @@
 {% block title %}{% trans "Flight Detail" %}{% endblock %}
 
 {% block content %}
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-danger">{{ message }}</div>
-        {% endfor %}
-    {% endif %}
-    <h1>{% trans "Flight Detail" %}: {{ flight.origin }} to {{ flight.destination }}</h1>
-    <h2>{% trans "Seats" %}</h2>
-    <div class="d-flex flex-wrap">
-        {% for seat in seats %}
-            {% if seat.status == 'available' %}
-                <a href="{% url 'book_seat' seat.id %}" class="seat available text-decoration-none">
-                    {{ seat.number }}
-                </a>
-            {% else %}
-                <div class="seat {{ seat.status }}">
-                    {{ seat.number }}
-                </div>
-            {% endif %}
-        {% endfor %}
+<div class="card">
+    <div class="card-body">
+        <h1 class="card-title text-center">{% trans "Flight Detail" %}: {{ flight.origin }} to {{ flight.destination }}</h1>
+        <h2 class="text-center">{% trans "Select a Seat" %}</h2>
+        <div class="d-flex flex-wrap justify-content-center">
+            {% for seat in seats %}
+                {% if seat.status == 'available' %}
+                    <a href="{% url 'book_seat' seat.id %}" class="btn btn-outline-primary m-2" style="width: 60px;">
+                        {{ seat.number }}
+                    </a>
+                {% else %}
+                    <div class="btn btn-secondary m-2 disabled" style="width: 60px;">
+                        {{ seat.number }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
     </div>
+</div>
 {% endblock %}
