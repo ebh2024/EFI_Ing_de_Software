@@ -25,4 +25,6 @@ urlpatterns = [
     path('notifications/mark_read/<int:notification_id>/', views.mark_notification_read, name='mark_notification_read'),
     # Ruta para procesar el pago de una reserva.
     path('payment/<int:booking_id>/', views.process_payment, name='process_payment'),
+    # Ruta para cancelar una reserva.
+    path('booking/cancel/<int:booking_id>/', views.cancel_booking, name='cancel_booking'),
 ]

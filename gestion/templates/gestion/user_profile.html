@@ -28,11 +28,19 @@
                         {% if bookings %}
                             <div class="list-group">
                                 {% for booking in bookings %}
-                                    <a href="{% url 'ticket' booking.id %}" class="list-group-item list-group-item-action">
+                                    <div class="list-group-item list-group-item-action">
                                         <strong>{% trans "Flight" %}:</strong> {{ booking.flight.origin }} to {{ booking.flight.destination }}
                                         <br>
                                         <small class="text-muted">{{ booking.flight.departure_date|date:"d/m/Y H:i" }}</small>
-                                    </a>
+                                        <br>
+                                        <strong>{% trans "Status" %}:</strong> {{ booking.get_payment_status_display }}
+                                        <div class="float-end">
+                                            <a href="{% url 'ticket' booking.id %}" class="btn btn-info btn-sm me-2">{% trans "View Ticket" %}</a>
+                                            {% if booking.payment_status != 'cancelled' %}
+                                                <a href="{% url 'cancel_booking' booking.id %}" class="btn btn-danger btn-sm">{% trans "Cancel" %}</a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
                                 {% endfor %}
                             </div>
                         {% else %}

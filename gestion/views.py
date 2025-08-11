@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from .services import FlightService, PassengerService, BookingService, NotificationService
 from django.contrib import messages
 from .models import Notification, Booking
+from django.utils.translation import gettext_lazy as _
 
 logger = logging.getLogger('gestion')
 
@@ -40,7 +41,7 @@ def book_seat(request, seat_id):
     if request.method == 'POST':
         try:
             booking = booking_service.book_seat(seat_id, request.user)
-            messages.success(request, "Asiento reservado con éxito. Por favor, complete el pago.")
+            messages.success(request, _("Seat successfully reserved. Please complete the payment."))
             logger.info(f"Seat {seat_id} booked successfully by user {request.user.username}. Booking ID: {booking.id}")
             return redirect('process_payment', booking_id=booking.id)
         except Exception as e:
@@ -81,15 +82,15 @@ def process_payment(request, booking_id):
             # En un escenario real, aquí se integrarían con una pasarela de pago.
             # Por ahora, se simula el procesamiento del pago.
             booking = booking_service.process_payment(booking_id)
-            messages.success(request, "¡Pago exitoso! Su reserva ha sido confirmada.")
+            messages.success(request, _("Payment successful! Your reservation has been confirmed."))
             logger.info(f"Payment processed successfully for booking {booking.id}.")
             return redirect('ticket', booking_id=booking.id)
         except Exception as e: # Catching general Exception for ValidationError as well
             logger.error(f"Error processing payment for booking {booking.id}: {e}")
-            messages.error(request, f"Ocurrió un error inesperado: {e}")
+            messages.error(request, _(f"An unexpected error occurred: {e}"))
     else:
         logger.info(f"Rendering payment_confirmation page for booking_id: {booking_id}")
-        messages.info(request, "Por favor, confirme su pago para esta reserva.")
+        messages.info(request, _("Please confirm your payment for this reservation."))
 
     return render(request, 'gestion/payment_confirmation.html', {'booking': booking})
 
@@ -122,7 +123,7 @@ def create_passenger(request):
                 form.cleaned_data['email'],
                 form.cleaned_data['phone']
             )
-            messages.success(request, "¡Pasajero creado con éxito! Ahora puede iniciar sesión.")
+            messages.success(request, _("Passenger created successfully! You can now log in."))
             logger.info(f"Passenger created successfully: {form.cleaned_data['email']}")
             return redirect('login')
         else:
@@ -159,7 +160,7 @@ def edit_profile(request):
         form = PassengerForm(request.POST, instance=passenger)
         if form.is_valid():
             passenger_service.update_passenger(passenger, form.cleaned_data)
-            messages.success(request, "Su perfil ha sido actualizado exitosamente.")
+            messages.success(request, _("Your profile has been updated successfully."))
             logger.info(f"User profile updated successfully for user: {request.user.username}")
             return redirect('user_profile')
         else:
@@ -178,6 +179,21 @@ def notifications(request):
     logger.info(f"Retrieved {len(unread_notifications)} unread notifications for user: {request.user.username}")
     return render(request, 'gestion/notifications.html', {'notifications': unread_notifications})
 
+# Vista para cancelar una reserva.
+@login_required
+def cancel_booking(request, booking_id):
+    logger.info(f"Accessing cancel_booking view for booking_id: {booking_id} by user: {request.user.username}")
+    booking_service = BookingService()
+    try:
+        booking = get_object_or_404(Booking, id=booking_id, passenger__user=request.user)
+        booking_service.cancel_booking(booking)
+        messages.success(request, _("Booking cancelled successfully."))
+        logger.info(f"Booking {booking_id} cancelled successfully by user: {request.user.username}")
+    except Exception as e:
+        logger.error(f"Error cancelling booking {booking_id} for user {request.user.username}: {e}")
+        messages.error(request, _("Error cancelling booking."))
+    return redirect('user_profile')
+
 # Vista para marcar una notificación específica como leída.
 @login_required
 def mark_notification_read(request, notification_id):
@@ -187,9 +203,9 @@ def mark_notification_read(request, notification_id):
         # Obtiene la notificación, asegurándose de que pertenezca al usuario actual.
         notification = get_object_or_404(Notification, id=notification_id, recipient=request.user)
         notification_service.mark_notification_as_read(notification)
-        messages.info(request, "Notificación marcada como leída.")
+        messages.info(request, _("Notification marked as read."))
         logger.info(f"Notification {notification_id} marked as read for user: {request.user.username}")
     except Exception as e:
         logger.error(f"Error marking notification {notification_id} as read for user {request.user.username}: {e}")
-        messages.error(request, "Error al marcar la notificación como leída.")
+        messages.error(request, _("Error marking notification as read."))
     return redirect('notifications')

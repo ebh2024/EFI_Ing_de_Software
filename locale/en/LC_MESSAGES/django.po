@@ -365,5 +365,10 @@ msgstr "Your Bookings"
 msgid "You have no bookings yet."
 msgstr "You have no bookings yet."
 
-#~ msgid "Seats"
-#~ msgstr "Seats"
+#: gestion/models.py:102
+msgid "Cancelled"
+msgstr "Cancelled"
+
+#: gestion/templates/gestion/user_profile.html:37
+msgid "Cancel"
+msgstr "Cancel"

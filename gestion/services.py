@@ -144,6 +144,26 @@ class BookingService:
                 booking.save()
                 raise ValidationError("Payment failed. Please try again.")
 
+    # Cancela una reserva.
+    def cancel_booking(self, booking):
+        with transaction.atomic():
+            if booking.payment_status == 'cancelled':
+                raise ValidationError("This booking has already been cancelled.")
+
+            booking.payment_status = 'cancelled'
+            booking.save()
+
+            if booking.seat:
+                booking.seat.status = 'available'
+                booking.seat.save()
+
+            # Envía una notificación al usuario sobre la cancelación.
+            NotificationService().create_notification(
+                booking.passenger.user,
+                f"Your booking for flight {booking.flight.origin} to {booking.flight.destination} has been cancelled. Booking ID: {booking.id}",
+                booking.flight
+            )
+
 # Servicio para gestionar operaciones relacionadas con notificaciones.
 class NotificationService:
     # Crea una nueva notificación para un destinatario.

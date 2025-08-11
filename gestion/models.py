@@ -95,10 +95,11 @@ class Seat(models.Model):
 class Booking(models.Model):
     # Opciones para el estado del pago de la reserva.
     PAYMENT_STATUS_CHOICES = (
-        ('pending', _('Pending')), # Pago pendiente.
-        ('completed', _('Completed')), # Pago completado.
-        ('failed', _('Failed')), # Pago fallido.
-        ('refunded', _('Refunded')), # Pago reembolsado.
+        ('pending', _('Pending')),
+        ('completed', _('Completed')),
+        ('failed', _('Failed')),
+        ('refunded', _('Refunded')),
+        ('cancelled', _('Cancelled')),
     )
     # Vuelo asociado a esta reserva. Relación ForeignKey con Flight.
     flight = models.ForeignKey(Flight, on_delete=models.CASCADE)
