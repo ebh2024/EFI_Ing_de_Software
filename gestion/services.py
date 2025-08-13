@@ -64,7 +64,10 @@ class PassengerService:
 
     # Obtiene un pasajero por el objeto User asociado.
     def get_passenger_by_user(self, user):
-        return get_object_or_404(Passenger, user=user)
+        try:
+            return Passenger.objects.get(user=user)
+        except Passenger.DoesNotExist:
+            return None
 
     # Actualiza la información de un pasajero existente.
     def update_passenger(self, passenger, data):
