@@ -23,6 +23,25 @@ Este es un sistema web para gestionar una aerolínea, desarrollado con Django. P
 
 ## Instalación y Configuración
 
+### Con Docker (Recomendado)
+
+1.  **Clonar el Repositorio**:
+    ```bash
+    git clone https://github.com/ebh2024/EFI_Ing_de_Software.git
+    cd EFI_Ing_de_Software
+    ```
+
+2.  **Levantar los Contenedores**:
+    ```bash
+    docker-compose up --build
+    ```
+    Esto construirá la imagen de Docker, iniciará los servicios de la aplicación y la base de datos, aplicará las migraciones y creará un superusuario (`admin`/`admin`).
+
+3.  **Acceder a la Aplicación**:
+    El sitio estará disponible en `http://localhost:8000/`.
+
+### Localmente (Sin Docker)
+
 Sigue estos pasos para configurar y ejecutar el proyecto localmente:
 
 1.  **Clonar el Repositorio**:
