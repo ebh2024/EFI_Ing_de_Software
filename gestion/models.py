@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 # Modelo para representar un tipo de aeronave.
 class Aircraft(models.Model):
@@ -42,6 +43,12 @@ class Flight(models.Model):
 
     # Sobrescribe el método save para ejecutar la validación y crear asientos si es necesario.
     def save(self, *args, **kwargs):
+        # Make departure_date and arrival_date timezone-aware if they are naive
+        if self.departure_date and timezone.is_naive(self.departure_date):
+            self.departure_date = timezone.make_aware(self.departure_date, timezone.get_current_timezone())
+        if self.arrival_date and timezone.is_naive(self.arrival_date):
+            self.arrival_date = timezone.make_aware(self.arrival_date, timezone.get_current_timezone())
+
         self.clean() # Ejecuta la validación antes de guardar.
         super().save(*args, **kwargs)
         # Si se asigna una aeronave y no existen asientos para este vuelo, los crea.

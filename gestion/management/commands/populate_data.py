@@ -13,12 +13,30 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS('Starting data population...'))
 
         # Clear existing data (optional, for fresh runs)
+        # Clear existing data (optional, for fresh runs) - Order matters due to foreign key constraints
+        self.stdout.write(self.style.SUCCESS(f'Bookings before delete: {Booking.objects.count()}'))
         Booking.objects.all().delete()
+        self.stdout.write(self.style.SUCCESS(f'Bookings after delete: {Booking.objects.count()}'))
+
+        self.stdout.write(self.style.SUCCESS(f'Seats before delete: {Seat.objects.count()}'))
         Seat.objects.all().delete()
+        self.stdout.write(self.style.SUCCESS(f'Seats after delete: {Seat.objects.count()}'))
+
+        self.stdout.write(self.style.SUCCESS(f'Flights before delete: {Flight.objects.count()}'))
         Flight.objects.all().delete()
-        Aircraft.objects.all().delete()
+        self.stdout.write(self.style.SUCCESS(f'Flights after delete: {Flight.objects.count()}'))
+
+        self.stdout.write(self.style.SUCCESS(f'Passengers before delete: {Passenger.objects.count()}'))
         Passenger.objects.all().delete()
+        self.stdout.write(self.style.SUCCESS(f'Passengers after delete: {Passenger.objects.count()}'))
+
+        self.stdout.write(self.style.SUCCESS(f'Aircrafts before delete: {Aircraft.objects.count()}'))
+        Aircraft.objects.all().delete()
+        self.stdout.write(self.style.SUCCESS(f'Aircrafts after delete: {Aircraft.objects.count()}'))
+
+        self.stdout.write(self.style.SUCCESS(f'Users before delete: {User.objects.filter(is_staff=False, is_superuser=False).count()}'))
         User.objects.filter(is_staff=False, is_superuser=False).delete() # Keep staff/superuser
+        self.stdout.write(self.style.SUCCESS(f'Users after delete: {User.objects.filter(is_staff=False, is_superuser=False).count()}'))
 
         self.stdout.write(self.style.SUCCESS('Cleared existing data.'))
 
