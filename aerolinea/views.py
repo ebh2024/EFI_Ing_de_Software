@@ -9,12 +9,12 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('home') # Redirigir a una página de inicio después del registro
+            return redirect('home') # Redirect to a home page after registration
     else:
         form = CustomUserCreationForm()
     return render(request, 'aerolinea/register.html', {'form': form})
 
-# La vista de login ya está manejada por Django en aerolinea/urls.py
+# The login view is already handled by Django in aerolinea/urls.py
 # def login_view(request):
 #     if request.method == 'POST':
 #         form = AuthenticationForm(request, data=request.POST)

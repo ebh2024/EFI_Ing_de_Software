@@ -2,139 +2,139 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 
-class Avion(models.Model):
-    modelo = models.CharField(max_length=100)
-    capacidad = models.IntegerField()
-    filas = models.IntegerField()
-    columnas = models.IntegerField()
+class Airplane(models.Model):
+    model = models.CharField(max_length=100)
+    capacity = models.IntegerField()
+    rows = models.IntegerField()
+    columns = models.IntegerField()
 
     def __str__(self):
-        return f"{self.modelo} ({self.capacidad} asientos)"
+        return f"{self.model} ({self.capacity} seats)"
 
-class Vuelo(models.Model):
-    avion = models.ForeignKey(Avion, on_delete=models.CASCADE)
-    origen = models.CharField(max_length=100)
-    destino = models.CharField(max_length=100)
-    fecha_salida = models.DateTimeField()
-    fecha_llegada = models.DateTimeField()
-    duracion = models.DurationField()
-    estado = models.CharField(max_length=50)
-    precio_base = models.DecimalField(max_digits=10, decimal_places=2)
+class Flight(models.Model):
+    airplane = models.ForeignKey(Airplane, on_delete=models.CASCADE)
+    origin = models.CharField(max_length=100)
+    destination = models.CharField(max_length=100)
+    departure_date = models.DateTimeField()
+    arrival_date = models.DateTimeField()
+    duration = models.DurationField()
+    status = models.CharField(max_length=50)
+    base_price = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return f"Vuelo {self.origen} a {self.destino} el {self.fecha_salida.strftime('%Y-%m-%d %H:%M')}"
+        return f"Flight {self.origin} to {self.destination} on {self.departure_date.strftime('%Y-%m-%d %H:%M')}"
 
     def clean(self):
-        if self.fecha_llegada <= self.fecha_salida:
-            raise ValidationError('La fecha de llegada debe ser posterior a la fecha de salida.')
-        if self.fecha_salida < timezone.now():
-            raise ValidationError('La fecha de salida no puede ser en el pasado.')
+        if self.arrival_date <= self.departure_date:
+            raise ValidationError('Arrival date must be after departure date.')
+        if self.departure_date < timezone.now():
+            raise ValidationError('Departure date cannot be in the past.')
 
-class Pasajero(models.Model):
-    TIPO_DOCUMENTO_CHOICES = [
-        ('DNI', 'Documento Nacional de Identidad'),
-        ('PAS', 'Pasaporte'),
-        ('LE', 'Libreta de Enrolamiento'),
-        ('LC', 'Libreta Cívica'),
+class Passenger(models.Model):
+    DOCUMENT_TYPE_CHOICES = [
+        ('DNI', 'National Identity Document'),
+        ('PAS', 'Passport'),
+        ('LE', 'Enrollment Booklet'),
+        ('LC', 'Civic Booklet'),
     ]
-    nombre = models.CharField(max_length=100)
-    documento = models.CharField(max_length=20, unique=True)
+    first_name = models.CharField(max_length=100)
+    document_number = models.CharField(max_length=20, unique=True)
     email = models.EmailField(unique=True)
-    telefono = models.CharField(max_length=20, blank=True, null=True)
-    fecha_nacimiento = models.DateField()
-    tipo_documento = models.CharField(max_length=3, choices=TIPO_DOCUMENTO_CHOICES, default='DNI')
+    phone = models.CharField(max_length=20, blank=True, null=True)
+    date_of_birth = models.DateField()
+    document_type = models.CharField(max_length=3, choices=DOCUMENT_TYPE_CHOICES, default='DNI')
 
     def __str__(self):
-        return self.nombre
+        return self.first_name
 
     def clean(self):
-        # Validación básica de email
+        # Basic email validation
         if not self.email or '@' not in self.email:
-            raise ValidationError('El email no es válido.')
-        # Podríamos añadir más validaciones para el documento si se especificara un formato
+            raise ValidationError('Invalid email.')
+        # We could add more document validations if a format were specified
 
-class Asiento(models.Model):
-    TIPO_ASIENTO_CHOICES = [
-        ('ECO', 'Económico'),
+class Seat(models.Model):
+    SEAT_TYPE_CHOICES = [
+        ('ECO', 'Economy'),
         ('PRE', 'Premium'),
-        ('EJE', 'Ejecutivo'),
+        ('EXE', 'Executive'),
     ]
-    avion = models.ForeignKey(Avion, on_delete=models.CASCADE)
-    numero = models.CharField(max_length=10)
-    fila = models.IntegerField()
-    columna = models.CharField(max_length=2)
-    tipo = models.CharField(max_length=3, choices=TIPO_ASIENTO_CHOICES, default='ECO')
-    estado = models.CharField(max_length=20) # Ej: 'Disponible', 'Ocupado', 'Reservado'
+    airplane = models.ForeignKey(Airplane, on_delete=models.CASCADE)
+    number = models.CharField(max_length=10)
+    row = models.IntegerField()
+    column = models.CharField(max_length=2)
+    type = models.CharField(max_length=3, choices=SEAT_TYPE_CHOICES, default='ECO')
+    status = models.CharField(max_length=20) # E.g.: 'Available', 'Occupied', 'Reserved'
 
     def __str__(self):
-        return f"Asiento {self.numero} - {self.avion.modelo}"
+        return f"Seat {self.number} - {self.airplane.model}"
 
-class Reserva(models.Model):
-    ESTADO_RESERVA_CHOICES = [
-        ('PEN', 'Pendiente'),
-        ('CON', 'Confirmada'),
-        ('CAN', 'Cancelada'),
-        ('PAG', 'Pagada'),
+class Reservation(models.Model):
+    RESERVATION_STATUS_CHOICES = [
+        ('PEN', 'Pending'),
+        ('CON', 'Confirmed'),
+        ('CAN', 'Cancelled'),
+        ('PAID', 'Paid'),
     ]
-    vuelo = models.ForeignKey(Vuelo, on_delete=models.CASCADE)
-    pasajero = models.ForeignKey(Pasajero, on_delete=models.CASCADE)
-    asiento = models.OneToOneField(Asiento, on_delete=models.CASCADE)
-    estado = models.CharField(max_length=3, choices=ESTADO_RESERVA_CHOICES, default='PEN')
-    fecha_reserva = models.DateTimeField(auto_now_add=True)
-    precio = models.DecimalField(max_digits=10, decimal_places=2)
-    codigo_reserva = models.CharField(max_length=20, unique=True)
+    flight = models.ForeignKey(Flight, on_delete=models.CASCADE)
+    passenger = models.ForeignKey(Passenger, on_delete=models.CASCADE)
+    seat = models.OneToOneField(Seat, on_delete=models.CASCADE)
+    status = models.CharField(max_length=4, choices=RESERVATION_STATUS_CHOICES, default='PEN')
+    reservation_date = models.DateTimeField(auto_now_add=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    reservation_code = models.CharField(max_length=20, unique=True)
 
     class Meta:
-        unique_together = (('vuelo', 'asiento'), ('vuelo', 'pasajero'))
+        unique_together = (('flight', 'seat'), ('flight', 'passenger'))
 
     def __str__(self):
-        return f"Reserva {self.codigo_reserva} para {self.pasajero.nombre} en vuelo {self.vuelo.id}"
+        return f"Reservation {self.reservation_code} for {self.passenger.first_name} on flight {self.flight.id}"
 
     def clean(self):
-        # Restricción: Un asiento no puede estar reservado más de una vez por vuelo (ya cubierta por unique_together)
-        # Restricción: Un pasajero no puede tener más de una reserva por vuelo (ya cubierta por unique_together)
+        # Restriction: A seat cannot be reserved more than once per flight (already covered by unique_together)
+        # Restriction: A passenger cannot have more than one reservation per flight (already covered by unique_together)
 
-        # Restricción: Los estados de los asientos deben ser consistentes con las reservas
-        if self.estado == 'CON' or self.estado == 'PAG':
-            if self.asiento.estado != 'Reservado' and self.asiento.estado != 'Ocupado':
-                raise ValidationError('El asiento debe estar en estado "Reservado" u "Ocupado" para una reserva confirmada/pagada.')
-        elif self.estado == 'CAN':
-            if self.asiento.estado != 'Disponible':
-                raise ValidationError('El asiento debe estar en estado "Disponible" para una reserva cancelada.')
+        # Restriction: Seat statuses must be consistent with reservations
+        if self.status == 'CON' or self.status == 'PAID':
+            if self.seat.status != 'Reserved' and self.seat.status != 'Occupied':
+                raise ValidationError('The seat must be in "Reserved" or "Occupied" status for a confirmed/paid reservation.')
+        elif self.status == 'CAN':
+            if self.seat.status != 'Available':
+                raise ValidationError('The seat must be in "Available" status for a cancelled reservation.')
 
     def save(self, *args, **kwargs):
-        # Actualizar el estado del asiento al guardar la reserva
-        if self.estado == 'CON' or self.estado == 'PAG':
-            self.asiento.estado = 'Reservado'
-        elif self.estado == 'CAN':
-            self.asiento.estado = 'Disponible'
-        self.asiento.save()
+        # Update seat status when saving the reservation
+        if self.status == 'CON' or self.status == 'PAID':
+            self.seat.status = 'Reserved'
+        elif self.status == 'CAN':
+            self.seat.status = 'Available'
+        self.seat.save()
         super().save(*args, **kwargs)
 
-class Usuario(models.Model):
-    ROL_CHOICES = [
-        ('ADM', 'Administrador'),
-        ('EMP', 'Empleado'),
-        ('CLI', 'Cliente'),
+class UserProfile(models.Model):
+    ROLE_CHOICES = [
+        ('ADM', 'Administrator'),
+        ('EMP', 'Employee'),
+        ('CLI', 'Client'),
     ]
     username = models.CharField(max_length=50, unique=True)
-    password = models.CharField(max_length=128) # Se recomienda usar un hash de la contraseña
+    password = models.CharField(max_length=128) # It is recommended to use a password hash
     email = models.EmailField(unique=True)
-    rol = models.CharField(max_length=3, choices=ROL_CHOICES, default='CLI')
+    role = models.CharField(max_length=3, choices=ROLE_CHOICES, default='CLI')
 
     def __str__(self):
         return self.username
 
-class Boleto(models.Model):
-    ESTADO_BOLETO_CHOICES = [
-        ('EMI', 'Emitido'),
-        ('CAN', 'Cancelado'),
-        ('USA', 'Usado'),
+class Ticket(models.Model):
+    TICKET_STATUS_CHOICES = [
+        ('EMI', 'Issued'),
+        ('CAN', 'Cancelled'),
+        ('USED', 'Used'),
     ]
-    reserva = models.OneToOneField(Reserva, on_delete=models.CASCADE)
-    codigo_barra = models.CharField(max_length=50, unique=True)
-    fecha_emision = models.DateTimeField(auto_now_add=True)
-    estado = models.CharField(max_length=3, choices=ESTADO_BOLETO_CHOICES, default='EMI')
+    reservation = models.OneToOneField(Reservation, on_delete=models.CASCADE)
+    barcode = models.CharField(max_length=50, unique=True)
+    issue_date = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=4, choices=TICKET_STATUS_CHOICES, default='EMI')
 
     def __str__(self):
-        return f"Boleto {self.codigo_barra} para reserva {self.reserva.codigo_reserva}"
+        return f"Ticket {self.barcode} for reservation {self.reservation.reservation_code}"
