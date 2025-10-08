@@ -1,4 +1,6 @@
 from django.db import models
+from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 class Avion(models.Model):
     modelo = models.CharField(max_length=100)
@@ -22,6 +24,12 @@ class Vuelo(models.Model):
     def __str__(self):
         return f"Vuelo {self.origen} a {self.destino} el {self.fecha_salida.strftime('%Y-%m-%d %H:%M')}"
 
+    def clean(self):
+        if self.fecha_llegada <= self.fecha_salida:
+            raise ValidationError('La fecha de llegada debe ser posterior a la fecha de salida.')
+        if self.fecha_salida < timezone.now():
+            raise ValidationError('La fecha de salida no puede ser en el pasado.')
+
 class Pasajero(models.Model):
     TIPO_DOCUMENTO_CHOICES = [
         ('DNI', 'Documento Nacional de Identidad'),
@@ -38,6 +46,12 @@ class Pasajero(models.Model):
 
     def __str__(self):
         return self.nombre
+
+    def clean(self):
+        # Validación básica de email
+        if not self.email or '@' not in self.email:
+            raise ValidationError('El email no es válido.')
+        # Podríamos añadir más validaciones para el documento si se especificara un formato
 
 class Asiento(models.Model):
     TIPO_ASIENTO_CHOICES = [
@@ -70,8 +84,32 @@ class Reserva(models.Model):
     precio = models.DecimalField(max_digits=10, decimal_places=2)
     codigo_reserva = models.CharField(max_length=20, unique=True)
 
+    class Meta:
+        unique_together = (('vuelo', 'asiento'), ('vuelo', 'pasajero'))
+
     def __str__(self):
         return f"Reserva {self.codigo_reserva} para {self.pasajero.nombre} en vuelo {self.vuelo.id}"
+
+    def clean(self):
+        # Restricción: Un asiento no puede estar reservado más de una vez por vuelo (ya cubierta por unique_together)
+        # Restricción: Un pasajero no puede tener más de una reserva por vuelo (ya cubierta por unique_together)
+
+        # Restricción: Los estados de los asientos deben ser consistentes con las reservas
+        if self.estado == 'CON' or self.estado == 'PAG':
+            if self.asiento.estado != 'Reservado' and self.asiento.estado != 'Ocupado':
+                raise ValidationError('El asiento debe estar en estado "Reservado" u "Ocupado" para una reserva confirmada/pagada.')
+        elif self.estado == 'CAN':
+            if self.asiento.estado != 'Disponible':
+                raise ValidationError('El asiento debe estar en estado "Disponible" para una reserva cancelada.')
+
+    def save(self, *args, **kwargs):
+        # Actualizar el estado del asiento al guardar la reserva
+        if self.estado == 'CON' or self.estado == 'PAG':
+            self.asiento.estado = 'Reservado'
+        elif self.estado == 'CAN':
+            self.asiento.estado = 'Disponible'
+        self.asiento.save()
+        super().save(*args, **kwargs)
 
 class Usuario(models.Model):
     ROL_CHOICES = [
