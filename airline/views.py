@@ -9,7 +9,7 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('home') # Redirect to a home page after registration
+            return redirect('login') # Redirect to login page after registration
     else:
         form = CustomUserCreationForm()
     return render(request, 'airline/register.html', {'form': form})
