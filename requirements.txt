@@ -1,6 +1,0 @@
-Django
-django-crispy-forms
-crispy-bootstrap5
-python-dotenv
-sentry-sdk
-psycopg2-binary
