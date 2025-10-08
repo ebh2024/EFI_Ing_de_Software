@@ -55,7 +55,7 @@ class Migration(migrations.Migration):
                 ('duration', models.DurationField()),
                 ('status', models.CharField(max_length=50)),
                 ('base_price', models.DecimalField(decimal_places=2, max_digits=10)),
-                ('airplane', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='aerolinea.airplane')),
+                ('airplane', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='airline.airplane')),
             ],
         ),
         migrations.CreateModel(
@@ -67,7 +67,7 @@ class Migration(migrations.Migration):
                 ('column', models.CharField(max_length=2)),
                 ('type', models.CharField(choices=[('ECO', 'Economy'), ('PRE', 'Premium'), ('EXE', 'Executive')], default='ECO', max_length=3)),
                 ('status', models.CharField(max_length=20)),
-                ('airplane', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='aerolinea.airplane')),
+                ('airplane', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='airline.airplane')),
             ],
         ),
         migrations.CreateModel(
@@ -78,9 +78,9 @@ class Migration(migrations.Migration):
                 ('reservation_date', models.DateTimeField(auto_now_add=True)),
                 ('price', models.DecimalField(decimal_places=2, max_digits=10)),
                 ('reservation_code', models.CharField(max_length=20, unique=True)),
-                ('flight', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='aerolinea.flight')),
-                ('passenger', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='aerolinea.passenger')),
-                ('seat', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='aerolinea.seat')),
+                ('flight', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='airline.flight')),
+                ('passenger', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='airline.passenger')),
+                ('seat', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='airline.seat')),
             ],
             options={
                 'unique_together': {('flight', 'passenger'), ('flight', 'seat')},
@@ -93,7 +93,7 @@ class Migration(migrations.Migration):
                 ('barcode', models.CharField(max_length=50, unique=True)),
                 ('issue_date', models.DateTimeField(auto_now_add=True)),
                 ('status', models.CharField(choices=[('EMI', 'Issued'), ('CAN', 'Cancelled'), ('USED', 'Used')], default='EMI', max_length=4)),
-                ('reservation', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='aerolinea.reservation')),
+                ('reservation', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='airline.reservation')),
             ],
         ),
     ]

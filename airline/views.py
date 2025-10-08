@@ -12,9 +12,9 @@ def register(request):
             return redirect('home') # Redirect to a home page after registration
     else:
         form = CustomUserCreationForm()
-    return render(request, 'aerolinea/register.html', {'form': form})
+    return render(request, 'airline/register.html', {'form': form})
 
-# The login view is already handled by Django in aerolinea/urls.py
+# The login view is already handled by Django in airline/urls.py
 # def login_view(request):
 #     if request.method == 'POST':
 #         form = AuthenticationForm(request, data=request.POST)
@@ -27,4 +27,4 @@ def register(request):
 #                 return redirect('home')
 #     else:
 #         form = AuthenticationForm()
-#     return render(request, 'aerolinea/login.html', {'form': form})
+#     return render(request, 'airline/login.html', {'form': form})
