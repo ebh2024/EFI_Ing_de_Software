@@ -1,0 +1,45 @@
+{% extends 'airline/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 class="my-4">Flight List</h1>
+    <a href="{% url 'flight_create' %}" class="btn btn-primary mb-3">Add New Flight</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Airplane</th>
+                <th>Origin</th>
+                <th>Destination</th>
+                <th>Departure</th>
+                <th>Arrival</th>
+                <th>Duration</th>
+                <th>Status</th>
+                <th>Base Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for flight in flights %}
+            <tr>
+                <td>{{ flight.airplane.model }}</td>
+                <td>{{ flight.origin }}</td>
+                <td>{{ flight.destination }}</td>
+                <td>{{ flight.departure_date }}</td>
+                <td>{{ flight.arrival_date }}</td>
+                <td>{{ flight.duration }}</td>
+                <td>{{ flight.status }}</td>
+                <td>{{ flight.base_price }}</td>
+                <td>
+                    <a href="{% url 'flight_update' flight.pk %}" class="btn btn-sm btn-info">Edit</a>
+                    <a href="{% url 'flight_delete' flight.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="9">No flights available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

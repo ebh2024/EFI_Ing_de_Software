@@ -1,0 +1,13 @@
+{% extends 'airline/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 class="my-4">{{ action }} Flight</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">{{ action }}</button>
+        <a href="{% url 'flight_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}
