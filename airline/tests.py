@@ -310,6 +310,12 @@ class RegistrationViewTest(TestCase):
         self.assertFalse(User.objects.filter(username='newuser2').exists())
         self.assertFormError(response.context['form'], 'password2', 'The two password fields didn’t match.')
 
+class HomeViewTest(TestCase):
+    def test_home_page_loads(self):
+        response = self.client.get(reverse('home'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'airline/home.html')
+
 class CustomUserCreationFormTest(TestCase):
     def test_valid_form(self):
         form = CustomUserCreationForm(data={
