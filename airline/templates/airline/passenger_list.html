@@ -1,0 +1,40 @@
+{% extends 'airline/base.html' %}
+
+{% block content %}
+<h1 class="mb-4">Passenger List</h1>
+<a href="{% url 'passenger_create' %}" class="btn btn-primary mb-3">Add New Passenger</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Document Number</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Date of Birth</th>
+            <th>Document Type</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for passenger in passengers %}
+        <tr>
+            <td>{{ passenger.first_name }} {{ passenger.last_name }}</td>
+            <td>{{ passenger.document_number }}</td>
+            <td>{{ passenger.email }}</td>
+            <td>{{ passenger.phone|default:"N/A" }}</td>
+            <td>{{ passenger.date_of_birth }}</td>
+            <td>{{ passenger.get_document_type_display }}</td>
+            <td>
+                <a href="{% url 'passenger_update' passenger.pk %}" class="btn btn-sm btn-warning">Edit</a>
+                <a href="{% url 'passenger_delete' passenger.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                <a href="{% url 'passenger_flight_history' passenger.pk %}" class="btn btn-sm btn-info">Flight History</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="7">No passengers found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

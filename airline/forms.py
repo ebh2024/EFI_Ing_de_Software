@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from .models import Flight, Airplane
+from .models import Flight, Airplane, Passenger
 from django.utils import timezone
 import datetime
 
@@ -45,4 +45,12 @@ class FlightForm(forms.ModelForm):
         fields = ['airplane', 'origin', 'destination', 'departure_date', 'arrival_date', 'duration', 'status', 'base_price']
         widgets = {
             'duration': forms.TextInput(attrs={'placeholder': 'HH:MM:SS'}),
+        }
+
+class PassengerForm(forms.ModelForm):
+    class Meta:
+        model = Passenger
+        fields = ['first_name', 'last_name', 'document_number', 'email', 'phone', 'date_of_birth', 'document_type']
+        widgets = {
+            'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
         }

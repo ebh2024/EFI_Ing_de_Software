@@ -1,0 +1,11 @@
+{% extends 'airline/base.html' %}
+
+{% block content %}
+<h1 class="mb-4">Delete Passenger</h1>
+<p>Are you sure you want to delete passenger "{{ passenger.first_name }} {{ passenger.last_name }}" (Document: {{ passenger.document_number }})?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+    <a href="{% url 'passenger_list' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

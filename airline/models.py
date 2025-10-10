@@ -42,6 +42,7 @@ class Passenger(models.Model):
         ('LC', 'Civic Booklet'),
     ]
     first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100, blank=True, null=True)
     document_number = models.CharField(max_length=20, unique=True)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
@@ -49,13 +50,21 @@ class Passenger(models.Model):
     document_type = models.CharField(max_length=3, choices=DOCUMENT_TYPE_CHOICES, default='DNI')
 
     def __str__(self):
-        return self.first_name
+        return f"{self.first_name} {self.last_name}"
 
     def clean(self):
         # Basic email validation
         if not self.email or '@' not in self.email:
             raise ValidationError('Invalid email.')
         # We could add more document validations if a format were specified
+
+class FlightHistory(models.Model):
+    passenger = models.ForeignKey(Passenger, on_delete=models.CASCADE, related_name='flight_history')
+    flight = models.ForeignKey(Flight, on_delete=models.CASCADE)
+    booking_date = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.passenger.first_name}'s flight on {self.flight.departure_date}"
 
 class Seat(models.Model):
     SEAT_TYPE_CHOICES = [
