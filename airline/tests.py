@@ -1,10 +1,11 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.urls import reverse
 from django.utils import timezone
 from datetime import timedelta
 from .models import Airplane, Flight, Passenger, Seat, Reservation, UserProfile, Ticket
 from django.contrib.auth.models import User
 from .forms import CustomUserCreationForm
+from django.core.exceptions import ValidationError
 
 class AirplaneModelTest(TestCase):
     def test_create_airplane(self):
@@ -46,7 +47,7 @@ class FlightModelTest(TestCase):
             status="Scheduled",
             base_price=500.00
         )
-        with self.assertRaisesMessage(Exception, 'Arrival date must be after departure date.'):
+        with self.assertRaisesMessage(ValidationError, 'Arrival date must be after departure date.'):
             flight.full_clean()
 
     def test_flight_clean_departure_in_past(self):
@@ -62,7 +63,7 @@ class FlightModelTest(TestCase):
             status="Scheduled",
             base_price=500.00
         )
-        with self.assertRaisesMessage(Exception, 'Departure date cannot be in the past.'):
+        with self.assertRaisesMessage(ValidationError, 'Departure date cannot be in the past.'):
             flight.full_clean()
 
 class PassengerModelTest(TestCase):
@@ -86,7 +87,7 @@ class PassengerModelTest(TestCase):
             date_of_birth="1995-05-05",
             document_type="PAS"
         )
-        with self.assertRaisesMessage(Exception, 'Invalid email.'):
+        with self.assertRaisesMessage(ValidationError, 'Invalid email.'):
             passenger.full_clean()
 
 class SeatModelTest(TestCase):
@@ -189,7 +190,7 @@ class ReservationModelTest(TestCase):
             price=120.00,
             reservation_code="RES12348"
         )
-        with self.assertRaisesMessage(Exception, 'The seat must be in "Reserved" or "Occupied" status for a confirmed/paid reservation.'):
+        with self.assertRaisesMessage(ValidationError, 'The seat must be in "Reserved" or "Occupied" status for a confirmed/paid reservation.'):
             reservation.full_clean()
 
     def test_reservation_clean_cancelled_invalid_seat_status(self):
@@ -203,7 +204,7 @@ class ReservationModelTest(TestCase):
             price=120.00,
             reservation_code="RES12349"
         )
-        with self.assertRaisesMessage(Exception, 'The seat must be in "Available" status for a cancelled reservation.'):
+        with self.assertRaisesMessage(ValidationError, 'The seat must be in "Available" status for a cancelled reservation.'):
             reservation.full_clean()
 
 class UserProfileModelTest(TestCase):
@@ -347,3 +348,120 @@ class CustomUserCreationFormTest(TestCase):
         })
         self.assertFalse(form.is_valid())
         self.assertIn('email', form.errors)
+
+class FlightManagementViewsTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.user = User.objects.create_superuser(username='admin', email='admin@example.com', password='adminpassword')
+        self.client.login(username='admin', password='adminpassword')
+
+        self.airplane = Airplane.objects.create(model="Boeing 737", capacity=180, rows=30, columns=6)
+        self.departure_date = timezone.now() + timedelta(days=1)
+        self.arrival_date = self.departure_date + timedelta(hours=3)
+        self.flight = Flight.objects.create(
+            airplane=self.airplane,
+            origin="EZE",
+            destination="MIA",
+            departure_date=self.departure_date,
+            arrival_date=self.arrival_date,
+            duration=timedelta(hours=3),
+            status="Scheduled",
+            base_price=500.00
+        )
+
+    def test_flight_list_view(self):
+        response = self.client.get(reverse('flight_list'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'airline/flight_list.html')
+        self.assertContains(response, self.flight.origin)
+
+    def test_flight_create_view_get(self):
+        response = self.client.get(reverse('flight_create'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'airline/flight_form.html')
+        self.assertContains(response, 'Create')
+
+    def test_flight_create_view_post_success(self):
+        new_departure_date = timezone.now() + timedelta(days=5)
+        new_arrival_date = new_departure_date + timedelta(hours=2)
+        response = self.client.post(reverse('flight_create'), {
+            'airplane': self.airplane.id,
+            'origin': 'COR',
+            'destination': 'SCL',
+            'departure_date': new_departure_date.strftime('%Y-%m-%dT%H:%M'),
+            'arrival_date': new_arrival_date.strftime('%Y-%m-%dT%H:%M'),
+            'duration': '02:00:00',
+            'status': 'Scheduled',
+            'base_price': '250.00'
+        }, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertRedirects(response, reverse('flight_list'))
+        self.assertTrue(Flight.objects.filter(origin='COR', destination='SCL').exists())
+
+    def test_flight_create_view_post_invalid(self):
+        response = self.client.post(reverse('flight_create'), {
+            'airplane': self.airplane.id,
+            'origin': 'COR',
+            'destination': 'SCL',
+            'departure_date': (timezone.now() - timedelta(days=1)).strftime('%Y-%m-%dT%H:%M'), # Past date
+            'arrival_date': (timezone.now() - timedelta(days=2)).strftime('%Y-%m-%dT%H:%M'), # Before departure
+            'duration': '02:00:00',
+            'status': 'Scheduled',
+            'base_price': '250.00'
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(response.context['form'], 'departure_date', 'Departure date cannot be in the past.')
+        self.assertFormError(response.context['form'], 'arrival_date', 'Arrival date must be after departure date.')
+
+    def test_flight_update_view_get(self):
+        response = self.client.get(reverse('flight_update', args=[self.flight.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'airline/flight_form.html')
+        self.assertContains(response, 'Update')
+        self.assertContains(response, self.flight.origin)
+
+    def test_flight_update_view_post_success(self):
+        updated_destination = "LAX"
+        response = self.client.post(reverse('flight_update', args=[self.flight.pk]), {
+            'airplane': self.airplane.id,
+            'origin': self.flight.origin,
+            'destination': updated_destination,
+            'departure_date': self.flight.departure_date.strftime('%Y-%m-%dT%H:%M'),
+            'arrival_date': self.flight.arrival_date.strftime('%Y-%m-%dT%H:%M'),
+            'duration': self.flight.duration,
+            'status': 'Delayed',
+            'base_price': '550.00'
+        }, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertRedirects(response, reverse('flight_list'))
+        self.flight.refresh_from_db()
+        self.assertEqual(self.flight.destination, updated_destination)
+        self.assertEqual(self.flight.status, 'Delayed')
+
+    def test_flight_update_view_post_invalid(self):
+        response = self.client.post(reverse('flight_update', args=[self.flight.pk]), {
+            'airplane': self.airplane.id,
+            'origin': self.flight.origin,
+            'destination': self.flight.destination,
+            'departure_date': (timezone.now() - timedelta(days=1)).strftime('%Y-%m-%dT%H:%M'), # Past date
+            'arrival_date': (timezone.now() - timedelta(days=2)).strftime('%Y-%m-%dT%H:%M'), # Before departure
+            'duration': self.flight.duration,
+            'status': 'Scheduled',
+            'base_price': '500.00'
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(response.context['form'], 'departure_date', 'Departure date cannot be in the past.')
+        self.assertFormError(response.context['form'], 'arrival_date', 'Arrival date must be after departure date.')
+
+    def test_flight_delete_view_get(self):
+        response = self.client.get(reverse('flight_delete', args=[self.flight.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'airline/flight_confirm_delete.html')
+        self.assertContains(response, self.flight.origin)
+
+    def test_flight_delete_view_post_success(self):
+        flight_id = self.flight.pk
+        response = self.client.post(reverse('flight_delete', args=[flight_id]), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertRedirects(response, reverse('flight_list'))
+        self.assertFalse(Flight.objects.filter(pk=flight_id).exists())

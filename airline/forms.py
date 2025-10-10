@@ -3,6 +3,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from .models import Flight, Airplane
+from django.utils import timezone
+import datetime
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True, label="Email")
@@ -29,11 +31,18 @@ class CustomAuthenticationForm(AuthenticationForm):
     password = forms.CharField(label="Password", widget=forms.PasswordInput)
 
 class FlightForm(forms.ModelForm):
+    departure_date = forms.DateTimeField(
+        widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        input_formats=['%Y-%m-%dT%H:%M']
+    )
+    arrival_date = forms.DateTimeField(
+        widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        input_formats=['%Y-%m-%dT%H:%M']
+    )
+
     class Meta:
         model = Flight
         fields = ['airplane', 'origin', 'destination', 'departure_date', 'arrival_date', 'duration', 'status', 'base_price']
         widgets = {
-            'departure_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-            'arrival_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
             'duration': forms.TextInput(attrs={'placeholder': 'HH:MM:SS'}),
         }

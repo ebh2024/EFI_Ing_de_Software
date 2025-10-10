@@ -25,10 +25,14 @@ class Flight(models.Model):
         return f"Flight {self.origin} to {self.destination} on {self.departure_date.strftime('%Y-%m-%d %H:%M')}"
 
     def clean(self):
-        if self.arrival_date <= self.departure_date:
-            raise ValidationError('Arrival date must be after departure date.')
-        if self.departure_date < timezone.now():
-            raise ValidationError('Departure date cannot be in the past.')
+        errors = {}
+        if self.arrival_date and self.departure_date and self.arrival_date <= self.departure_date:
+            errors['arrival_date'] = 'Arrival date must be after departure date.'
+        if self.departure_date and self.departure_date < timezone.now():
+            errors['departure_date'] = 'Departure date cannot be in the past.'
+
+        if errors:
+            raise ValidationError(errors)
 
 class Passenger(models.Model):
     DOCUMENT_TYPE_CHOICES = [
