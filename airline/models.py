@@ -50,7 +50,7 @@ class Passenger(models.Model):
     document_type = models.CharField(max_length=3, choices=DOCUMENT_TYPE_CHOICES, default='DNI')
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name}"
+        return f"{self.first_name} {self.last_name or ''}".strip()
 
     def clean(self):
         # Basic email validation
@@ -62,6 +62,8 @@ class FlightHistory(models.Model):
     passenger = models.ForeignKey(Passenger, on_delete=models.CASCADE, related_name='flight_history')
     flight = models.ForeignKey(Flight, on_delete=models.CASCADE)
     booking_date = models.DateTimeField(auto_now_add=True)
+    seat_number = models.CharField(max_length=10, blank=True, null=True)
+    price_paid = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     
     def __str__(self):
         return f"{self.passenger.first_name}'s flight on {self.flight.departure_date}"

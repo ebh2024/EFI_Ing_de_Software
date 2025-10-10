@@ -2,7 +2,7 @@ from django.test import TestCase, Client
 from django.urls import reverse
 from django.utils import timezone
 from datetime import timedelta
-from .models import Airplane, Flight, Passenger, Seat, Reservation, UserProfile, Ticket
+from .models import Airplane, Flight, Passenger, Seat, Reservation, UserProfile, Ticket, FlightHistory
 from django.contrib.auth.models import User
 from .forms import CustomUserCreationForm
 from django.core.exceptions import ValidationError
@@ -465,3 +465,128 @@ class FlightManagementViewsTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertRedirects(response, reverse('flight_list'))
         self.assertFalse(Flight.objects.filter(pk=flight_id).exists())
+
+class PassengerManagementViewsTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.user = User.objects.create_superuser(username='admin', email='admin@example.com', password='adminpassword')
+        self.client.login(username='admin', password='adminpassword')
+        self.passenger = Passenger.objects.create(
+            first_name="Jane",
+            last_name="Doe",
+            document_number="123456789",
+            email="jane.doe@example.com",
+            date_of_birth=timezone.datetime(1990, 1, 1).date(),
+            document_type="DNI"
+        )
+        self.airplane = Airplane.objects.create(model="Boeing 737", capacity=180, rows=30, columns=6)
+        self.flight = Flight.objects.create(
+            airplane=self.airplane,
+            origin="EZE",
+            destination="MIA",
+            departure_date=timezone.now() + timedelta(days=1),
+            arrival_date=timezone.now() + timedelta(days=1, hours=3),
+            duration=timedelta(hours=3),
+            status="Scheduled",
+            base_price=500.00
+        )
+        self.flight_history = FlightHistory.objects.create(
+            passenger=self.passenger,
+            flight=self.flight,
+            booking_date=timezone.now(),
+            seat_number="10A",
+            price_paid=500.00
+        )
+
+    def test_passenger_list_view(self):
+        response = self.client.get(reverse('passenger_list'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'airline/passenger_list.html')
+        self.assertContains(response, self.passenger.first_name)
+        self.assertContains(response, self.passenger.last_name)
+
+    def test_passenger_create_view_get(self):
+        response = self.client.get(reverse('passenger_create'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'airline/passenger_form.html')
+        self.assertContains(response, 'Create')
+
+    def test_passenger_create_view_post_success(self):
+        response = self.client.post(reverse('passenger_create'), {
+            'first_name': 'New',
+            'last_name': 'Passenger',
+            'document_number': '987654321',
+            'email': 'new.passenger@example.com',
+            'date_of_birth': '1985-03-15',
+            'document_type': 'PAS'
+        }, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertRedirects(response, reverse('passenger_list'))
+        self.assertTrue(Passenger.objects.filter(first_name='New', last_name='Passenger').exists())
+
+    def test_passenger_create_view_post_invalid(self):
+        response = self.client.post(reverse('passenger_create'), {
+            'first_name': 'Invalid',
+            'last_name': 'Email',
+            'document_number': '112233445',
+            'email': 'invalid-email', # Invalid email
+            'date_of_birth': '1990-01-01',
+            'document_type': 'DNI'
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(response.context['form'], 'email', 'Enter a valid email address.')
+
+    def test_passenger_update_view_get(self):
+        response = self.client.get(reverse('passenger_update', args=[self.passenger.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'airline/passenger_form.html')
+        self.assertContains(response, 'Update')
+        self.assertContains(response, self.passenger.first_name)
+
+    def test_passenger_update_view_post_success(self):
+        updated_email = "jane.updated@example.com"
+        response = self.client.post(reverse('passenger_update', args=[self.passenger.pk]), {
+            'first_name': self.passenger.first_name,
+            'last_name': self.passenger.last_name,
+            'document_number': self.passenger.document_number,
+            'email': updated_email,
+            'date_of_birth': self.passenger.date_of_birth,
+            'document_type': self.passenger.document_type
+        }, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertRedirects(response, reverse('passenger_list'))
+        self.passenger.refresh_from_db()
+        self.assertEqual(self.passenger.email, updated_email)
+
+    def test_passenger_update_view_post_invalid(self):
+        response = self.client.post(reverse('passenger_update', args=[self.passenger.pk]), {
+            'first_name': self.passenger.first_name,
+            'last_name': self.passenger.last_name,
+            'document_number': self.passenger.document_number,
+            'email': 'invalid-email', # Invalid email
+            'date_of_birth': self.passenger.date_of_birth,
+            'document_type': self.passenger.document_type
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(response.context['form'], 'email', 'Enter a valid email address.')
+
+    def test_passenger_delete_view_get(self):
+        response = self.client.get(reverse('passenger_delete', args=[self.passenger.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'airline/passenger_confirm_delete.html')
+        self.assertContains(response, self.passenger.first_name)
+
+    def test_passenger_delete_view_post_success(self):
+        passenger_id = self.passenger.pk
+        response = self.client.post(reverse('passenger_delete', args=[passenger_id]), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertRedirects(response, reverse('passenger_list'))
+        self.assertFalse(Passenger.objects.filter(pk=passenger_id).exists())
+
+    def test_passenger_flight_history_view(self):
+        response = self.client.get(reverse('passenger_flight_history', args=[self.passenger.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'airline/passenger_flight_history.html')
+        self.assertContains(response, self.passenger.first_name)
+        self.assertContains(response, self.flight.origin)
+        self.assertContains(response, self.flight.destination)
