@@ -139,3 +139,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/'
+
+# Test settings
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+TEST_DISCOVER_TOP_LEVEL = BASE_DIR / 'airline'

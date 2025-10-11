@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.utils import timezone
 from datetime import timedelta
 from django.contrib.auth.models import User
-from airline.models import Airplane, Flight, Passenger, FlightHistory
+from airline.models import Airplane, Flight, Passenger, FlightHistory, Seat, Reservation, Ticket
 
 class RegistrationViewTest(TestCase):
     def test_registration_page_loads(self):
@@ -297,3 +297,177 @@ class PassengerManagementViewsTest(TestCase):
         self.assertContains(response, self.passenger.first_name)
         self.assertContains(response, self.flight.origin)
         self.assertContains(response, self.flight.destination)
+
+class ReservationViewsTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.user = User.objects.create_user(username='testuser', email='test@example.com', password='testpassword')
+        self.client.login(username='testuser', password='testpassword')
+
+        self.airplane = Airplane.objects.create(model="Boeing 737", capacity=180, rows=30, columns=6)
+        self.flight = Flight.objects.create(
+            airplane=self.airplane,
+            origin="EZE",
+            destination="MIA",
+            departure_date=timezone.now() + timedelta(days=1),
+            arrival_date=timezone.now() + timedelta(days=1, hours=3),
+            duration=timedelta(hours=3),
+            status="Scheduled",
+            base_price=500.00
+        )
+        # Create a passenger linked to the test user's email
+        self.passenger = Passenger.objects.create(
+            first_name="Test",
+            last_name="Passenger",
+            document_number="1122334455",
+            email=self.user.email, # Use the test user's email
+            date_of_birth="1990-01-01",
+            document_type="DNI"
+        )
+        self.seat_available = Seat.objects.create(
+            airplane=self.airplane,
+            number="1A",
+            row=1,
+            column="A",
+            type="ECO",
+            status="Available"
+        )
+        self.seat_reserved = Seat.objects.create(
+            airplane=self.airplane,
+            number="1B",
+            row=1,
+            column="B",
+            type="ECO",
+            status="Reserved"
+        )
+        self.reservation = Reservation.objects.create(
+            flight=self.flight,
+            passenger=self.passenger,
+            seat=self.seat_reserved,
+            status="CON",
+            price=500.00,
+            reservation_code="RESVIEW123"
+        )
+
+    def test_flight_detail_with_seats_view(self):
+        response = self.client.get(reverse('flight_detail_with_seats', args=[self.flight.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'airline/flight_detail_with_seats.html')
+        self.assertContains(response, self.flight.origin)
+        self.assertContains(response, self.seat_available.number)
+        self.assertContains(response, self.seat_reserved.number)
+        self.assertContains(response, 'Reserved') # Check if reserved seat is marked
+
+    def test_reserve_seat_view_get(self):
+        response = self.client.get(reverse('reserve_seat', args=[self.flight.pk, self.seat_available.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'airline/reserve_seat.html')
+        self.assertContains(response, self.flight.origin)
+        self.assertContains(response, self.seat_available.number)
+
+    def test_reserve_seat_view_post_success(self):
+        # Create a new flight and seat for this test to avoid unique_together constraint violation
+        new_flight = Flight.objects.create(
+            airplane=self.airplane,
+            origin="BUE",
+            destination="RIO",
+            departure_date=timezone.now() + timedelta(days=5),
+            arrival_date=timezone.now() + timedelta(days=5, hours=4),
+            duration=timedelta(hours=4),
+            status="Scheduled",
+            base_price=300.00
+        )
+        new_seat = Seat.objects.create(
+            airplane=self.airplane,
+            number="2C",
+            row=2,
+            column="C",
+            type="ECO",
+            status="Available"
+        )
+
+        # Ensure the passenger for the logged-in user exists or is created
+        Passenger.objects.get_or_create(
+            email=self.user.email,
+            defaults={'first_name': self.user.username, 'document_number': 'DUMMY12345', 'date_of_birth': '2000-01-01'}
+        )
+        
+        response = self.client.post(reverse('reserve_seat', args=[new_flight.pk, new_seat.pk]), {
+            'flight': new_flight.id,
+            'seat': new_seat.id,
+            'status': 'PEN',
+            'price': 300.00
+        }, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(Reservation.objects.filter(flight=new_flight, seat=new_seat, status='PEN').exists())
+        new_seat.refresh_from_db()
+        self.assertEqual(new_seat.status, 'Reserved')
+        self.assertRedirects(response, reverse('reservation_detail', args=[Reservation.objects.get(flight=new_flight, seat=new_seat).pk]))
+
+    def test_reserve_seat_view_post_already_reserved(self):
+        response = self.client.post(reverse('reserve_seat', args=[self.flight.pk, self.seat_reserved.pk]), {
+            'flight': self.flight.id,
+            'passenger': self.passenger.id,
+            'seat': self.seat_reserved.id,
+            'status': 'PEN',
+            'price': 500.00
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'airline/reservation_error.html')
+        self.assertContains(response, 'This seat is already reserved for this flight.')
+
+    def test_reservation_list_view(self):
+        response = self.client.get(reverse('reservation_list'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'airline/reservation_list.html')
+        self.assertContains(response, self.reservation.reservation_code)
+
+    def test_reservation_detail_view(self):
+        response = self.client.get(reverse('reservation_detail', args=[self.reservation.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'airline/reservation_detail.html')
+        self.assertContains(response, self.reservation.reservation_code)
+        self.assertContains(response, self.reservation.passenger.first_name)
+
+    def test_reservation_update_status_view(self):
+        # Test updating to PAID
+        response = self.client.get(reverse('reservation_update_status', args=[self.reservation.pk, 'PAID']), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.reservation.refresh_from_db()
+        self.assertEqual(self.reservation.status, 'PAID')
+        self.seat_reserved.refresh_from_db()
+        self.assertEqual(self.seat_reserved.status, 'Reserved') # Should remain Reserved
+
+        # Test updating to CANCELLED
+        response = self.client.get(reverse('reservation_update_status', args=[self.reservation.pk, 'CAN']), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.reservation.refresh_from_db()
+        self.assertEqual(self.reservation.status, 'CAN')
+        self.seat_reserved.refresh_from_db()
+        self.assertEqual(self.seat_reserved.status, 'Available') # Should become Available
+
+    def test_generate_ticket_view_success(self):
+        response = self.client.get(reverse('generate_ticket', args=[self.reservation.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['Content-Type'], 'application/pdf')
+        self.assertTrue(Ticket.objects.filter(reservation=self.reservation).exists())
+
+    def test_generate_ticket_view_unconfirmed_reservation(self):
+        self.reservation.status = 'PEN'
+        self.reservation.save()
+        response = self.client.get(reverse('generate_ticket', args=[self.reservation.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'airline/reservation_error.html')
+        self.assertContains(response, 'Ticket can only be generated for confirmed or paid reservations.')
+
+    def test_ticket_detail_view(self):
+        ticket = Ticket.objects.create(
+            reservation=self.reservation,
+            barcode="TICKET12345",
+            status="EMI"
+        )
+        response = self.client.get(reverse('ticket_detail', args=[ticket.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'airline/ticket_detail.html')
+        self.assertContains(response, ticket.barcode)
+        self.assertContains(response, self.reservation.reservation_code)

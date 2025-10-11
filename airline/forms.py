@@ -59,7 +59,7 @@ class PassengerForm(forms.ModelForm):
 class ReservationForm(forms.ModelForm):
     class Meta:
         model = Reservation
-        fields = ['flight', 'passenger', 'seat', 'status', 'price']
+        fields = ['flight', 'seat', 'status', 'price'] # Removed 'passenger' as it's set by the view
         widgets = {
             'status': forms.HiddenInput(), # Status will be set by the view
             'price': forms.HiddenInput(),  # Price will be calculated by the view

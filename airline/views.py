@@ -9,6 +9,7 @@ from django.http import HttpResponse
 import uuid
 from django.template.loader import render_to_string
 from weasyprint import HTML
+from decimal import Decimal # Import Decimal
 
 def home(request):
     flights = Flight.objects.all()
@@ -153,7 +154,7 @@ def reserve_seat(request, flight_pk, seat_pk):
         pass # Further logic to link user to passenger if needed
 
     if request.method == 'POST':
-        form = ReservationForm(request.POST)
+        form = ReservationForm(request.POST, initial={'flight': flight}) # Pass flight in initial for seat queryset filtering
         if form.is_valid():
             with transaction.atomic():
                 reservation = form.save(commit=False)
@@ -163,11 +164,11 @@ def reserve_seat(request, flight_pk, seat_pk):
                 reservation.status = 'PEN' # Initial status
                 
                 # Calculate price based on seat type and flight base price
-                seat_price_multiplier = 1.0
+                seat_price_multiplier = Decimal('1.0') # Use Decimal for calculations
                 if seat.type == 'PRE':
-                    seat_price_multiplier = 1.2
+                    seat_price_multiplier = Decimal('1.2')
                 elif seat.type == 'EXE':
-                    seat_price_multiplier = 1.5
+                    seat_price_multiplier = Decimal('1.5')
                 reservation.price = flight.base_price * seat_price_multiplier
                 
                 reservation.reservation_code = str(uuid.uuid4()).replace('-', '')[:20] # Generate unique code
@@ -180,6 +181,7 @@ def reserve_seat(request, flight_pk, seat_pk):
                 return redirect('reservation_detail', pk=reservation.pk)
         else:
             # If form is not valid, render with errors
+            print(form.errors) # Add debug print for form errors
             return render(request, 'airline/reserve_seat.html', {
                 'form': form,
                 'flight': flight,
