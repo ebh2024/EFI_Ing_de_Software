@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>E-Ticket</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .ticket-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            border: 2px solid #007bff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background-color: #f8f9fa;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        .header h1 {
+            color: #007bff;
+            margin: 0;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section h3 {
+            color: #007bff;
+            border-bottom: 1px solid #007bff;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+        .info-row {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        .info-label {
+            font-weight: bold;
+            width: 150px;
+        }
+        .info-value {
+            flex-grow: 1;
+        }
+        .barcode {
+            text-align: center;
+            margin-top: 40px;
+        }
+        .barcode img {
+            max-width: 200px;
+            height: auto;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #666;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="ticket-container">
+        <div class="header">
+            <h1>E-Ticket - Boarding Pass</h1>
+            <p>Reservation Code: <strong>{{ reservation.reservation_code }}</strong></p>
+        </div>
+
+        <div class="section">
+            <h3>Flight Details</h3>
+            <div class="info-row">
+                <span class="info-label">Flight:</span>
+                <span class="info-value">{{ reservation.flight.origin }} to {{ reservation.flight.destination }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Departure:</span>
+                <span class="info-value">{{ reservation.flight.departure_date|date:"F j, Y, H:i" }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Arrival:</span>
+                <span class="info-value">{{ reservation.flight.arrival_date|date:"F j, Y, H:i" }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Airplane:</span>
+                <span class="info-value">{{ reservation.flight.airplane.model }}</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Passenger Details</h3>
+            <div class="info-row">
+                <span class="info-label">Name:</span>
+                <span class="info-value">{{ reservation.passenger.first_name }} {{ reservation.passenger.last_name }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Document:</span>
+                <span class="info-value">{{ reservation.passenger.get_document_type_display }}: {{ reservation.passenger.document_number }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Email:</span>
+                <span class="info-value">{{ reservation.passenger.email }}</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Seat & Ticket Information</h3>
+            <div class="info-row">
+                <span class="info-label">Seat Number:</span>
+                <span class="info-value"><strong>{{ reservation.seat.number }}</strong> ({{ reservation.seat.get_type_display }})</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Price Paid:</span>
+                <span class="info-value">${{ reservation.price|floatformat:2 }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Ticket Barcode:</span>
+                <span class="info-value">{{ ticket.barcode }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Issue Date:</span>
+                <span class="info-value">{{ ticket.issue_date|date:"F j, Y, H:i" }}</span>
+            </div>
+        </div>
+
+        <div class="barcode">
+            <!-- In a real application, you would generate a barcode image here -->
+            <p>Scan this barcode for boarding:</p>
+            <img src="https://barcode.tec-it.com/barcode.ashx?data={{ ticket.barcode }}&code=Code128&dpi=96" alt="Barcode">
+        </div>
+
+        <div class="footer">
+            <p>Thank you for choosing our airline!</p>
+            <p>Please arrive at the airport at least 2 hours before departure for domestic flights and 3 hours for international flights.</p>
+        </div>
+    </div>
+</body>
+</html>

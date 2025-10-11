@@ -1,0 +1,56 @@
+{% extends 'airline/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Reservation Details (Code: {{ reservation.reservation_code }})</h2>
+
+    <div class="card mb-3">
+        <div class="card-header">
+            Reservation Information
+        </div>
+        <div class="card-body">
+            <p><strong>Flight:</strong> {{ reservation.flight.origin }} to {{ reservation.flight.destination }} ({{ reservation.flight.departure_date }})</p>
+            <p><strong>Passenger:</strong> {{ reservation.passenger.first_name }} {{ reservation.passenger.last_name }} ({{ reservation.passenger.email }})</p>
+            <p><strong>Seat:</strong> {{ reservation.seat.number }} ({{ reservation.seat.get_type_display }})</p>
+            <p><strong>Status:</strong> <span class="badge bg-{% if reservation.status == 'CON' or reservation.status == 'PAID' %}success{% elif reservation.status == 'PEN' %}warning{% else %}danger{% endif %}">{{ reservation.get_status_display }}</span></p>
+            <p><strong>Price:</strong> ${{ reservation.price|floatformat:2 }}</p>
+            <p><strong>Reservation Date:</strong> {{ reservation.reservation_date }}</p>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-header">
+            Actions
+        </div>
+        <div class="card-body">
+            {% if reservation.status == 'PEN' %}
+                <a href="{% url 'reservation_update_status' reservation.pk 'CON' %}" class="btn btn-success me-2">Confirm Reservation</a>
+                <a href="{% url 'reservation_update_status' reservation.pk 'CAN' %}" class="btn btn-danger me-2">Cancel Reservation</a>
+            {% elif reservation.status == 'CON' %}
+                <a href="{% url 'reservation_update_status' reservation.pk 'PAID' %}" class="btn btn-primary me-2">Mark as Paid</a>
+                <a href="{% url 'generate_ticket' reservation.pk %}" class="btn btn-info me-2">Generate E-Ticket</a>
+                <a href="{% url 'reservation_update_status' reservation.pk 'CAN' %}" class="btn btn-danger me-2">Cancel Reservation</a>
+            {% elif reservation.status == 'PAID' %}
+                <a href="{% url 'generate_ticket' reservation.pk %}" class="btn btn-info me-2">Generate E-Ticket</a>
+                <a href="{% url 'reservation_update_status' reservation.pk 'CAN' %}" class="btn btn-danger me-2">Cancel Reservation</a>
+            {% endif %}
+            <a href="{% url 'reservation_list' %}" class="btn btn-secondary">Back to Reservations</a>
+        </div>
+    </div>
+
+    {% if reservation.ticket %}
+    <div class="card mt-3">
+        <div class="card-header">
+            Associated Ticket
+        </div>
+        <div class="card-body">
+            <p><strong>Ticket Barcode:</strong> {{ reservation.ticket.barcode }}</p>
+            <p><strong>Ticket Status:</strong> {{ reservation.ticket.get_status_display }}</p>
+            <p><strong>Issue Date:</strong> {{ reservation.ticket.issue_date }}</p>
+            <a href="{% url 'ticket_detail' reservation.ticket.pk %}" class="btn btn-primary btn-sm">View Ticket Details</a>
+            <a href="{% url 'generate_ticket' reservation.pk %}" class="btn btn-info btn-sm">Download Ticket PDF</a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'airline/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Reserve Seat {{ seat.number }} on Flight {{ flight.origin }} to {{ flight.destination }}</h2>
+    <p>Departure: {{ flight.departure_date }}</p>
+    <p>Arrival: {{ flight.arrival_date }}</p>
+    <p>Seat Type: {{ seat.get_type_display }}</p>
+    <p>Estimated Price: ${{ flight.base_price|floatformat:2 }} 
+        {% if seat.type == 'PRE' %}(Premium +20%){% elif seat.type == 'EXE' %}(Executive +50%){% endif %}
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Confirm Reservation</button>
+        <a href="{% url 'flight_detail_with_seats' flight.pk %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

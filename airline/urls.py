@@ -18,4 +18,13 @@ urlpatterns = [
     path('passengers/update/<int:pk>/', views.passenger_update, name='passenger_update'),
     path('passengers/delete/<int:pk>/', views.passenger_delete, name='passenger_delete'),
     path('passengers/<int:pk>/history/', views.passenger_flight_history, name='passenger_flight_history'),
+
+    # Reservation System URLs
+    path('flights/<int:pk>/seats/', views.flight_detail_with_seats, name='flight_detail_with_seats'),
+    path('flights/<int:flight_pk>/seats/<int:seat_pk>/reserve/', views.reserve_seat, name='reserve_seat'),
+    path('reservations/', views.reservation_list, name='reservation_list'),
+    path('reservations/<int:pk>/', views.reservation_detail, name='reservation_detail'),
+    path('reservations/<int:pk>/update_status/<str:new_status>/', views.reservation_update_status, name='reservation_update_status'),
+    path('reservations/<int:reservation_pk>/generate_ticket/', views.generate_ticket, name='generate_ticket'),
+    path('tickets/<int:pk>/', views.ticket_detail, name='ticket_detail'),
 ]

@@ -1,0 +1,41 @@
+{% extends 'airline/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>All Reservations</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Flight</th>
+                <th>Passenger</th>
+                <th>Seat</th>
+                <th>Status</th>
+                <th>Price</th>
+                <th>Reservation Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reservation in reservations %}
+            <tr>
+                <td>{{ reservation.reservation_code }}</td>
+                <td>{{ reservation.flight.origin }} to {{ reservation.flight.destination }}</td>
+                <td>{{ reservation.passenger.first_name }} {{ reservation.passenger.last_name }}</td>
+                <td>{{ reservation.seat.number }} ({{ reservation.seat.get_type_display }})</td>
+                <td>{{ reservation.get_status_display }}</td>
+                <td>${{ reservation.price|floatformat:2 }}</td>
+                <td>{{ reservation.reservation_date }}</td>
+                <td>
+                    <a href="{% url 'reservation_detail' reservation.pk %}" class="btn btn-info btn-sm">View</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8">No reservations found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

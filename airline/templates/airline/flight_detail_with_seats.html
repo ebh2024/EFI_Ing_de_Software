@@ -1,0 +1,98 @@
+{% extends 'airline/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Flight {{ flight.origin }} to {{ flight.destination }}</h2>
+    <p>Departure: {{ flight.departure_date }}</p>
+    <p>Arrival: {{ flight.arrival_date }}</p>
+    <p>Airplane: {{ flight.airplane.model }} (Capacity: {{ flight.airplane.capacity }})</p>
+    <p>Base Price: ${{ flight.base_price }}</p>
+
+    <h3>Seat Map</h3>
+    <div class="seat-map">
+        {% for row_number, seats_in_row in seats_by_row.items %}
+            <div class="seat-row d-flex justify-content-center mb-2">
+                <div class="row-label me-3">Row {{ row_number }}</div>
+                {% for seat in seats_in_row %}
+                    <a href="{% if not seat.is_reserved %}{% url 'reserve_seat' flight.pk seat.pk %}{% else %}#{% endif %}" 
+                       class="seat-box {% if seat.is_reserved %}reserved{% else %}available{% endif %} 
+                              {% if seat.type == 'PRE' %}premium{% elif seat.type == 'EXE' %}executive{% endif %}"
+                       title="Seat {{ seat.number }} ({{ seat.get_type_display }}) - {% if seat.is_reserved %}Reserved{% else %}Available{% endif %}">
+                        {{ seat.column }}
+                    </a>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="mt-4">
+        <h4>Legend:</h4>
+        <div class="d-flex align-items-center mb-2">
+            <div class="seat-box available me-2"></div> Available
+        </div>
+        <div class="d-flex align-items-center mb-2">
+            <div class="seat-box reserved me-2"></div> Reserved
+        </div>
+        <div class="d-flex align-items-center mb-2">
+            <div class="seat-box premium me-2"></div> Premium
+        </div>
+        <div class="d-flex align-items-center mb-2">
+            <div class="seat-box executive me-2"></div> Executive
+        </div>
+    </div>
+</div>
+
+<style>
+    .seat-map {
+        border: 1px solid #ccc;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+    }
+    .seat-row {
+        display: flex;
+        align-items: center;
+    }
+    .row-label {
+        font-weight: bold;
+        width: 60px; /* Adjust as needed */
+        text-align: right;
+    }
+    .seat-box {
+        width: 40px;
+        height: 40px;
+        border: 1px solid #aaa;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        border-radius: 5px;
+        text-decoration: none;
+        color: #333;
+    }
+    .seat-box.available {
+        background-color: #d4edda; /* Light green */
+        border-color: #28a745;
+    }
+    .seat-box.available:hover {
+        background-color: #28a745;
+        color: white;
+    }
+    .seat-box.reserved {
+        background-color: #f8d7da; /* Light red */
+        border-color: #dc3545;
+        cursor: not-allowed;
+        opacity: 0.7;
+    }
+    .seat-box.premium {
+        background-color: #fff3cd; /* Light yellow */
+        border-color: #ffc107;
+    }
+    .seat-box.executive {
+        background-color: #d1ecf1; /* Light blue */
+        border-color: #17a2b8;
+    }
+</style>
+{% endblock %}
