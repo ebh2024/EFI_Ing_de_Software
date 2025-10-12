@@ -7,6 +7,16 @@ from django.utils import timezone
 import datetime
 import uuid
 
+def add_bootstrap_classes(form):
+    for field_name, field in form.fields.items():
+        if not isinstance(field.widget, (forms.HiddenInput, forms.CheckboxInput, forms.RadioSelect)):
+            attrs = field.widget.attrs
+            attrs['class'] = attrs.get('class', '') + ' form-control'
+            if field_name in ['departure_date', 'arrival_date']: # Use field_name here
+                attrs['class'] += ' datetime-input' # Add a specific class for datetime inputs if needed
+            field.widget.attrs = attrs
+    return form
+
 class AirplaneForm(forms.ModelForm):
     class Meta:
         model = Airplane
@@ -19,6 +29,10 @@ class AirplaneForm(forms.ModelForm):
             'last_maintenance_date': forms.DateInput(attrs={'type': 'date'}),
             'technical_notes': forms.Textarea(attrs={'rows': 4}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        add_bootstrap_classes(self)
 
     def clean(self):
         cleaned_data = super().clean()
@@ -36,6 +50,10 @@ class SeatLayoutForm(forms.ModelForm):
             'columns': forms.NumberInput(attrs={'min': '1'}),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        add_bootstrap_classes(self)
+
     def clean(self):
         cleaned_data = super().clean()
         # Model-level validation will be handled when the instance is saved in the view.
@@ -51,6 +69,10 @@ class SeatTypeForm(forms.ModelForm):
             'price_multiplier': forms.NumberInput(attrs={'min': '0.01', 'step': '0.01'}),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        add_bootstrap_classes(self)
+
     def clean(self):
         cleaned_data = super().clean()
         # Model-level validation will be handled when the instance is saved in the view.
@@ -65,6 +87,10 @@ class SeatLayoutPositionForm(forms.ModelForm):
             'column': forms.TextInput(attrs={'required': 'true', 'maxlength': '1'}),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        add_bootstrap_classes(self)
+
     def clean(self):
         cleaned_data = super().clean()
         # Model-level validation will be handled when the instance is saved in the view.
@@ -76,6 +102,10 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
         fields = UserCreationForm.Meta.fields + ('email',)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        add_bootstrap_classes(self)
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -93,6 +123,10 @@ class CustomUserCreationForm(UserCreationForm):
 class CustomAuthenticationForm(AuthenticationForm):
     username = forms.CharField(label="Username")
     password = forms.CharField(label="Password", widget=forms.PasswordInput)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        add_bootstrap_classes(self)
 
 class FlightForm(forms.ModelForm):
     departure_date = forms.DateTimeField(
@@ -113,6 +147,10 @@ class FlightForm(forms.ModelForm):
             'base_price': forms.NumberInput(attrs={'min': '0.01', 'step': '0.01'}),
             'duration': forms.TextInput(attrs={'placeholder': 'HH:MM:SS', 'required': 'true'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        add_bootstrap_classes(self)
 
     def clean_duration(self):
         duration_data = self.cleaned_data.get('duration')
@@ -146,6 +184,10 @@ class PassengerForm(forms.ModelForm):
             'phone': forms.TextInput(attrs={'pattern': '[0-9]{7,15}', 'title': 'Phone number must be 7-15 digits'}),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        add_bootstrap_classes(self)
+
     def clean(self):
         cleaned_data = super().clean()
         # Model-level validation will be handled when the instance is saved in the view.
@@ -167,6 +209,7 @@ class ReservationForm(forms.ModelForm):
             self.fields['seat'].queryset = Seat.objects.filter(airplane=self.initial['flight'].airplane, status='Available')
         else:
             self.fields['seat'].queryset = Seat.objects.none() # No seats initially
+        add_bootstrap_classes(self)
 
     def clean(self):
         cleaned_data = super().clean()
@@ -187,6 +230,7 @@ class TicketForm(forms.ModelForm):
         if not self.instance.pk: # Only generate barcode for new tickets
             self.initial['barcode'] = str(uuid.uuid4()).replace('-', '')[:20] # Generate a unique barcode
         self.fields['reservation'].queryset = Reservation.objects.filter(status='CON') # Only allow confirmed reservations
+        add_bootstrap_classes(self)
 
     def clean(self):
         cleaned_data = super().clean()
