@@ -106,7 +106,7 @@ class PassengerModelTest(TestCase):
             date_of_birth="1995-05-05",
             document_type="PAS"
         )
-        with self.assertRaisesMessage(ValidationError, 'Invalid email.'):
+        with self.assertRaisesMessage(ValidationError, 'Enter a valid email address.'):
             passenger.full_clean()
 
 class SeatModelTest(TestCase):

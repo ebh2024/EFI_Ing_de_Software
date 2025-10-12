@@ -11,6 +11,15 @@ class SeatLayout(models.Model):
     def __str__(self):
         return self.layout_name
 
+    def clean(self):
+        errors = {}
+        if self.rows is not None and self.rows <= 0:
+            errors['rows'] = 'Rows must be a positive number.'
+        if self.columns is not None and self.columns <= 0:
+            errors['columns'] = 'Columns must be a positive number.'
+        if errors:
+            raise ValidationError(errors)
+
 class Airplane(models.Model):
     model_name = models.CharField(max_length=100, default="Default Model")
     manufacturer = models.CharField(max_length=100, blank=True, null=True)
@@ -23,6 +32,16 @@ class Airplane(models.Model):
 
     def __str__(self):
         return f"{self.model_name} ({self.registration_number})"
+
+    def clean(self):
+        errors = {}
+        current_year = timezone.now().year
+        if self.year_of_manufacture and (self.year_of_manufacture < 1900 or self.year_of_manufacture > current_year + 5): # Allowing a small future window for planning
+            errors['year_of_manufacture'] = f'Year of manufacture must be between 1900 and {current_year + 5}.'
+        if self.capacity is not None and self.capacity <= 0:
+            errors['capacity'] = 'Capacity must be a positive number.'
+        if errors:
+            raise ValidationError(errors)
 
 class Flight(models.Model):
     airplane = models.ForeignKey(Airplane, on_delete=models.CASCADE)
@@ -43,6 +62,9 @@ class Flight(models.Model):
             errors['arrival_date'] = 'Arrival date must be after departure date.'
         if self.departure_date and self.departure_date < timezone.now():
             errors['departure_date'] = 'Departure date cannot be in the past.'
+
+        if self.base_price is not None and self.base_price <= 0:
+            errors['base_price'] = 'Base price must be a positive number.'
 
         if errors:
             raise ValidationError(errors)
@@ -66,10 +88,25 @@ class Passenger(models.Model):
         return f"{self.first_name} {self.last_name or ''}".strip()
 
     def clean(self):
-        # Basic email validation
-        if not self.email or '@' not in self.email:
-            raise ValidationError('Invalid email.')
-        # We could add more document validations if a format were specified
+        errors = {}
+        if not self.first_name:
+            errors['first_name'] = 'First name cannot be empty.'
+        if not self.document_number:
+            errors['document_number'] = 'Document number cannot be empty.'
+        # Django's EmailField handles basic email format validation.
+        # The unique=True constraint handles duplicate emails.
+        # We can rely on Django's built-in validation for these.
+        pass
+        if self.date_of_birth and self.date_of_birth >= timezone.now().date():
+            errors['date_of_birth'] = 'Date of birth cannot be in the future.'
+        # Basic phone number validation (digits only, min 7, max 15)
+        if self.phone and not self.phone.isdigit():
+            errors['phone'] = 'Phone number must contain only digits.'
+        if self.phone and (len(self.phone) < 7 or len(self.phone) > 15):
+            errors['phone'] = 'Phone number must be between 7 and 15 digits long.'
+
+        if errors:
+            raise ValidationError(errors)
 
 class FlightHistory(models.Model):
     passenger = models.ForeignKey(Passenger, on_delete=models.CASCADE, related_name='flight_history')
@@ -81,6 +118,13 @@ class FlightHistory(models.Model):
     def __str__(self):
         return f"{self.passenger.first_name}'s flight on {self.flight.departure_date}"
 
+    def clean(self):
+        errors = {}
+        if self.price_paid is not None and self.price_paid <= 0:
+            errors['price_paid'] = 'Price paid must be a positive number.'
+        if errors:
+            raise ValidationError(errors)
+
 class SeatType(models.Model):
     name = models.CharField(max_length=50, unique=True)
     code = models.CharField(max_length=10, unique=True)
@@ -88,6 +132,13 @@ class SeatType(models.Model):
 
     def __str__(self):
         return self.name
+
+    def clean(self):
+        errors = {}
+        if self.price_multiplier is not None and self.price_multiplier <= 0:
+            errors['price_multiplier'] = 'Price multiplier must be a positive number.'
+        if errors:
+            raise ValidationError(errors)
 
 class SeatLayoutPosition(models.Model):
     seat_layout = models.ForeignKey(SeatLayout, on_delete=models.CASCADE, related_name='positions')
@@ -101,6 +152,15 @@ class SeatLayoutPosition(models.Model):
     def __str__(self):
         return f"{self.seat_layout.layout_name} - Row {self.row}, Col {self.column} ({self.seat_type.code})"
 
+    def clean(self):
+        errors = {}
+        if self.row is not None and self.row <= 0:
+            errors['row'] = 'Row must be a positive number.'
+        if not self.column.isalpha() or len(self.column) > 1: # Assuming column is a single letter
+            errors['column'] = 'Column must be a single letter (e.g., A, B).'
+        if errors:
+            raise ValidationError(errors)
+
 class Seat(models.Model):
     airplane = models.ForeignKey(Airplane, on_delete=models.CASCADE)
     number = models.CharField(max_length=10)
@@ -111,6 +171,15 @@ class Seat(models.Model):
 
     def __str__(self):
         return f"Seat {self.number} - {self.airplane.model_name}"
+
+    def clean(self):
+        errors = {}
+        if self.row is not None and self.row <= 0:
+            errors['row'] = 'Row must be a positive number.'
+        if not self.column.isalpha() or len(self.column) > 1: # Assuming column is a single letter
+            errors['column'] = 'Column must be a single letter (e.g., A, B).'
+        if errors:
+            raise ValidationError(errors)
 
 class Reservation(models.Model):
     RESERVATION_STATUS_CHOICES = [
@@ -144,6 +213,13 @@ class Reservation(models.Model):
         elif self.status == 'CAN':
             if self.seat.status != 'Available':
                 raise ValidationError('The seat must be in "Available" status for a cancelled reservation.')
+        
+        errors = {} # Initialize errors dictionary
+        if self.price is not None and self.price <= 0:
+            errors['price'] = 'Price must be a positive number.'
+
+        if errors:
+            raise ValidationError(errors)
 
     def save(self, *args, **kwargs):
         # Update seat status when saving the reservation
@@ -167,6 +243,22 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.username
+
+    def clean(self):
+        errors = {}
+        if not self.username:
+            errors['username'] = 'Username cannot be empty.'
+        if not self.password:
+            errors['password'] = 'Password cannot be empty.'
+        elif len(self.password) < 8:
+            errors['password'] = 'Password must be at least 8 characters long.'
+        if not self.email:
+            errors['email'] = 'Email cannot be empty.'
+        elif '@' not in self.email:
+            errors['email'] = 'Invalid email format.'
+        
+        if errors:
+            raise ValidationError(errors)
 
 class Ticket(models.Model):
     TICKET_STATUS_CHOICES = [
