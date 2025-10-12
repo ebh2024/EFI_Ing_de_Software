@@ -1,0 +1,38 @@
+{% extends 'airline/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Passengers for Flight {{ flight.origin }} to {{ flight.destination }} ({{ flight.departure_date|date:"Y-m-d H:i" }})</h2>
+
+    {% if passengers %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Passenger Name</th>
+                    <th>Document Number</th>
+                    <th>Email</th>
+                    <th>Seat Number</th>
+                    <th>Reservation Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reservation in passengers %}
+                <tr>
+                    <td>{{ reservation.passenger.first_name }} {{ reservation.passenger.last_name }}</td>
+                    <td>{{ reservation.passenger.document_number }}</td>
+                    <td>{{ reservation.passenger.email }}</td>
+                    <td>{{ reservation.seat.number }}</td>
+                    <td>{{ reservation.get_status_display }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>No passengers found for this flight.</p>
+    {% endif %}
+
+    <a href="{% url 'flight_list' %}" class="btn btn-secondary mt-3">Back to Flight List</a>
+</div>
+{% endblock %}

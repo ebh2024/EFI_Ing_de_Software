@@ -27,6 +27,7 @@ urlpatterns = [
     path('reservations/<int:pk>/update_status/<str:new_status>/', views.reservation_update_status, name='reservation_update_status'),
     path('reservations/<int:reservation_pk>/generate_ticket/', views.generate_ticket, name='generate_ticket'),
     path('tickets/<int:pk>/', views.ticket_detail, name='ticket_detail'),
+    path('flights/<int:flight_pk>/passengers/', views.passenger_list_by_flight, name='passenger_list_by_flight'),
 
     # Airplane URLs
     path('airplanes/', views.airplane_list, name='airplane_list'),

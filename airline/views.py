@@ -10,6 +10,7 @@ import uuid
 from django.template.loader import render_to_string
 from weasyprint import HTML
 from decimal import Decimal # Import Decimal
+from django.db.models import Q
 
 def home(request):
     flights = Flight.objects.all()
@@ -396,3 +397,14 @@ def generate_ticket(request, reservation_pk):
 def ticket_detail(request, pk):
     ticket = get_object_or_404(Ticket, pk=pk)
     return render(request, 'airline/ticket_detail.html', {'ticket': ticket})
+
+@login_required
+def passenger_list_by_flight(request, flight_pk):
+    flight = get_object_or_404(Flight, pk=flight_pk)
+    reservations = Reservation.objects.filter(flight=flight).select_related('passenger', 'seat').order_by('passenger__last_name', 'passenger__first_name')
+    
+    context = {
+        'flight': flight,
+        'passengers': reservations,
+    }
+    return render(request, 'airline/passenger_list_by_flight.html', context)
