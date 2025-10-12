@@ -4,6 +4,13 @@
 <h1 class="title">{{ action }} Airplane</h1>
 <form method="post" class="box">
     {% csrf_token %}
+    {% if form.non_field_errors %}
+        <div class="notification is-danger">
+            {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
     {% for field in form %}
         <div class="field">
             <label class="label">{{ field.label }}</label>
