@@ -1,0 +1,31 @@
+{% extends 'airline/base.html' %}
+
+{% block content %}
+<h1 class="title">Airplane List</h1>
+<a href="{% url 'airplane_create' %}" class="button is-primary">Add New Airplane</a>
+<table class="table is-striped is-fullwidth">
+    <thead>
+        <tr>
+            <th>Model Name</th>
+            <th>Registration Number</th>
+            <th>Capacity</th>
+            <th>Seat Layout</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for airplane in airplanes %}
+        <tr>
+            <td>{{ airplane.model_name }}</td>
+            <td>{{ airplane.registration_number }}</td>
+            <td>{{ airplane.capacity }}</td>
+            <td>{{ airplane.seat_layout.layout_name|default:"N/A" }}</td>
+            <td>
+                <a href="{% url 'airplane_update' airplane.pk %}" class="button is-info is-small">Edit</a>
+                <a href="{% url 'airplane_delete' airplane.pk %}" class="button is-danger is-small">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

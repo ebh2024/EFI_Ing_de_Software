@@ -1,0 +1,29 @@
+{% extends 'airline/base.html' %}
+
+{% block content %}
+<h1 class="title">Seat Type List</h1>
+<a href="{% url 'seat_type_create' %}" class="button is-primary">Add New Seat Type</a>
+<table class="table is-striped is-fullwidth">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Code</th>
+            <th>Price Multiplier</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for seat_type in seat_types %}
+        <tr>
+            <td>{{ seat_type.name }}</td>
+            <td>{{ seat_type.code }}</td>
+            <td>{{ seat_type.price_multiplier }}</td>
+            <td>
+                <a href="{% url 'seat_type_update' seat_type.pk %}" class="button is-info is-small">Edit</a>
+                <a href="{% url 'seat_type_delete' seat_type.pk %}" class="button is-danger is-small">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

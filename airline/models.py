@@ -1,15 +1,28 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils import timezone
+import uuid
 
-class Airplane(models.Model):
-    model = models.CharField(max_length=100)
-    capacity = models.IntegerField()
+class SeatLayout(models.Model):
+    layout_name = models.CharField(max_length=100, unique=True)
     rows = models.IntegerField()
-    columns = models.IntegerField()
+    columns = models.IntegerField() # Max number of columns
 
     def __str__(self):
-        return f"{self.model} ({self.capacity} seats)"
+        return self.layout_name
+
+class Airplane(models.Model):
+    model_name = models.CharField(max_length=100, default="Default Model")
+    manufacturer = models.CharField(max_length=100, blank=True, null=True)
+    registration_number = models.CharField(max_length=20, unique=True, default=uuid.uuid4().hex[:20])
+    year_of_manufacture = models.IntegerField(blank=True, null=True)
+    capacity = models.IntegerField()
+    seat_layout = models.ForeignKey(SeatLayout, on_delete=models.SET_NULL, null=True, blank=True)
+    last_maintenance_date = models.DateField(blank=True, null=True)
+    technical_notes = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.model_name} ({self.registration_number})"
 
 class Flight(models.Model):
     airplane = models.ForeignKey(Airplane, on_delete=models.CASCADE)
@@ -68,21 +81,36 @@ class FlightHistory(models.Model):
     def __str__(self):
         return f"{self.passenger.first_name}'s flight on {self.flight.departure_date}"
 
+class SeatType(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    code = models.CharField(max_length=10, unique=True)
+    price_multiplier = models.DecimalField(max_digits=5, decimal_places=2, default=1.00)
+
+    def __str__(self):
+        return self.name
+
+class SeatLayoutPosition(models.Model):
+    seat_layout = models.ForeignKey(SeatLayout, on_delete=models.CASCADE, related_name='positions')
+    seat_type = models.ForeignKey(SeatType, on_delete=models.CASCADE)
+    row = models.IntegerField()
+    column = models.CharField(max_length=2)
+
+    class Meta:
+        unique_together = (('seat_layout', 'row', 'column'),)
+
+    def __str__(self):
+        return f"{self.seat_layout.layout_name} - Row {self.row}, Col {self.column} ({self.seat_type.code})"
+
 class Seat(models.Model):
-    SEAT_TYPE_CHOICES = [
-        ('ECO', 'Economy'),
-        ('PRE', 'Premium'),
-        ('EXE', 'Executive'),
-    ]
     airplane = models.ForeignKey(Airplane, on_delete=models.CASCADE)
     number = models.CharField(max_length=10)
     row = models.IntegerField()
     column = models.CharField(max_length=2)
-    type = models.CharField(max_length=3, choices=SEAT_TYPE_CHOICES, default='ECO')
+    seat_type = models.ForeignKey(SeatType, on_delete=models.SET_NULL, null=True, blank=True)
     status = models.CharField(max_length=20) # E.g.: 'Available', 'Occupied', 'Reserved'
 
     def __str__(self):
-        return f"Seat {self.number} - {self.airplane.model}"
+        return f"Seat {self.number} - {self.airplane.model_name}"
 
 class Reservation(models.Model):
     RESERVATION_STATUS_CHOICES = [

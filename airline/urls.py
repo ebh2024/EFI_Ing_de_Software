@@ -27,4 +27,28 @@ urlpatterns = [
     path('reservations/<int:pk>/update_status/<str:new_status>/', views.reservation_update_status, name='reservation_update_status'),
     path('reservations/<int:reservation_pk>/generate_ticket/', views.generate_ticket, name='generate_ticket'),
     path('tickets/<int:pk>/', views.ticket_detail, name='ticket_detail'),
+
+    # Airplane URLs
+    path('airplanes/', views.airplane_list, name='airplane_list'),
+    path('airplanes/create/', views.airplane_create, name='airplane_create'),
+    path('airplanes/update/<int:pk>/', views.airplane_update, name='airplane_update'),
+    path('airplanes/delete/<int:pk>/', views.airplane_delete, name='airplane_delete'),
+
+    # SeatLayout URLs
+    path('seat_layouts/', views.seat_layout_list, name='seat_layout_list'),
+    path('seat_layouts/create/', views.seat_layout_create, name='seat_layout_create'),
+    path('seat_layouts/update/<int:pk>/', views.seat_layout_update, name='seat_layout_update'),
+    path('seat_layouts/delete/<int:pk>/', views.seat_layout_delete, name='seat_layout_delete'),
+
+    # SeatType URLs
+    path('seat_types/', views.seat_type_list, name='seat_type_list'),
+    path('seat_types/create/', views.seat_type_create, name='seat_type_create'),
+    path('seat_types/update/<int:pk>/', views.seat_type_update, name='seat_type_update'),
+    path('seat_types/delete/<int:pk>/', views.seat_type_delete, name='seat_type_delete'),
+
+    # SeatLayoutPosition URLs
+    path('seat_layout_positions/', views.seat_layout_position_list, name='seat_layout_position_list'),
+    path('seat_layout_positions/create/', views.seat_layout_position_create, name='seat_layout_position_create'),
+    path('seat_layout_positions/update/<int:pk>/', views.seat_layout_position_update, name='seat_layout_position_update'),
+    path('seat_layout_positions/delete/<int:pk>/', views.seat_layout_position_delete, name='seat_layout_position_delete'),
 ]

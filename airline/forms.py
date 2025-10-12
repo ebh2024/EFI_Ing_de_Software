@@ -2,10 +2,34 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from .models import Flight, Airplane, Passenger, Seat, Reservation, Ticket
+from .models import Flight, Airplane, Passenger, Seat, Reservation, Ticket, SeatLayout, SeatType, SeatLayoutPosition
 from django.utils import timezone
 import datetime
 import uuid
+
+class AirplaneForm(forms.ModelForm):
+    class Meta:
+        model = Airplane
+        fields = ['model_name', 'manufacturer', 'registration_number', 'year_of_manufacture', 'capacity', 'seat_layout', 'last_maintenance_date', 'technical_notes']
+        widgets = {
+            'last_maintenance_date': forms.DateInput(attrs={'type': 'date'}),
+            'technical_notes': forms.Textarea(attrs={'rows': 4}),
+        }
+
+class SeatLayoutForm(forms.ModelForm):
+    class Meta:
+        model = SeatLayout
+        fields = ['layout_name', 'rows', 'columns']
+
+class SeatTypeForm(forms.ModelForm):
+    class Meta:
+        model = SeatType
+        fields = ['name', 'code', 'price_multiplier']
+
+class SeatLayoutPositionForm(forms.ModelForm):
+    class Meta:
+        model = SeatLayoutPosition
+        fields = ['seat_layout', 'seat_type', 'row', 'column']
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True, label="Email")

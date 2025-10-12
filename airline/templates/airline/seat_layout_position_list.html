@@ -1,0 +1,31 @@
+{% extends 'airline/base.html' %}
+
+{% block content %}
+<h1 class="title">Seat Layout Position List</h1>
+<a href="{% url 'seat_layout_position_create' %}" class="button is-primary">Add New Seat Layout Position</a>
+<table class="table is-striped is-fullwidth">
+    <thead>
+        <tr>
+            <th>Seat Layout</th>
+            <th>Seat Type</th>
+            <th>Row</th>
+            <th>Column</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for position in seat_layout_positions %}
+        <tr>
+            <td>{{ position.seat_layout.layout_name }}</td>
+            <td>{{ position.seat_type.name }}</td>
+            <td>{{ position.row }}</td>
+            <td>{{ position.column }}</td>
+            <td>
+                <a href="{% url 'seat_layout_position_update' position.pk %}" class="button is-info is-small">Edit</a>
+                <a href="{% url 'seat_layout_position_delete' position.pk %}" class="button is-danger is-small">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

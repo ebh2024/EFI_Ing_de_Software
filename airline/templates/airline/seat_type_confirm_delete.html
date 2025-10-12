@@ -1,0 +1,17 @@
+{% extends 'airline/base.html' %}
+
+{% block content %}
+<h1 class="title">Delete Seat Type</h1>
+<p>Are you sure you want to delete the seat type: <strong>{{ seat_type.name }} ({{ seat_type.code }})</strong>?</p>
+<form method="post">
+    {% csrf_token %}
+    <div class="field is-grouped">
+        <div class="control">
+            <button type="submit" class="button is-danger">Delete</button>
+        </div>
+        <div class="control">
+            <a href="{% url 'seat_type_list' %}" class="button is-link is-light">Cancel</a>
+        </div>
+    </div>
+</form>
+{% endblock %}

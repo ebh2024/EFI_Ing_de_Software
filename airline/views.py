@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
-from .forms import CustomUserCreationForm, FlightForm, PassengerForm, ReservationForm, TicketForm
-from .models import Flight, Passenger, FlightHistory, Seat, Reservation, Ticket, Airplane
+from .forms import CustomUserCreationForm, FlightForm, PassengerForm, ReservationForm, TicketForm, AirplaneForm, SeatLayoutForm, SeatTypeForm, SeatLayoutPositionForm
+from .models import Flight, Passenger, FlightHistory, Seat, Reservation, Ticket, Airplane, SeatLayout, SeatType, SeatLayoutPosition
 from django.db import transaction
 from django.http import HttpResponse
 import uuid
@@ -103,6 +103,154 @@ def passenger_flight_history(request, pk):
     passenger = get_object_or_404(Passenger, pk=pk)
     flight_history = FlightHistory.objects.filter(passenger=passenger).order_by('-booking_date')
     return render(request, 'airline/passenger_flight_history.html', {'passenger': passenger, 'flight_history': flight_history})
+
+# Airplane CRUD Views
+@login_required
+def airplane_list(request):
+    airplanes = Airplane.objects.all()
+    return render(request, 'airline/airplane_list.html', {'airplanes': airplanes})
+
+@login_required
+def airplane_create(request):
+    if request.method == 'POST':
+        form = AirplaneForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('airplane_list')
+    else:
+        form = AirplaneForm()
+    return render(request, 'airline/airplane_form.html', {'form': form, 'action': 'Create'})
+
+@login_required
+def airplane_update(request, pk):
+    airplane = get_object_or_404(Airplane, pk=pk)
+    if request.method == 'POST':
+        form = AirplaneForm(request.POST, instance=airplane)
+        if form.is_valid():
+            form.save()
+            return redirect('airplane_list')
+    else:
+        form = AirplaneForm(instance=airplane)
+    return render(request, 'airline/airplane_form.html', {'form': form, 'action': 'Update'})
+
+@login_required
+def airplane_delete(request, pk):
+    airplane = get_object_or_404(Airplane, pk=pk)
+    if request.method == 'POST':
+        airplane.delete()
+        return redirect('airplane_list')
+    return render(request, 'airline/airplane_confirm_delete.html', {'airplane': airplane})
+
+# SeatLayout CRUD Views
+@login_required
+def seat_layout_list(request):
+    seat_layouts = SeatLayout.objects.all()
+    return render(request, 'airline/seat_layout_list.html', {'seat_layouts': seat_layouts})
+
+@login_required
+def seat_layout_create(request):
+    if request.method == 'POST':
+        form = SeatLayoutForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('seat_layout_list')
+    else:
+        form = SeatLayoutForm()
+    return render(request, 'airline/seat_layout_form.html', {'form': form, 'action': 'Create'})
+
+@login_required
+def seat_layout_update(request, pk):
+    seat_layout = get_object_or_404(SeatLayout, pk=pk)
+    if request.method == 'POST':
+        form = SeatLayoutForm(request.POST, instance=seat_layout)
+        if form.is_valid():
+            form.save()
+            return redirect('seat_layout_list')
+    else:
+        form = SeatLayoutForm(instance=seat_layout)
+    return render(request, 'airline/seat_layout_form.html', {'form': form, 'action': 'Update'})
+
+@login_required
+def seat_layout_delete(request, pk):
+    seat_layout = get_object_or_404(SeatLayout, pk=pk)
+    if request.method == 'POST':
+        seat_layout.delete()
+        return redirect('seat_layout_list')
+    return render(request, 'airline/seat_layout_confirm_delete.html', {'seat_layout': seat_layout})
+
+# SeatType CRUD Views
+@login_required
+def seat_type_list(request):
+    seat_types = SeatType.objects.all()
+    return render(request, 'airline/seat_type_list.html', {'seat_types': seat_types})
+
+@login_required
+def seat_type_create(request):
+    if request.method == 'POST':
+        form = SeatTypeForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('seat_type_list')
+    else:
+        form = SeatTypeForm()
+    return render(request, 'airline/seat_type_form.html', {'form': form, 'action': 'Create'})
+
+@login_required
+def seat_type_update(request, pk):
+    seat_type = get_object_or_404(SeatType, pk=pk)
+    if request.method == 'POST':
+        form = SeatTypeForm(request.POST, instance=seat_type)
+        if form.is_valid():
+            form.save()
+            return redirect('seat_type_list')
+    else:
+        form = SeatTypeForm(instance=seat_type)
+    return render(request, 'airline/seat_type_form.html', {'form': form, 'action': 'Update'})
+
+@login_required
+def seat_type_delete(request, pk):
+    seat_type = get_object_or_404(SeatType, pk=pk)
+    if request.method == 'POST':
+        seat_type.delete()
+        return redirect('seat_type_list')
+    return render(request, 'airline/seat_type_confirm_delete.html', {'seat_type': seat_type})
+
+# SeatLayoutPosition CRUD Views
+@login_required
+def seat_layout_position_list(request):
+    seat_layout_positions = SeatLayoutPosition.objects.all()
+    return render(request, 'airline/seat_layout_position_list.html', {'seat_layout_positions': seat_layout_positions})
+
+@login_required
+def seat_layout_position_create(request):
+    if request.method == 'POST':
+        form = SeatLayoutPositionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('seat_layout_position_list')
+    else:
+        form = SeatLayoutPositionForm()
+    return render(request, 'airline/seat_layout_position_form.html', {'form': form, 'action': 'Create'})
+
+@login_required
+def seat_layout_position_update(request, pk):
+    seat_layout_position = get_object_or_404(SeatLayoutPosition, pk=pk)
+    if request.method == 'POST':
+        form = SeatLayoutPositionForm(request.POST, instance=seat_layout_position)
+        if form.is_valid():
+            form.save()
+            return redirect('seat_layout_position_list')
+    else:
+        form = SeatLayoutPositionForm(instance=seat_layout_position)
+    return render(request, 'airline/seat_layout_position_form.html', {'form': form, 'action': 'Update'})
+
+@login_required
+def seat_layout_position_delete(request, pk):
+    seat_layout_position = get_object_or_404(SeatLayoutPosition, pk=pk)
+    if request.method == 'POST':
+        seat_layout_position.delete()
+        return redirect('seat_layout_position_list')
+    return render(request, 'airline/seat_layout_position_confirm_delete.html', {'seat_layout_position': seat_layout_position})
 
 @login_required
 def flight_detail_with_seats(request, pk):
