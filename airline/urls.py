@@ -1,6 +1,20 @@
-from django.urls import path
+from django.urls import path, include
 from django.contrib.auth import views as auth_views
+from rest_framework.routers import DefaultRouter
 from . import views
+from . import api_views
+
+router = DefaultRouter()
+router.register(r'airplanes', api_views.AirplaneViewSet, basename='airplane')
+router.register(r'flights', api_views.FlightViewSet, basename='flight')
+router.register(r'passengers', api_views.PassengerViewSet, basename='passenger')
+router.register(r'reservations', api_views.ReservationViewSet, basename='reservation')
+router.register(r'seat_layouts', api_views.SeatLayoutViewSet, basename='seatlayout')
+router.register(r'seat_types', api_views.SeatTypeViewSet, basename='seattype')
+router.register(r'seat_layout_positions', api_views.SeatLayoutPositionViewSet, basename='seatlayoutposition')
+router.register(r'flight_history', api_views.FlightHistoryViewSet, basename='flighthistory')
+router.register(r'tickets', api_views.TicketViewSet, basename='ticket')
+
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -52,4 +66,7 @@ urlpatterns = [
     path('seat_layout_positions/create/', views.seat_layout_position_create, name='seat_layout_position_create'),
     path('seat_layout_positions/update/<int:pk>/', views.seat_layout_position_update, name='seat_layout_position_update'),
     path('seat_layout_positions/delete/<int:pk>/', views.seat_layout_position_delete, name='seat_layout_position_delete'),
+
+    # API URLs
+    path('api/', include(router.urls)),
 ]
