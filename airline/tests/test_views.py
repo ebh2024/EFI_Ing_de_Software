@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.utils import timezone
 from datetime import timedelta
 from django.contrib.auth.models import User
-from airline.models import Airplane, Flight, Passenger, FlightHistory, Seat, Reservation, Ticket
+from airline.models import Airplane, Flight, Passenger, FlightHistory, Seat, Reservation, Ticket, SeatLayout, SeatType, SeatLayoutPosition
 
 class RegistrationViewTest(TestCase):
     def test_registration_page_loads(self):
@@ -62,7 +62,17 @@ class FlightManagementViewsTest(TestCase):
         self.user = User.objects.create_superuser(username='admin', email='admin@example.com', password='adminpassword')
         self.client.login(username='admin', password='adminpassword')
 
-        self.airplane = Airplane.objects.create(model="Boeing 737", capacity=180, rows=30, columns=6)
+        self.seat_layout = SeatLayout.objects.create(
+            layout_name="Flight View Layout",
+            rows=30,
+            columns=6
+        )
+        self.airplane = Airplane.objects.create(
+            model_name="Boeing 737",
+            capacity=180,
+            seat_layout=self.seat_layout,
+            registration_number="REG737V"
+        )
         self.departure_date = timezone.now() + timedelta(days=1)
         self.arrival_date = self.departure_date + timedelta(hours=3)
         self.flight = Flight.objects.create(
@@ -186,7 +196,17 @@ class PassengerManagementViewsTest(TestCase):
             date_of_birth=timezone.datetime(1990, 1, 1).date(),
             document_type="DNI"
         )
-        self.airplane = Airplane.objects.create(model="Boeing 737", capacity=180, rows=30, columns=6)
+        self.seat_layout = SeatLayout.objects.create(
+            layout_name="Passenger View Layout",
+            rows=30,
+            columns=6
+        )
+        self.airplane = Airplane.objects.create(
+            model_name="Boeing 737",
+            capacity=180,
+            seat_layout=self.seat_layout,
+            registration_number="REG737P"
+        )
         self.flight = Flight.objects.create(
             airplane=self.airplane,
             origin="EZE",
@@ -304,7 +324,22 @@ class ReservationViewsTest(TestCase):
         self.user = User.objects.create_user(username='testuser', email='test@example.com', password='testpassword')
         self.client.login(username='testuser', password='testpassword')
 
-        self.airplane = Airplane.objects.create(model="Boeing 737", capacity=180, rows=30, columns=6)
+        self.seat_layout = SeatLayout.objects.create(
+            layout_name="Reservation View Layout",
+            rows=30,
+            columns=6
+        )
+        self.seat_type_eco = SeatType.objects.create(
+            name="Economy",
+            code="ECO",
+            price_multiplier=1.00
+        )
+        self.airplane = Airplane.objects.create(
+            model_name="Boeing 737",
+            capacity=180,
+            seat_layout=self.seat_layout,
+            registration_number="REG737R"
+        )
         self.flight = Flight.objects.create(
             airplane=self.airplane,
             origin="EZE",
@@ -329,7 +364,7 @@ class ReservationViewsTest(TestCase):
             number="1A",
             row=1,
             column="A",
-            type="ECO",
+            seat_type=self.seat_type_eco,
             status="Available"
         )
         self.seat_reserved = Seat.objects.create(
@@ -337,7 +372,7 @@ class ReservationViewsTest(TestCase):
             number="1B",
             row=1,
             column="B",
-            type="ECO",
+            seat_type=self.seat_type_eco,
             status="Reserved"
         )
         self.reservation = Reservation.objects.create(
@@ -382,7 +417,7 @@ class ReservationViewsTest(TestCase):
             number="2C",
             row=2,
             column="C",
-            type="ECO",
+            seat_type=self.seat_type_eco,
             status="Available"
         )
 

@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
 from airline.forms import CustomUserCreationForm, ReservationForm, TicketForm
-from airline.models import Flight, Passenger, Seat, Reservation, Airplane
+from airline.models import Flight, Passenger, Seat, Reservation, Airplane, SeatLayout, SeatType, SeatLayoutPosition
 from django.utils import timezone
 from datetime import timedelta
 
@@ -39,7 +39,22 @@ class CustomUserCreationFormTest(TestCase):
 
 class ReservationFormTest(TestCase):
     def setUp(self):
-        self.airplane = Airplane.objects.create(model="Boeing 737", capacity=180, rows=30, columns=6)
+        self.seat_layout = SeatLayout.objects.create(
+            layout_name="Form Test Layout",
+            rows=30,
+            columns=6
+        )
+        self.seat_type = SeatType.objects.create(
+            name="Economy",
+            code="ECO",
+            price_multiplier=1.00
+        )
+        self.airplane = Airplane.objects.create(
+            model_name="Boeing 737",
+            capacity=180,
+            seat_layout=self.seat_layout,
+            registration_number="REG737F"
+        )
         self.flight = Flight.objects.create(
             airplane=self.airplane,
             origin="EZE",
@@ -63,7 +78,7 @@ class ReservationFormTest(TestCase):
             number="1A",
             row=1,
             column="A",
-            type="ECO",
+            seat_type=self.seat_type,
             status="Available"
         )
 
@@ -85,7 +100,22 @@ class ReservationFormTest(TestCase):
 
 class TicketFormTest(TestCase):
     def setUp(self):
-        self.airplane = Airplane.objects.create(model="Boeing 737", capacity=180, rows=30, columns=6)
+        self.seat_layout = SeatLayout.objects.create(
+            layout_name="Ticket Form Layout",
+            rows=30,
+            columns=6
+        )
+        self.seat_type = SeatType.objects.create(
+            name="Economy Plus",
+            code="ECP",
+            price_multiplier=1.20
+        )
+        self.airplane = Airplane.objects.create(
+            model_name="Boeing 737",
+            capacity=180,
+            seat_layout=self.seat_layout,
+            registration_number="REG737T"
+        )
         self.flight = Flight.objects.create(
             airplane=self.airplane,
             origin="EZE",
@@ -109,7 +139,7 @@ class TicketFormTest(TestCase):
             number="1A",
             row=1,
             column="A",
-            type="ECO",
+            seat_type=self.seat_type,
             status="Reserved"
         )
         self.reservation = Reservation.objects.create(

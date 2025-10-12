@@ -2,18 +2,40 @@ from django.test import TestCase
 from django.utils import timezone
 from datetime import timedelta
 from django.core.exceptions import ValidationError
-from airline.models import Airplane, Flight, Passenger, Seat, Reservation, UserProfile, Ticket, FlightHistory
+from airline.models import Airplane, Flight, Passenger, Seat, Reservation, UserProfile, Ticket, FlightHistory, SeatLayout, SeatType, SeatLayoutPosition
 
 class AirplaneModelTest(TestCase):
+    def setUp(self):
+        self.seat_layout = SeatLayout.objects.create(
+            layout_name="Test Layout",
+            rows=50,
+            columns=8
+        )
+
     def test_create_airplane(self):
-        airplane = Airplane.objects.create(model="Boeing 747", capacity=400, rows=50, columns=8)
-        self.assertEqual(airplane.model, "Boeing 747")
+        airplane = Airplane.objects.create(
+            model_name="Boeing 747",
+            capacity=400,
+            seat_layout=self.seat_layout,
+            registration_number="REG747"
+        )
+        self.assertEqual(airplane.model_name, "Boeing 747")
         self.assertEqual(airplane.capacity, 400)
-        self.assertEqual(str(airplane), "Boeing 747 (400 seats)")
+        self.assertEqual(str(airplane), "Boeing 747 (REG747)")
 
 class FlightModelTest(TestCase):
     def setUp(self):
-        self.airplane = Airplane.objects.create(model="Airbus A320", capacity=150, rows=25, columns=6)
+        self.seat_layout = SeatLayout.objects.create(
+            layout_name="Flight Layout",
+            rows=25,
+            columns=6
+        )
+        self.airplane = Airplane.objects.create(
+            model_name="Airbus A320",
+            capacity=150,
+            seat_layout=self.seat_layout,
+            registration_number="REGA320"
+        )
         self.departure_date = timezone.now() + timedelta(days=1)
         self.arrival_date = self.departure_date + timedelta(hours=3)
 
@@ -89,7 +111,22 @@ class PassengerModelTest(TestCase):
 
 class SeatModelTest(TestCase):
     def setUp(self):
-        self.airplane = Airplane.objects.create(model="Boeing 737", capacity=180, rows=30, columns=6)
+        self.seat_layout = SeatLayout.objects.create(
+            layout_name="Seat Layout",
+            rows=30,
+            columns=6
+        )
+        self.airplane = Airplane.objects.create(
+            model_name="Boeing 737",
+            capacity=180,
+            seat_layout=self.seat_layout,
+            registration_number="REG737"
+        )
+        self.seat_type = SeatType.objects.create(
+            name="Executive",
+            code="EXE",
+            price_multiplier=1.5
+        )
 
     def test_create_seat(self):
         seat = Seat.objects.create(
@@ -97,16 +134,26 @@ class SeatModelTest(TestCase):
             number="1A",
             row=1,
             column="A",
-            type="EXE",
+            seat_type=self.seat_type,
             status="Available"
         )
         self.assertEqual(seat.number, "1A")
-        self.assertEqual(seat.type, "EXE")
+        self.assertEqual(seat.seat_type, self.seat_type)
         self.assertEqual(str(seat), "Seat 1A - Boeing 737")
 
 class ReservationModelTest(TestCase):
     def setUp(self):
-        self.airplane = Airplane.objects.create(model="Embraer 190", capacity=100, rows=20, columns=4)
+        self.seat_layout = SeatLayout.objects.create(
+            layout_name="Reservation Layout",
+            rows=20,
+            columns=4
+        )
+        self.airplane = Airplane.objects.create(
+            model_name="Embraer 190",
+            capacity=100,
+            seat_layout=self.seat_layout,
+            registration_number="REGE190"
+        )
         self.flight = Flight.objects.create(
             airplane=self.airplane,
             origin="COR",
@@ -129,7 +176,7 @@ class ReservationModelTest(TestCase):
             number="2B",
             row=2,
             column="B",
-            type="ECO",
+            seat_type=SeatType.objects.create(name="Economy", code="ECO", price_multiplier=1.0),
             status="Available"
         )
 
@@ -218,7 +265,17 @@ class UserProfileModelTest(TestCase):
 
 class TicketModelTest(TestCase):
     def setUp(self):
-        self.airplane = Airplane.objects.create(model="Cessna 172", capacity=4, rows=1, columns=4)
+        self.seat_layout = SeatLayout.objects.create(
+            layout_name="Ticket Layout",
+            rows=1,
+            columns=4
+        )
+        self.airplane = Airplane.objects.create(
+            model_name="Cessna 172",
+            capacity=4,
+            seat_layout=self.seat_layout,
+            registration_number="REGC172"
+        )
         self.flight = Flight.objects.create(
             airplane=self.airplane,
             origin="SFO",
@@ -241,7 +298,7 @@ class TicketModelTest(TestCase):
             number="1C",
             row=1,
             column="C",
-            type="ECO",
+            seat_type=SeatType.objects.create(name="Economy", code="ECO2", price_multiplier=1.0),
             status="Reserved"
         )
         self.reservation = Reservation.objects.create(

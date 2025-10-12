@@ -313,10 +313,13 @@ def reserve_seat(request, flight_pk, seat_pk):
                 
                 # Calculate price based on seat type and flight base price
                 seat_price_multiplier = Decimal('1.0') # Use Decimal for calculations
-                if seat.type == 'PRE':
-                    seat_price_multiplier = Decimal('1.2')
-                elif seat.type == 'EXE':
-                    seat_price_multiplier = Decimal('1.5')
+                if seat.seat_type and seat.seat_type.code == 'PRE': # Assuming 'PRE' is a code for Premium
+                    seat_price_multiplier = seat.seat_type.price_multiplier
+                elif seat.seat_type and seat.seat_type.code == 'EXE': # Assuming 'EXE' is a code for Executive
+                    seat_price_multiplier = seat.seat_type.price_multiplier
+                elif seat.seat_type: # Default to seat_type's multiplier if it exists
+                    seat_price_multiplier = seat.seat_type.price_multiplier
+                
                 reservation.price = flight.base_price * seat_price_multiplier
                 
                 reservation.reservation_code = str(uuid.uuid4()).replace('-', '')[:20] # Generate unique code
