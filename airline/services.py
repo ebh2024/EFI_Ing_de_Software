@@ -1,68 +1,111 @@
 from django.db import transaction
-from django.core.exceptions import ValidationError
-from .models import Flight, Passenger, Reservation, Seat, Ticket, SeatLayout, SeatLayoutPosition, SeatType, Airplane, FlightHistory
-from .repositories import (
-    FlightRepository, PassengerRepository, ReservationRepository,
-    SeatRepository, TicketRepository, SeatLayoutRepository,
-    SeatLayoutPositionRepository, SeatTypeRepository, AirplaneRepository,
-    FlightHistoryRepository
-)
 import uuid
-from datetime import datetime
+from decimal import Decimal
+from django.core.exceptions import ValidationError
+from .models import Airplane, Flight, Passenger, Seat, Reservation, Ticket, FlightHistory, SeatLayout, SeatType, SeatLayoutPosition
+from .repositories import (
+    AirplaneRepository, FlightRepository, PassengerRepository, SeatRepository, ReservationRepository,
+    TicketRepository, FlightHistoryRepository, SeatLayoutRepository, SeatTypeRepository, SeatLayoutPositionRepository
+)
+
+class AirplaneService:
+    def __init__(self):
+        self.airplane_repo = AirplaneRepository()
+        self.seat_layout_repo = SeatLayoutRepository()
+        self.seat_repo = SeatRepository()
+
+    def create_airplane_with_seats(self, data):
+        seat_layout_id = data.pop('seat_layout', None)
+        if seat_layout_id:
+            seat_layout = self.seat_layout_repo.get_by_id(seat_layout_id.id)
+            data['seat_layout'] = seat_layout
+        
+        airplane = self.airplane_repo.create(data)
+
+        if seat_layout:
+            for row_num in range(1, seat_layout.rows + 1):
+                for col_char_code in range(ord('A'), ord('A') + seat_layout.columns):
+                    column = chr(col_char_code)
+                    seat_number = f"{row_num}{column}"
+                    # Find seat type from layout positions
+                    seat_layout_position = SeatLayoutPosition.objects.filter(
+                        seat_layout=seat_layout, row=row_num, column=column
+                    ).first()
+                    seat_type = seat_layout_position.seat_type if seat_layout_position else None
+
+                    self.seat_repo.create({
+                        'airplane': airplane,
+                        'number': seat_number,
+                        'row': row_num,
+                        'column': column,
+                        'seat_type': seat_type,
+                        'status': 'Available'
+                    })
+        return airplane
+
+    def update_airplane(self, pk, data):
+        seat_layout_id = data.pop('seat_layout', None)
+        if seat_layout_id:
+            seat_layout = self.seat_layout_repo.get_by_id(seat_layout_id.id)
+            data['seat_layout'] = seat_layout
+        return self.airplane_repo.update(pk, data)
+
+    def delete_airplane(self, pk):
+        return self.airplane_repo.delete(pk)
 
 class FlightService:
     def __init__(self):
         self.flight_repo = FlightRepository()
-        self.airplane_repo = AirplaneRepository()
         self.seat_repo = SeatRepository()
+        self.reservation_repo = ReservationRepository()
 
     def create_flight(self, data):
-        # Additional business logic for flight creation can go here
-        # e.g., validate airplane capacity against seat layout
         return self.flight_repo.create(data)
 
-    def get_flight(self, flight_id):
-        return self.flight_repo.get_by_id(flight_id)
+    def update_flight(self, pk, data):
+        return self.flight_repo.update(pk, data)
 
-    def update_flight(self, flight_id, data):
-        return self.flight_repo.update(flight_id, data)
+    def delete_flight(self, pk):
+        return self.flight_repo.delete(pk)
 
-    def delete_flight(self, flight_id):
-        return self.flight_repo.delete(flight_id)
-
-    def get_available_seats(self, flight_id):
-        flight = self.flight_repo.get_by_id(flight_id)
-        if not flight:
-            raise ValidationError("Flight not found.")
+    def get_available_seats(self, flight_pk):
+        flight = self.flight_repo.get_by_id(flight_pk)
+        all_seats = self.seat_repo.filter_by_airplane_ordered(flight.airplane)
+        reserved_seats_ids = self.reservation_repo.filter_by_flight_seat_status(flight, None, ['PEN', 'CON', 'PAID']).values_list('seat__id', flat=True)
         
-        # Assuming Seat model has a foreign key to Airplane, and Airplane to SeatLayout
-        # This logic might need to be refined based on how seats are truly managed per flight
-        # For now, we'll assume seats are associated with the airplane, and their status
-        # is managed through reservations.
-        all_seats = self.seat_repo.filter(airplane=flight.airplane)
-        reserved_seat_ids = Reservation.objects.filter(
-            flight=flight,
-            status__in=['PEN', 'CON', 'PAID']
-        ).values_list('seat__id', flat=True)
-        
-        available_seats = [seat for seat in all_seats if seat.id not in reserved_seat_ids]
+        available_seats = [seat for seat in all_seats if seat.id not in reserved_seats_ids]
         return available_seats
 
 class PassengerService:
     def __init__(self):
         self.passenger_repo = PassengerRepository()
+        self.flight_history_repo = FlightHistoryRepository()
 
     def create_passenger(self, data):
         return self.passenger_repo.create(data)
 
-    def get_passenger(self, passenger_id):
-        return self.passenger_repo.get_by_id(passenger_id)
+    def update_passenger(self, pk, data):
+        return self.passenger_repo.update(pk, data)
 
-    def update_passenger(self, passenger_id, data):
-        return self.passenger_repo.update(passenger_id, data)
+    def delete_passenger(self, pk):
+        return self.passenger_repo.delete(pk)
 
-    def delete_passenger(self, passenger_id):
-        return self.passenger_repo.delete(passenger_id)
+    def get_or_create_passenger_for_user(self, user):
+        passenger, created = self.passenger_repo.get_or_create_passenger(
+            email=user.email,
+            defaults={
+                'first_name': user.first_name if user.first_name else user.username,
+                'last_name': user.last_name if user.last_name else '',
+                'document_number': str(uuid.uuid4())[:10],
+                'date_of_birth': '2000-01-01'
+            }
+        )
+        return passenger
+
+    def get_passenger_flight_history(self, passenger_pk):
+        passenger = self.passenger_repo.get_by_id(passenger_pk)
+        flight_history = self.flight_history_repo.filter_by_passenger_ordered(passenger)
+        return passenger, flight_history
 
 class ReservationService:
     def __init__(self):
@@ -70,130 +113,82 @@ class ReservationService:
         self.flight_repo = FlightRepository()
         self.passenger_repo = PassengerRepository()
         self.seat_repo = SeatRepository()
-        self.ticket_repo = TicketRepository()
-        self.flight_history_repo = FlightHistoryRepository()
 
-    @transaction.atomic
     def create_reservation(self, flight_id, passenger_id, seat_id, price):
         flight = self.flight_repo.get_by_id(flight_id)
         passenger = self.passenger_repo.get_by_id(passenger_id)
         seat = self.seat_repo.get_by_id(seat_id)
 
-        if not all([flight, passenger, seat]):
-            raise ValidationError("Flight, passenger, or seat not found.")
+        if self.reservation_repo.filter_by_flight_seat_status(flight, seat, ['PEN', 'CON', 'PAID']).exists():
+            raise ValidationError('This seat is already reserved for this flight.')
 
-        if Reservation.objects.filter(flight=flight, seat=seat, status__in=['PEN', 'CON', 'PAID']).exists():
-            raise ValidationError("This seat is already reserved for this flight.")
-        
-        if Reservation.objects.filter(flight=flight, passenger=passenger, status__in=['PEN', 'CON', 'PAID']).exists():
-            raise ValidationError("This passenger already has a reservation for this flight.")
+        with transaction.atomic():
+            reservation = self.reservation_repo.create({
+                'flight': flight,
+                'passenger': passenger,
+                'seat': seat,
+                'status': 'PEN',
+                'price': price,
+                'reservation_code': str(uuid.uuid4()).replace('-', '')[:20]
+            })
+            seat.status = 'Reserved'
+            self.seat_repo.update(seat.pk, {'status': 'Reserved'})
+            return reservation
 
-        reservation_code = str(uuid.uuid4())[:20] # Generate a unique reservation code
-        reservation_data = {
-            'flight': flight,
-            'passenger': passenger,
-            'seat': seat,
-            'status': 'PEN',
-            'price': price,
-            'reservation_code': reservation_code
-        }
-        reservation = self.reservation_repo.create(reservation_data)
+    def update_reservation(self, pk, data):
+        return self.reservation_repo.update(pk, data)
 
-        # Update seat status
-        seat.status = 'Reserved'
-        self.seat_repo.update(seat.id, {'status': 'Reserved'})
+    def delete_reservation(self, pk):
+        reservation = self.reservation_repo.get_by_id(pk)
+        with transaction.atomic():
+            self.reservation_repo.delete(pk)
+            self.seat_repo.update(reservation.seat.pk, {'status': 'Available'})
+        return True
 
-        # Create flight history entry
-        flight_history_data = {
-            'passenger': passenger,
-            'flight': flight,
-            'seat_number': seat.number,
-            'price_paid': price,
-            'booking_date': datetime.now()
-        }
-        self.flight_history_repo.create(flight_history_data)
-
-        return reservation
-
-    @transaction.atomic
-    def confirm_reservation(self, reservation_id):
-        reservation = self.reservation_repo.get_by_id(reservation_id)
-        if not reservation:
-            raise ValidationError("Reservation not found.")
-        
-        if reservation.status == 'CON':
-            raise ValidationError("Reservation is already confirmed.")
-
-        reservation = self.reservation_repo.update(reservation_id, {'status': 'CON'})
-        # The save method of Reservation model handles seat status update
-        return reservation
-
-    @transaction.atomic
-    def cancel_reservation(self, reservation_id):
-        reservation = self.reservation_repo.get_by_id(reservation_id)
-        if not reservation:
-            raise ValidationError("Reservation not found.")
-        
+    def confirm_reservation(self, pk):
+        reservation = self.reservation_repo.get_by_id(pk)
         if reservation.status == 'CAN':
-            raise ValidationError("Reservation is already cancelled.")
-
-        reservation = self.reservation_repo.update(reservation_id, {'status': 'CAN'})
-        # The save method of Reservation model handles seat status update
-        
-        # Also cancel any associated ticket
-        ticket = self.ticket_repo.filter(reservation=reservation).first()
-        if ticket:
-            self.ticket_repo.update(ticket.id, {'status': 'CAN'})
-
+            raise ValidationError('Cannot confirm a cancelled reservation.')
+        reservation.status = 'CON'
+        reservation.save()
         return reservation
 
-    def get_reservation(self, reservation_id):
-        return self.reservation_repo.get_by_id(reservation_id)
+    def cancel_reservation(self, pk):
+        reservation = self.reservation_repo.get_by_id(pk)
+        if reservation.status == 'CON' or reservation.status == 'PAID':
+            raise ValidationError('Cannot cancel a confirmed or paid reservation directly. Refund process needed.')
+        reservation.status = 'CAN'
+        reservation.save()
+        return reservation
 
-    def get_reservations_by_passenger(self, passenger_id):
-        passenger = self.passenger_repo.get_by_id(passenger_id)
-        if not passenger:
-            raise ValidationError("Passenger not found.")
-        return self.reservation_repo.filter(passenger=passenger)
+    def get_reservations_list(self):
+        return self.reservation_repo.get_all().order_by('-reservation_date')
 
-class TicketService:
-    def __init__(self):
-        self.ticket_repo = TicketRepository()
-        self.reservation_repo = ReservationRepository()
+    def update_reservation_status(self, reservation_pk, new_status):
+        reservation = self.reservation_repo.get_by_id(reservation_pk)
+        if new_status in [choice[0] for choice in Reservation.RESERVATION_STATUS_CHOICES]:
+            reservation.status = new_status
+            reservation.save()
+        return reservation
 
-    @transaction.atomic
-    def issue_ticket(self, reservation_id):
-        reservation = self.reservation_repo.get_by_id(reservation_id)
-        if not reservation:
-            raise ValidationError("Reservation not found.")
+    def get_flight_details_with_seats(self, flight_pk):
+        flight = self.flight_repo.get_by_id(flight_pk)
+        seats = self.seat_repo.filter_by_airplane_ordered(flight.airplane)
+        reserved_seats_ids = self.reservation_repo.filter_by_flight_seat_status(flight, None, ['PEN', 'CON', 'PAID']).values_list('seat__id', flat=True)
         
-        if reservation.status != 'CON' and reservation.status != 'PAID':
-            raise ValidationError("Reservation must be confirmed or paid to issue a ticket.")
+        for seat in seats:
+            seat.is_reserved = seat.id in reserved_seats_ids
         
-        if self.ticket_repo.filter(reservation=reservation).exists():
-            raise ValidationError("Ticket already issued for this reservation.")
-
-        barcode = str(uuid.uuid4())[:50] # Generate a unique barcode
-        ticket_data = {
-            'reservation': reservation,
-            'barcode': barcode,
-            'status': 'EMI'
-        }
-        ticket = self.ticket_repo.create(ticket_data)
-        return ticket
-
-    def get_ticket(self, ticket_id):
-        return self.ticket_repo.get_by_id(ticket_id)
-
-    def cancel_ticket(self, ticket_id):
-        ticket = self.ticket_repo.get_by_id(ticket_id)
-        if not ticket:
-            raise ValidationError("Ticket not found.")
+        seats_by_row = {}
+        for seat in seats:
+            seats_by_row.setdefault(seat.row, []).append(seat)
         
-        if ticket.status == 'CAN':
-            raise ValidationError("Ticket is already cancelled.")
-        
-        return self.ticket_repo.update(ticket_id, {'status': 'CAN'})
+        return flight, dict(sorted(seats_by_row.items()))
+
+    def get_passengers_by_flight(self, flight_pk):
+        flight = self.flight_repo.get_by_id(flight_pk)
+        reservations = self.reservation_repo.filter_by_flight_and_select_related(flight).order_by('passenger__last_name', 'passenger__first_name')
+        return flight, reservations
 
 class SeatLayoutService:
     def __init__(self):
@@ -201,35 +196,28 @@ class SeatLayoutService:
         self.seat_layout_position_repo = SeatLayoutPositionRepository()
         self.seat_type_repo = SeatTypeRepository()
 
-    @transaction.atomic
     def create_seat_layout_with_positions(self, layout_name, rows, columns, positions_data):
-        seat_layout = self.seat_layout_repo.create({
-            'layout_name': layout_name,
-            'rows': rows,
-            'columns': columns
-        })
-
-        for pos_data in positions_data:
-            seat_type = self.seat_type_repo.get_by_id(pos_data['seat_type_id'])
-            if not seat_type:
-                raise ValidationError(f"Seat type with ID {pos_data['seat_type_id']} not found.")
-            
-            self.seat_layout_position_repo.create({
-                'seat_layout': seat_layout,
-                'seat_type': seat_type,
-                'row': pos_data['row'],
-                'column': pos_data['column']
+        with transaction.atomic():
+            seat_layout = self.seat_layout_repo.create({
+                'layout_name': layout_name,
+                'rows': rows,
+                'columns': columns
             })
-        return seat_layout
+            for pos_data in positions_data:
+                seat_type = self.seat_type_repo.get_by_id(pos_data['seat_type_id'])
+                self.seat_layout_position_repo.create({
+                    'seat_layout': seat_layout,
+                    'seat_type': seat_type,
+                    'row': pos_data['row'],
+                    'column': pos_data['column']
+                })
+            return seat_layout
 
-    def get_seat_layout(self, layout_id):
-        return self.seat_layout_repo.get_by_id(layout_id)
+    def update_seat_layout(self, pk, data):
+        return self.seat_layout_repo.update(pk, data)
 
-    def update_seat_layout(self, layout_id, data):
-        return self.seat_layout_repo.update(layout_id, data)
-
-    def delete_seat_layout(self, layout_id):
-        return self.seat_layout_repo.delete(layout_id)
+    def delete_seat_layout(self, pk):
+        return self.seat_layout_repo.delete(pk)
 
 class SeatTypeService:
     def __init__(self):
@@ -238,68 +226,55 @@ class SeatTypeService:
     def create_seat_type(self, data):
         return self.seat_type_repo.create(data)
 
-    def get_seat_type(self, seat_type_id):
-        return self.seat_type_repo.get_by_id(seat_type_id)
+    def update_seat_type(self, pk, data):
+        return self.seat_type_repo.update(pk, data)
 
-    def update_seat_type(self, seat_type_id, data):
-        return self.seat_type_repo.update(seat_type_id, data)
-
-    def delete_seat_type(self, seat_type_id):
-        return self.seat_type_repo.delete(seat_type_id)
-
-class AirplaneService:
-    def __init__(self):
-        self.airplane_repo = AirplaneRepository()
-        self.seat_layout_repo = SeatLayoutRepository()
-        self.seat_repo = SeatRepository()
-
-    @transaction.atomic
-    def create_airplane_with_seats(self, data):
-        seat_layout_id = data.pop('seat_layout_id', None)
-        seat_layout = None
-        if seat_layout_id:
-            seat_layout = self.seat_layout_repo.get_by_id(seat_layout_id)
-            if not seat_layout:
-                raise ValidationError(f"Seat layout with ID {seat_layout_id} not found.")
-            data['seat_layout'] = seat_layout
-
-        airplane = self.airplane_repo.create(data)
-
-        if seat_layout:
-            # Generate seats based on the seat layout
-            for position in seat_layout.positions.all():
-                seat_number = f"{position.row}{position.column}"
-                self.seat_repo.create({
-                    'airplane': airplane,
-                    'number': seat_number,
-                    'row': position.row,
-                    'column': position.column,
-                    'seat_type': position.seat_type,
-                    'status': 'Available'
-                })
-        return airplane
-
-    def get_airplane(self, airplane_id):
-        return self.airplane_repo.get_by_id(airplane_id)
-
-    def update_airplane(self, airplane_id, data):
-        seat_layout_id = data.pop('seat_layout_id', None)
-        if seat_layout_id:
-            seat_layout = self.seat_layout_repo.get_by_id(seat_layout_id)
-            if not seat_layout:
-                raise ValidationError(f"Seat layout with ID {seat_layout_id} not found.")
-            data['seat_layout'] = seat_layout
-        return self.airplane_repo.update(airplane_id, data)
-
-    def delete_airplane(self, airplane_id):
-        return self.airplane_repo.delete(airplane_id)
+    def delete_seat_type(self, pk):
+        return self.seat_type_repo.delete(pk)
 
 class FlightHistoryService:
     def __init__(self):
         self.flight_history_repo = FlightHistoryRepository()
+        self.passenger_repo = PassengerRepository()
+        self.flight_repo = FlightRepository()
 
     def get_flight_history_by_passenger(self, passenger_id):
-        return self.flight_history_repo.filter(passenger__id=passenger_id)
+        passenger = self.passenger_repo.get_by_id(passenger_id)
+        return self.flight_history_repo.filter_by_passenger_ordered(passenger)
 
     def get_flight_history_by_flight(self, flight_id):
-        return self.flight_history_repo.filter(flight__id=flight_id)
+        flight = self.flight_repo.get_by_id(flight_id)
+        return self.flight_history_repo.filter_by_flight(flight.pk)
+
+class TicketService:
+    def __init__(self):
+        self.ticket_repo = TicketRepository()
+        self.reservation_repo = ReservationRepository()
+
+    def issue_ticket(self, reservation_pk):
+        reservation = self.reservation_repo.get_by_id(reservation_pk)
+        if reservation.status not in ['CON', 'PAID']:
+            raise ValidationError('Ticket can only be issued for confirmed or paid reservations.')
+        
+        ticket, created = self.ticket_repo.get_or_create_ticket(
+            reservation=reservation,
+            defaults={
+                'barcode': str(uuid.uuid4()).replace('-', '')[:20],
+                'status': 'EMI'
+            }
+        )
+        return ticket
+
+    def cancel_ticket(self, pk):
+        ticket = self.ticket_repo.get_by_id(pk)
+        if ticket.status == 'USED':
+            raise ValidationError('Cannot cancel a used ticket.')
+        ticket.status = 'CAN'
+        ticket.save()
+        return ticket
+
+    def delete_ticket(self, pk):
+        return self.ticket_repo.delete(pk)
+
+    def get_ticket_detail(self, ticket_pk):
+        return self.ticket_repo.get_by_id(ticket_pk)

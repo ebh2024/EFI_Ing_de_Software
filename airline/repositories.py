@@ -1,83 +1,80 @@
-from .models import (
-    Airplane, Flight, Passenger, Reservation, Seat, Ticket,
-    SeatLayout, SeatLayoutPosition, SeatType, FlightHistory
-)
+from django.shortcuts import get_object_or_404
+from .models import Airplane, Flight, Passenger, Reservation, Seat, SeatLayout, SeatType, SeatLayoutPosition, FlightHistory, Ticket
 
 class BaseRepository:
-    def __init__(self, model):
-        self.model = model
+    model = None
 
-    def get_by_id(self, obj_id):
-        try:
-            return self.model.objects.get(pk=obj_id)
-        except self.model.DoesNotExist:
-            return None
+    def get_by_id(self, pk):
+        return get_object_or_404(self.model, pk=pk)
 
     def get_all(self):
         return self.model.objects.all()
 
-    def filter(self, **kwargs):
-        return self.model.objects.filter(**kwargs)
-
     def create(self, data):
-        obj = self.model(**data)
-        obj.full_clean() # Validate model fields
+        return self.model.objects.create(**data)
+
+    def update(self, pk, data):
+        obj = self.get_by_id(pk)
+        for attr, value in data.items():
+            setattr(obj, attr, value)
         obj.save()
         return obj
 
-    def update(self, obj_id, data):
-        obj = self.get_by_id(obj_id)
-        if not obj:
-            return None
-        for key, value in data.items():
-            setattr(obj, key, value)
-        obj.full_clean() # Validate model fields
-        obj.save()
-        return obj
-
-    def delete(self, obj_id):
-        obj = self.get_by_id(obj_id)
-        if not obj:
-            return False
+    def delete(self, pk):
+        obj = self.get_by_id(pk)
         obj.delete()
         return True
 
 class AirplaneRepository(BaseRepository):
-    def __init__(self):
-        super().__init__(Airplane)
+    model = Airplane
 
 class FlightRepository(BaseRepository):
-    def __init__(self):
-        super().__init__(Flight)
+    model = Flight
 
 class PassengerRepository(BaseRepository):
-    def __init__(self):
-        super().__init__(Passenger)
+    model = Passenger
+
+    def get_or_create_passenger(self, email, defaults):
+        return self.model.objects.get_or_create(email=email, defaults=defaults)
 
 class ReservationRepository(BaseRepository):
-    def __init__(self):
-        super().__init__(Reservation)
+    model = Reservation
+
+    def filter_by_flight_seat_status(self, flight, seat, statuses):
+        return self.model.objects.filter(flight=flight, seat=seat, status__in=statuses)
+
+    def filter_by_flight_and_select_related(self, flight):
+        return self.model.objects.filter(flight=flight).select_related('passenger', 'seat')
 
 class SeatRepository(BaseRepository):
-    def __init__(self):
-        super().__init__(Seat)
+    model = Seat
 
-class TicketRepository(BaseRepository):
-    def __init__(self):
-        super().__init__(Ticket)
+    def filter_by_airplane_ordered(self, airplane):
+        return self.model.objects.filter(airplane=airplane).order_by('row', 'column')
 
 class SeatLayoutRepository(BaseRepository):
-    def __init__(self):
-        super().__init__(SeatLayout)
-
-class SeatLayoutPositionRepository(BaseRepository):
-    def __init__(self):
-        super().__init__(SeatLayoutPosition)
+    model = SeatLayout
 
 class SeatTypeRepository(BaseRepository):
-    def __init__(self):
-        super().__init__(SeatType)
+    model = SeatType
+
+class SeatLayoutPositionRepository(BaseRepository):
+    model = SeatLayoutPosition
 
 class FlightHistoryRepository(BaseRepository):
-    def __init__(self):
-        super().__init__(FlightHistory)
+    model = FlightHistory
+
+    def filter_by_passenger_ordered(self, passenger):
+        return self.model.objects.filter(passenger=passenger).order_by('-booking_date')
+
+    def filter_by_flight(self, flight_id):
+        return self.model.objects.filter(flight__id=flight_id)
+
+    def filter_by_passenger(self, passenger_id):
+        return self.model.objects.filter(passenger__id=passenger_id)
+
+class TicketRepository(BaseRepository):
+    model = Ticket
+
+    def get_or_create_ticket(self, reservation, defaults):
+        return self.model.objects.get_or_create(reservation=reservation, defaults=defaults)
