@@ -41,7 +41,7 @@ class PassengerSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class SeatSerializer(serializers.ModelSerializer):
-    seat_type = SeatTypeSerializer(read_only=True)
+    seat_type = serializers.PrimaryKeyRelatedField(queryset=SeatType.objects.all(), allow_null=True, required=False)
 
     class Meta:
         model = Seat
