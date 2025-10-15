@@ -160,6 +160,10 @@ class SeatLayoutPosition(models.Model):
     class Meta:
         unique_together = (('seat_layout', 'row', 'column'),)
 
+    @property
+    def seat_number(self):
+        return f"{self.row}{self.column}"
+
     def __str__(self):
         return f"{self.seat_layout.layout_name} - Row {self.row}, Col {self.column} ({self.seat_type.code})"
 
@@ -294,5 +298,9 @@ class Ticket(models.Model):
     issue_date = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=4, choices=TICKET_STATUS_CHOICES, default='EMI')
 
+    @property
+    def ticket_number(self):
+        return self.barcode
+
     def __str__(self):
-        return f"Ticket {self.barcode} for reservation {self.reservation.reservation_code}"
+        return f"Ticket {self.ticket_number} for reservation {self.reservation.reservation_code}"
