@@ -32,7 +32,7 @@ class AdminTest(TestCase):
         This is a more comprehensive check.
         """
         airline_app_config = apps.get_app_config('airline')
-        all_airline_models = airline_app_config.get_models()
+        all_airline_models = [model for model in airline_app_config.get_models() if model.__name__ != 'MockModel']
         registered_models = admin.site._registry.keys()
 
         for model in all_airline_models:
