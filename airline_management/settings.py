@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -145,9 +146,12 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/api-auth/login/'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication', # Added for Swagger UI login
+        'rest_framework.authentication.BasicAuthentication', # Added for Swagger UI login
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
@@ -159,3 +163,17 @@ REST_FRAMEWORK = {
 # Test settings
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 TEST_DISCOVER_TOP_LEVEL = BASE_DIR / 'airline'
+
+# DRF-YASG settings
+DRF_YASG_DEFAULT_FIELD_INSPECTORS = [
+    'drf_yasg.inspectors.CamelCaseJSONFilter',
+    'drf_yasg.inspectors.ReferencingFieldInspector',
+    'drf_yasg.inspectors.RelatedFieldInspector',
+    'drf_yasg.inspectors.ChoiceFieldInspector',
+    'drf_yasg.inspectors.FileFieldInspector',
+    'drf_yasg.inspectors.DictFieldInspector',
+    'drf_yasg.inspectors.ListFieldInspector',
+    'drf_yasg.inspectors.ArrayFieldInspector',
+    'drf_yasg.inspectors.InlineSerializerInspector',
+    'drf_yasg.inspectors.BasicFieldInspector',
+]
