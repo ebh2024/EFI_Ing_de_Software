@@ -28,3 +28,4 @@ media/
 
 # OS-specific files
 .Trash/
+venv/
