@@ -1,12 +1,13 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
 from django.core.exceptions import ValidationError
 from .models import Airplane, Flight, Passenger, Reservation, SeatLayout, SeatType, SeatLayoutPosition, FlightHistory, Ticket
 from .serializers import AirplaneSerializer, FlightSerializer, PassengerSerializer, ReservationSerializer, SeatLayoutSerializer, SeatTypeSerializer, SeatLayoutPositionSerializer, FlightHistorySerializer, TicketSerializer, SeatSerializer
 from .services import (
     AirplaneService, FlightService, PassengerService, ReservationService,
-    SeatLayoutService, SeatTypeService, TicketService, FlightHistoryService
+    SeatLayoutService, SeatTypeService, SeatLayoutPositionService, TicketService, FlightHistoryService
 )
 from .repositories import SeatRepository
 from .mixins import ServiceActionMixin
@@ -15,6 +16,7 @@ class AirplaneViewSet(ServiceActionMixin, viewsets.ModelViewSet):
     queryset = Airplane.objects.all()
     serializer_class = AirplaneSerializer
     service = AirplaneService()
+    permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -36,6 +38,7 @@ class FlightViewSet(ServiceActionMixin, viewsets.ModelViewSet):
     queryset = Flight.objects.all()
     serializer_class = FlightSerializer
     service = FlightService()
+    permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -68,6 +71,7 @@ class PassengerViewSet(ServiceActionMixin, viewsets.ModelViewSet):
     queryset = Passenger.objects.all()
     serializer_class = PassengerSerializer
     service = PassengerService()
+    permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -89,6 +93,7 @@ class ReservationViewSet(ServiceActionMixin, viewsets.ModelViewSet):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
     service = ReservationService()
+    permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
         flight_id = request.data.get('flight')
@@ -133,6 +138,7 @@ class SeatLayoutViewSet(ServiceActionMixin, viewsets.ModelViewSet):
     queryset = SeatLayout.objects.all()
     serializer_class = SeatLayoutSerializer
     service = SeatLayoutService()
+    permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
         layout_name = request.data.get('layout_name')
@@ -163,6 +169,7 @@ class SeatTypeViewSet(ServiceActionMixin, viewsets.ModelViewSet):
     queryset = SeatType.objects.all()
     serializer_class = SeatTypeSerializer
     service = SeatTypeService()
+    permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -180,16 +187,33 @@ class SeatTypeViewSet(ServiceActionMixin, viewsets.ModelViewSet):
         instance = self.get_object()
         return self.destroy_with_service(instance, 'delete_seat_type')
 
-class SeatLayoutPositionViewSet(viewsets.ModelViewSet):
+class SeatLayoutPositionViewSet(ServiceActionMixin, viewsets.ModelViewSet):
     queryset = SeatLayoutPosition.objects.all()
     serializer_class = SeatLayoutPositionSerializer
-    # For simplicity, direct model interaction for SeatLayoutPosition for now.
-    # Can be refactored to use a service if complex business logic is needed.
+    service = SeatLayoutPositionService()
+    permission_classes = [IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return self.create_with_service(serializer, 'create_seat_layout_position')
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        return self.update_with_service(instance, serializer, 'update_seat_layout_position')
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        return self.destroy_with_service(instance, 'delete_seat_layout_position')
 
 class FlightHistoryViewSet(ServiceActionMixin, viewsets.ModelViewSet):
     queryset = FlightHistory.objects.all()
     serializer_class = FlightHistorySerializer
     service = FlightHistoryService()
+    permission_classes = [IsAuthenticated]
 
     def list(self, request, *args, **kwargs):
         flight_history = self.service.flight_history_repo.get_all()
@@ -227,6 +251,7 @@ class TicketViewSet(ServiceActionMixin, viewsets.ModelViewSet):
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
     service = TicketService()
+    permission_classes = [IsAuthenticated]
 
     def list(self, request, *args, **kwargs):
         tickets = self.service.ticket_repo.get_all()

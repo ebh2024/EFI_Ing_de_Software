@@ -7,7 +7,8 @@ class SeatTypeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class SeatLayoutPositionSerializer(serializers.ModelSerializer):
-    seat_type = SeatTypeSerializer(read_only=True)
+    seat_type = serializers.PrimaryKeyRelatedField(queryset=SeatType.objects.all())
+    seat_number = serializers.CharField(read_only=True)
 
     class Meta:
         model = SeatLayoutPosition
@@ -21,14 +22,14 @@ class SeatLayoutSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class AirplaneSerializer(serializers.ModelSerializer):
-    seat_layout = SeatLayoutSerializer(read_only=True)
+    seat_layout = serializers.PrimaryKeyRelatedField(queryset=SeatLayout.objects.all(), allow_null=True, required=False)
 
     class Meta:
         model = Airplane
         fields = '__all__'
 
 class FlightSerializer(serializers.ModelSerializer):
-    airplane = AirplaneSerializer(read_only=True)
+    airplane = serializers.PrimaryKeyRelatedField(queryset=Airplane.objects.all())
 
     class Meta:
         model = Flight
@@ -47,24 +48,25 @@ class SeatSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ReservationSerializer(serializers.ModelSerializer):
-    flight = FlightSerializer(read_only=True)
-    passenger = PassengerSerializer(read_only=True)
-    seat = SeatSerializer(read_only=True)
+    flight = serializers.PrimaryKeyRelatedField(queryset=Flight.objects.all())
+    passenger = serializers.PrimaryKeyRelatedField(queryset=Passenger.objects.all())
+    seat = serializers.PrimaryKeyRelatedField(queryset=Seat.objects.all())
 
     class Meta:
         model = Reservation
         fields = '__all__'
 
 class FlightHistorySerializer(serializers.ModelSerializer):
-    passenger = PassengerSerializer(read_only=True)
-    flight = FlightSerializer(read_only=True)
+    passenger = serializers.PrimaryKeyRelatedField(queryset=Passenger.objects.all())
+    flight = serializers.PrimaryKeyRelatedField(queryset=Flight.objects.all())
 
     class Meta:
         model = FlightHistory
         fields = '__all__'
 
 class TicketSerializer(serializers.ModelSerializer):
-    reservation = ReservationSerializer(read_only=True)
+    reservation = serializers.PrimaryKeyRelatedField(queryset=Reservation.objects.all())
+    ticket_number = serializers.CharField(read_only=True)
 
     class Meta:
         model = Ticket

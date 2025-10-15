@@ -16,8 +16,9 @@ class AirplaneService:
 
     def create_airplane_with_seats(self, data):
         seat_layout_id = data.pop('seat_layout', None)
+        seat_layout = None
         if seat_layout_id:
-            seat_layout = self.seat_layout_repo.get_by_id(seat_layout_id.id)
+            seat_layout = self.seat_layout_repo.get_by_id(seat_layout_id)
             data['seat_layout'] = seat_layout
         
         airplane = self.airplane_repo.create(data)
@@ -45,8 +46,9 @@ class AirplaneService:
 
     def update_airplane(self, pk, data):
         seat_layout_id = data.pop('seat_layout', None)
+        seat_layout = None
         if seat_layout_id:
-            seat_layout = self.seat_layout_repo.get_by_id(seat_layout_id.id)
+            seat_layout = self.seat_layout_repo.get_by_id(seat_layout_id)
             data['seat_layout'] = seat_layout
         return self.airplane_repo.update(pk, data)
 
@@ -231,6 +233,19 @@ class SeatTypeService:
 
     def delete_seat_type(self, pk):
         return self.seat_type_repo.delete(pk)
+
+class SeatLayoutPositionService:
+    def __init__(self):
+        self.seat_layout_position_repo = SeatLayoutPositionRepository()
+
+    def create_seat_layout_position(self, data):
+        return self.seat_layout_position_repo.create(data)
+
+    def update_seat_layout_position(self, pk, data):
+        return self.seat_layout_position_repo.update(pk, data)
+
+    def delete_seat_layout_position(self, pk):
+        return self.seat_layout_position_repo.delete(pk)
 
 class FlightHistoryService:
     def __init__(self):
