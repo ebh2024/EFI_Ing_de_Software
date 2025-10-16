@@ -16,7 +16,7 @@ This is a Django-based Airline Management System.
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/your-username/EFI_Ing_de_Software.git
+    git clone https://github.com/ebh2024/EFI_Ing_de_Software.git
     cd EFI_Ing_de_Software
     ```
 
