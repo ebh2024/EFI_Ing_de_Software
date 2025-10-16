@@ -96,18 +96,25 @@ class ReservationViewSet(ServiceActionMixin, viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
-        flight_id = request.data.get('flight')
-        passenger_id = request.data.get('passenger')
-        seat_id = request.data.get('seat')
-        price = request.data.get('price')
-
-        if not all([flight_id, passenger_id, seat_id, price]):
-            return Response({'detail': 'Missing required fields: flight, passenger, seat, price'}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            flight_id, passenger_id, seat_id, price = self._get_reservation_creation_data(request.data)
+        except ValidationError as e:
+            return Response({'detail': e.message}, status=status.HTTP_400_BAD_REQUEST)
 
         def _create_reservation():
             reservation = self.service.create_reservation(flight_id, passenger_id, seat_id, price)
             return Response(self.get_serializer(reservation).data, status=status.HTTP_201_CREATED)
         return self._handle_service_action(_create_reservation)
+
+    def _get_reservation_creation_data(self, data):
+        flight_id = data.get('flight')
+        passenger_id = data.get('passenger')
+        seat_id = data.get('seat')
+        price = data.get('price')
+
+        if not all([flight_id, passenger_id, seat_id, price]):
+            raise ValidationError('Missing required fields: flight, passenger, seat, price')
+        return flight_id, passenger_id, seat_id, price
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)
@@ -141,18 +148,25 @@ class SeatLayoutViewSet(ServiceActionMixin, viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
-        layout_name = request.data.get('layout_name')
-        rows = request.data.get('rows')
-        columns = request.data.get('columns')
-        positions_data = request.data.get('positions', [])
-
-        if not all([layout_name, rows, columns]):
-            return Response({'detail': 'Missing required fields: layout_name, rows, columns'}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            layout_name, rows, columns, positions_data = self._get_seat_layout_creation_data(request.data)
+        except ValidationError as e:
+            return Response({'detail': e.message}, status=status.HTTP_400_BAD_REQUEST)
 
         def _create_seat_layout():
             seat_layout = self.service.create_seat_layout_with_positions(layout_name, rows, columns, positions_data)
             return Response(self.get_serializer(seat_layout).data, status=status.HTTP_201_CREATED)
         return self._handle_service_action(_create_seat_layout)
+
+    def _get_seat_layout_creation_data(self, data):
+        layout_name = data.get('layout_name')
+        rows = data.get('rows')
+        columns = data.get('columns')
+        positions_data = data.get('positions', [])
+
+        if not all([layout_name, rows, columns]):
+            raise ValidationError('Missing required fields: layout_name, rows, columns')
+        return layout_name, rows, columns, positions_data
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)

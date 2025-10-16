@@ -229,13 +229,7 @@ class Reservation(models.Model):
         # Restriction: A seat cannot be reserved more than once per flight (already covered by unique_together)
         # Restriction: A passenger cannot have more than one reservation per flight (already covered by unique_together)
 
-        # Restriction: Seat statuses must be consistent with reservations
-        if self.status == 'CON' or self.status == 'PAID':
-            if self.seat.status != 'Reserved' and self.seat.status != 'Occupied':
-                raise ValidationError('The seat must be in "Reserved" or "Occupied" status for a confirmed/paid reservation.')
-        elif self.status == 'CAN':
-            if self.seat.status != 'Available':
-                raise ValidationError('The seat must be in "Available" status for a cancelled reservation.')
+        self._validate_seat_status_consistency()
         
         errors = {}
         try:
@@ -245,14 +239,26 @@ class Reservation(models.Model):
         if errors:
             raise ValidationError(errors)
 
-    def save(self, *args, **kwargs):
-        # Update seat status when saving the reservation
+    def _validate_seat_status_consistency(self):
+        # Restriction: Seat statuses must be consistent with reservations
         if self.status == 'CON' or self.status == 'PAID':
+            if self.seat.status not in ['Reserved', 'Occupied']:
+                raise ValidationError('The seat must be in "Reserved" or "Occupied" status for a confirmed/paid reservation.')
+        elif self.status == 'CAN':
+            if self.seat.status != 'Available':
+                raise ValidationError('The seat must be in "Available" status for a cancelled reservation.')
+
+    def save(self, *args, **kwargs):
+        self._update_associated_seat_status()
+        super().save(*args, **kwargs)
+
+    def _update_associated_seat_status(self):
+        # Update seat status when saving the reservation
+        if self.status in ['CON', 'PAID']:
             self.seat.status = 'Reserved'
         elif self.status == 'CAN':
             self.seat.status = 'Available'
         self.seat.save()
-        super().save(*args, **kwargs)
 
 class UserProfile(models.Model):
     ROLE_CHOICES = [

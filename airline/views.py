@@ -65,28 +65,36 @@ def reserve_seat(request, flight_pk, seat_pk):
     flight = get_object_or_404(Flight, pk=flight_pk)
     seat = get_object_or_404(Seat, pk=seat_pk)
 
-    if reservation_service.reservation_repo.filter_by_flight_seat_status(flight, seat, ['PEN', 'CON', 'PAID']).exists():
+    if _check_seat_availability(flight, seat):
         return render(request, 'airline/reservation_error.html', {'message': 'This seat is already reserved for this flight.'})
 
     passenger = passenger_service.get_or_create_passenger_for_user(request.user)
 
     if request.method == 'POST':
-        form = ReservationForm(request.POST, initial={'flight': flight})
-        if form.is_valid():
-            reservation = reservation_service.create_reservation(flight.pk, passenger.pk, seat.pk, form.cleaned_data['price'])
-            return redirect('reservation_detail', pk=reservation.pk)
-        else:
-            print(form.errors)
-            return render(request, 'airline/reserve_seat.html', {
-                'form': form,
-                'flight': flight,
-                'seat': seat,
-                'passenger': passenger,
-                'action': 'Reserve'
-            })
+        return _handle_post_request(request, flight, seat, passenger)
     else:
-        form = ReservationForm(initial={'flight': flight, 'seat': seat, 'passenger': passenger, 'status': 'PEN'})
-    
+        return _handle_get_request(request, flight, seat, passenger)
+
+def _check_seat_availability(flight, seat):
+    return reservation_service.reservation_repo.filter_by_flight_seat_status(flight, seat, ['PEN', 'CON', 'PAID']).exists()
+
+def _handle_post_request(request, flight, seat, passenger):
+    form = ReservationForm(request.POST, initial={'flight': flight})
+    if form.is_valid():
+        reservation = reservation_service.create_reservation(flight.pk, passenger.pk, seat.pk, form.cleaned_data['price'])
+        return redirect('reservation_detail', pk=reservation.pk)
+    else:
+        print(form.errors)
+        return render(request, 'airline/reserve_seat.html', {
+            'form': form,
+            'flight': flight,
+            'seat': seat,
+            'passenger': passenger,
+            'action': 'Reserve'
+        })
+
+def _handle_get_request(request, flight, seat, passenger):
+    form = ReservationForm(initial={'flight': flight, 'seat': seat, 'passenger': passenger, 'status': 'PEN'})
     return render(request, 'airline/reserve_seat.html', {
         'form': form,
         'flight': flight,
@@ -117,7 +125,9 @@ def generate_ticket(request, reservation_pk):
         return render(request, 'airline/reservation_error.html', {'message': 'Ticket can only be generated for confirmed or paid reservations.'})
 
     ticket = ticket_service.issue_ticket(reservation_pk)
-    
+    return _generate_ticket_pdf(ticket, reservation)
+
+def _generate_ticket_pdf(ticket, reservation):
     html_string = render_to_string('airline/ticket_template.html', {'ticket': ticket, 'reservation': reservation})
     html = HTML(string=html_string)
     pdf = html.write_pdf()

@@ -24,25 +24,28 @@ class AirplaneService:
         airplane = self.airplane_repo.create(data)
 
         if seat_layout:
-            for row_num in range(1, seat_layout.rows + 1):
-                for col_char_code in range(ord('A'), ord('A') + seat_layout.columns):
-                    column = chr(col_char_code)
-                    seat_number = f"{row_num}{column}"
-                    # Find seat type from layout positions
-                    seat_layout_position = SeatLayoutPosition.objects.filter(
-                        seat_layout=seat_layout, row=row_num, column=column
-                    ).first()
-                    seat_type = seat_layout_position.seat_type if seat_layout_position else None
-
-                    self.seat_repo.create({
-                        'airplane': airplane,
-                        'number': seat_number,
-                        'row': row_num,
-                        'column': column,
-                        'seat_type': seat_type,
-                        'status': 'Available'
-                    })
+            self._create_seats_for_airplane(airplane, seat_layout)
         return airplane
+
+    def _create_seats_for_airplane(self, airplane, seat_layout):
+        for row_num in range(1, seat_layout.rows + 1):
+            for col_char_code in range(ord('A'), ord('A') + seat_layout.columns):
+                column = chr(col_char_code)
+                seat_number = f"{row_num}{column}"
+                # Find seat type from layout positions
+                seat_layout_position = SeatLayoutPosition.objects.filter(
+                    seat_layout=seat_layout, row=row_num, column=column
+                ).first()
+                seat_type = seat_layout_position.seat_type if seat_layout_position else None
+
+                self.seat_repo.create({
+                    'airplane': airplane,
+                    'number': seat_number,
+                    'row': row_num,
+                    'column': column,
+                    'seat_type': seat_type,
+                    'status': 'Available'
+                })
 
     def update_airplane(self, pk, data):
         seat_layout_id = data.pop('seat_layout', None)
@@ -133,9 +136,12 @@ class ReservationService:
                 'price': price,
                 'reservation_code': str(uuid.uuid4()).replace('-', '')[:20]
             })
-            seat.status = 'Reserved'
-            self.seat_repo.update(seat.pk, {'status': 'Reserved'})
+            self._update_seat_status_to_reserved(seat)
             return reservation
+
+    def _update_seat_status_to_reserved(self, seat):
+        seat.status = 'Reserved'
+        self.seat_repo.update(seat.pk, {'status': 'Reserved'})
 
     def update_reservation(self, pk, data):
         return self.reservation_repo.update(pk, data)
@@ -178,14 +184,21 @@ class ReservationService:
         seats = self.seat_repo.filter_by_airplane_ordered(flight.airplane)
         reserved_seats_ids = self.reservation_repo.filter_by_flight_seat_status(flight, None, ['PEN', 'CON', 'PAID']).values_list('seat__id', flat=True)
         
+        seats = self._mark_reserved_seats(seats, reserved_seats_ids)
+        seats_by_row = self._organize_seats_by_row(seats)
+        
+        return flight, dict(sorted(seats_by_row.items()))
+
+    def _mark_reserved_seats(self, seats, reserved_seats_ids):
         for seat in seats:
             seat.is_reserved = seat.id in reserved_seats_ids
-        
+        return seats
+
+    def _organize_seats_by_row(self, seats):
         seats_by_row = {}
         for seat in seats:
             seats_by_row.setdefault(seat.row, []).append(seat)
-        
-        return flight, dict(sorted(seats_by_row.items()))
+        return seats_by_row
 
     def get_passengers_by_flight(self, flight_pk):
         flight = self.flight_repo.get_by_id(flight_pk)
@@ -205,15 +218,18 @@ class SeatLayoutService:
                 'rows': rows,
                 'columns': columns
             })
-            for pos_data in positions_data:
-                seat_type = self.seat_type_repo.get_by_id(pos_data['seat_type_id'])
-                self.seat_layout_position_repo.create({
-                    'seat_layout': seat_layout,
-                    'seat_type': seat_type,
-                    'row': pos_data['row'],
-                    'column': pos_data['column']
-                })
+            self._create_seat_layout_positions(seat_layout, positions_data)
             return seat_layout
+
+    def _create_seat_layout_positions(self, seat_layout, positions_data):
+        for pos_data in positions_data:
+            seat_type = self.seat_type_repo.get_by_id(pos_data['seat_type_id'])
+            self.seat_layout_position_repo.create({
+                'seat_layout': seat_layout,
+                'seat_type': seat_type,
+                'row': pos_data['row'],
+                'column': pos_data['column']
+            })
 
     def update_seat_layout(self, pk, data):
         return self.seat_layout_repo.update(pk, data)
