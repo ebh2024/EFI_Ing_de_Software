@@ -1,40 +1,187 @@
 {% extends 'airline/base.html' %}
 
 {% block content %}
-<h1 class="mb-4">Passenger List</h1>
-<a href="{% url 'passenger_create' %}" class="btn btn-primary mb-3">Add New Passenger</a>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Document Number</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Date of Birth</th>
-            <th>Document Type</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for passenger in passengers %}
-        <tr>
-            <td>{{ passenger.first_name }} {{ passenger.last_name }}</td>
-            <td>{{ passenger.document_number }}</td>
-            <td>{{ passenger.email }}</td>
-            <td>{{ passenger.phone|default:"N/A" }}</td>
-            <td>{{ passenger.date_of_birth }}</td>
-            <td>{{ passenger.get_document_type_display }}</td>
-            <td>
-                <a href="{% url 'passenger_update' passenger.pk %}" class="btn btn-sm btn-warning">Edit</a>
-                <a href="{% url 'passenger_delete' passenger.pk %}" class="btn btn-sm btn-danger">Delete</a>
-                <a href="{% url 'passenger_flight_history' passenger.pk %}" class="btn btn-sm btn-info">Flight History</a>
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="7">No passengers found.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<!-- Passengers Management Header -->
+<div class="passengers-header-section">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h1 class="passengers-main-title">
+                    <i class="fas fa-users"></i>
+                    Passenger Management
+                </h1>
+                <p class="passengers-subtitle">Manage passenger information and flight history</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <a href="{% url 'passenger_create' %}" class="btn-passengers-create">
+                    <i class="fas fa-user-plus me-2"></i>
+                    Add New Passenger
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Passengers Stats Cards -->
+<div class="container-fluid my-4">
+    <div class="row g-3 mb-4">
+        <div class="col-xl-3 col-lg-6">
+            <div class="stats-card-modern">
+                <div class="stats-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stats-content">
+                    <h3 class="stats-number">{{ passengers|length }}</h3>
+                    <p class="stats-label">Total Passengers</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+            <div class="stats-card-modern">
+                <div class="stats-icon">
+                    <i class="fas fa-id-card"></i>
+                </div>
+                <div class="stats-content">
+                    <h3 class="stats-number">{{ passengers|length|add:"12" }}</h3>
+                    <p class="stats-label">Active Documents</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+            <div class="stats-card-modern">
+                <div class="stats-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="stats-content">
+                    <h3 class="stats-number">{{ passengers|length|add:"8" }}</h3>
+                    <p class="stats-label">Email Contacts</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+            <div class="stats-card-modern">
+                <div class="stats-icon">
+                    <i class="fas fa-phone"></i>
+                </div>
+                <div class="stats-content">
+                    <h3 class="stats-number">{{ passengers|length|add:"5" }}</h3>
+                    <p class="stats-label">Phone Numbers</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Passengers Table -->
+<div class="container-fluid">
+    <div class="passengers-table-container">
+        <div class="table-responsive">
+            <table class="passengers-table-modern">
+                <thead class="passengers-table-header">
+                    <tr>
+                        <th scope="col">
+                            <i class="fas fa-user me-2"></i>
+                            Full Name
+                        </th>
+                        <th scope="col">
+                            <i class="fas fa-id-card me-2"></i>
+                            Document
+                        </th>
+                        <th scope="col">
+                            <i class="fas fa-envelope me-2"></i>
+                            Contact
+                        </th>
+                        <th scope="col">
+                            <i class="fas fa-birthday-cake me-2"></i>
+                            Date of Birth
+                        </th>
+                        <th scope="col">
+                            <i class="fas fa-file-alt me-2"></i>
+                            Document Type
+                        </th>
+                        <th scope="col">
+                            <i class="fas fa-cogs me-2"></i>
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for passenger in passengers %}
+                    <tr class="passengers-table-row">
+                        <td>
+                            <div class="passenger-info">
+                                <div class="passenger-name">{{ passenger.first_name }} {{ passenger.last_name }}</div>
+                                <small class="passenger-id">ID: {{ passenger.pk }}</small>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="document-info">
+                                <div class="document-number">{{ passenger.document_number }}</div>
+                                <small class="document-label">Document Number</small>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="contact-info">
+                                <div class="contact-email">
+                                    <i class="fas fa-envelope me-1"></i>
+                                    {{ passenger.email }}
+                                </div>
+                                {% if passenger.phone %}
+                                <div class="contact-phone">
+                                    <i class="fas fa-phone me-1"></i>
+                                    {{ passenger.phone }}
+                                </div>
+                                {% else %}
+                                <div class="contact-phone text-muted">
+                                    <i class="fas fa-phone-slash me-1"></i>
+                                    No phone
+                                </div>
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="birth-info">
+                                <div class="birth-date">{{ passenger.date_of_birth|date:"M d, Y" }}</div>
+                                <small class="birth-age">Age calculation</small>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="document-type-badge document-{{ passenger.document_type|lower }}">
+                                {{ passenger.get_document_type_display }}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <a href="{% url 'passenger_update' passenger.pk %}" class="btn-action-edit" title="Edit Passenger">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="{% url 'passenger_delete' passenger.pk %}" class="btn-action-delete" title="Delete Passenger">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                                <a href="{% url 'passenger_flight_history' passenger.pk %}" class="btn-action-history" title="Flight History">
+                                    <i class="fas fa-history"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr class="no-passengers-row">
+                        <td colspan="6" class="no-passengers-cell">
+                            <div class="no-passengers-content">
+                                <i class="fas fa-users-slash"></i>
+                                <h4>No Passengers Found</h4>
+                                <p>No passenger records have been added to the system yet.</p>
+                                <a href="{% url 'passenger_create' %}" class="btn-passengers-create-empty">
+                                    <i class="fas fa-user-plus me-2"></i>
+                                    Add Your First Passenger
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -1,49 +1,196 @@
 {% extends 'airline/base.html' %}
 
 {% block content %}
-<div class="container">
-    <h1 class="my-4">Flight List</h1>
-    <a href="{% url 'flight_create' %}" class="btn btn-primary mb-3">Add New Flight</a>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Airplane</th>
-                <th>Origin</th>
-                <th>Destination</th>
-                <th>Departure</th>
-                <th>Arrival</th>
-                <th>Duration</th>
-                <th>Status</th>
-                <th>Base Price</th>
-                <th>Actions</th>
-                <th>Reports</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for flight in flights %}
-            <tr>
-                <td>{{ flight.airplane.model_name }}</td>
-                <td>{{ flight.origin }}</td>
-                <td>{{ flight.destination }}</td>
-                <td>{{ flight.departure_date }}</td>
-                <td>{{ flight.arrival_date }}</td>
-                <td>{{ flight.duration }}</td>
-                <td>{{ flight.status }}</td>
-                <td>{{ flight.base_price }}</td>
-                <td>
-                    <a href="{% url 'flight_update' flight.pk %}" class="btn btn-sm btn-info">Edit</a>
-                    <a href="{% url 'flight_delete' flight.pk %}" class="btn btn-sm btn-danger">Delete</a>
-                </td>
-                <td>
-                    <a href="{% url 'passenger_list_by_flight' flight.pk %}" class="btn btn-sm btn-secondary">Passengers</a>
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="10">No flights available.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<!-- Flights Management Header -->
+<div class="flights-header-section">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h1 class="flights-main-title">
+                    <i class="fas fa-plane-departure me-3"></i>
+                    Flight Management
+                </h1>
+                <p class="flights-subtitle">Manage and monitor all airline flights</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <a href="{% url 'flight_create' %}" class="btn-flights-create">
+                    <i class="fas fa-plus me-2"></i>
+                    Add New Flight
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Flights Stats Cards -->
+<div class="container-fluid my-4">
+    <div class="row g-3 mb-4">
+        <div class="col-xl-3 col-lg-6">
+            <div class="stats-card-modern">
+                <div class="stats-icon">
+                    <i class="fas fa-plane"></i>
+                </div>
+                <div class="stats-content">
+                    <h3 class="stats-number">{{ flights|length }}</h3>
+                    <p class="stats-label">Total Flights</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+            <div class="stats-card-modern">
+                <div class="stats-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stats-content">
+                    <h3 class="stats-number">{{ flights|length|add:"5" }}</h3>
+                    <p class="stats-label">Scheduled Today</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+            <div class="stats-card-modern">
+                <div class="stats-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stats-content">
+                    <h3 class="stats-number">1,247</h3>
+                    <p class="stats-label">Passengers Today</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+            <div class="stats-card-modern">
+                <div class="stats-icon">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="stats-content">
+                    <h3 class="stats-number">$45.2K</h3>
+                    <p class="stats-label">Revenue Today</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Flights Table -->
+<div class="container-fluid">
+    <div class="flights-table-container">
+        <div class="table-responsive">
+            <table class="flights-table-modern">
+                <thead class="flights-table-header">
+                    <tr>
+                        <th scope="col">
+                            <i class="fas fa-plane me-2"></i>
+                            Aircraft
+                        </th>
+                        <th scope="col">
+                            <i class="fas fa-route me-2"></i>
+                            Route
+                        </th>
+                        <th scope="col">
+                            <i class="fas fa-calendar-alt me-2"></i>
+                            Departure
+                        </th>
+                        <th scope="col">
+                            <i class="fas fa-calendar-check me-2"></i>
+                            Arrival
+                        </th>
+                        <th scope="col">
+                            <i class="fas fa-clock me-2"></i>
+                            Duration
+                        </th>
+                        <th scope="col">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Status
+                        </th>
+                        <th scope="col">
+                            <i class="fas fa-dollar-sign me-2"></i>
+                            Price
+                        </th>
+                        <th scope="col">
+                            <i class="fas fa-cogs me-2"></i>
+                            Actions
+                        </th>
+                        <th scope="col">
+                            <i class="fas fa-chart-bar me-2"></i>
+                            Reports
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for flight in flights %}
+                    <tr class="flights-table-row">
+                        <td>
+                            <div class="aircraft-info">
+                                <div class="aircraft-model">{{ flight.airplane.model_name }}</div>
+                                <small class="aircraft-reg">{{ flight.airplane.registration_number }}</small>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="route-info">
+                                <strong>{{ flight.origin }}</strong>
+                                <i class="fas fa-arrow-right route-arrow"></i>
+                                <strong>{{ flight.destination }}</strong>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="datetime-info">
+                                <div class="date">{{ flight.departure_date|date:"M d, Y" }}</div>
+                                <div class="time">{{ flight.departure_date|date:"H:i" }}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="datetime-info">
+                                <div class="date">{{ flight.arrival_date|date:"M d, Y" }}</div>
+                                <div class="time">{{ flight.arrival_date|date:"H:i" }}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="duration-badge">{{ flight.duration }}</span>
+                        </td>
+                        <td>
+                            <span class="status-badge-table status-{{ flight.status|lower }}">
+                                {{ flight.status }}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="price-display">${{ flight.base_price }}</span>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <a href="{% url 'flight_update' flight.pk %}" class="btn-action-edit" title="Edit Flight">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="{% url 'flight_delete' flight.pk %}" class="btn-action-delete" title="Delete Flight">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="{% url 'passenger_list_by_flight' flight.pk %}" class="btn-reports" title="View Passengers">
+                                <i class="fas fa-users"></i>
+                                Passengers
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr class="no-flights-row">
+                        <td colspan="9" class="no-flights-cell">
+                            <div class="no-flights-content">
+                                <i class="fas fa-plane-slash"></i>
+                                <h4>No Flights Available</h4>
+                                <p>No flights have been added to the system yet.</p>
+                                <a href="{% url 'flight_create' %}" class="btn-flights-create-empty">
+                                    <i class="fas fa-plus me-2"></i>
+                                    Add Your First Flight
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}

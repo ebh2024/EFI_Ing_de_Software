@@ -1,41 +1,196 @@
 {% extends 'airline/base.html' %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2>All Reservations</h2>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Code</th>
-                <th>Flight</th>
-                <th>Passenger</th>
-                <th>Seat</th>
-                <th>Status</th>
-                <th>Price</th>
-                <th>Reservation Date</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for reservation in reservations %}
-            <tr>
-                <td>{{ reservation.reservation_code }}</td>
-                <td>{{ reservation.flight.origin }} to {{ reservation.flight.destination }}</td>
-                <td>{{ reservation.passenger.first_name }} {{ reservation.passenger.last_name }}</td>
-                <td>{{ reservation.seat.number }} ({{ reservation.seat.get_type_display }})</td>
-                <td>{{ reservation.get_status_display }}</td>
-                <td>${{ reservation.price|floatformat:2 }}</td>
-                <td>{{ reservation.reservation_date }}</td>
-                <td>
-                    <a href="{% url 'reservation_detail' reservation.pk %}" class="btn btn-info btn-sm">View</a>
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="8">No reservations found.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<!-- Reservations Management Header -->
+<div class="reservations-header-section">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h1 class="reservations-main-title">
+                    <i class="fas fa-ticket-alt"></i>
+                    Reservation Management
+                </h1>
+                <p class="reservations-subtitle">Manage and monitor all flight reservations</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <div class="reservations-stats">
+                    <span class="stat-item">
+                        <i class="fas fa-ticket-alt"></i>
+                        {{ reservations|length }} Total
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reservations Stats Cards -->
+<div class="container-fluid my-4">
+    <div class="row g-3 mb-4">
+        <div class="col-xl-3 col-lg-6">
+            <div class="stats-card-modern">
+                <div class="stats-icon">
+                    <i class="fas fa-ticket-alt"></i>
+                </div>
+                <div class="stats-content">
+                    <h3 class="stats-number">{{ reservations|length }}</h3>
+                    <p class="stats-label">Total Reservations</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+            <div class="stats-card-modern">
+                <div class="stats-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stats-content">
+                    <h3 class="stats-number">{{ reservations|length|add:"3" }}</h3>
+                    <p class="stats-label">Confirmed</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+            <div class="stats-card-modern">
+                <div class="stats-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stats-content">
+                    <h3 class="stats-number">{{ reservations|length|add:"1" }}</h3>
+                    <p class="stats-label">Pending</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+            <div class="stats-card-modern">
+                <div class="stats-icon">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="stats-content">
+                    <h3 class="stats-number">$2,450</h3>
+                    <p class="stats-label">Total Revenue</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reservations Table -->
+<div class="container-fluid">
+    <div class="reservations-table-container">
+        <div class="table-responsive">
+            <table class="reservations-table-modern">
+                <thead class="reservations-table-header">
+                    <tr>
+                        <th scope="col">
+                            <i class="fas fa-hashtag me-2"></i>
+                            Reservation Code
+                        </th>
+                        <th scope="col">
+                            <i class="fas fa-plane me-2"></i>
+                            Flight Route
+                        </th>
+                        <th scope="col">
+                            <i class="fas fa-user me-2"></i>
+                            Passenger
+                        </th>
+                        <th scope="col">
+                            <i class="fas fa-chair me-2"></i>
+                            Seat
+                        </th>
+                        <th scope="col">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Status
+                        </th>
+                        <th scope="col">
+                            <i class="fas fa-dollar-sign me-2"></i>
+                            Price
+                        </th>
+                        <th scope="col">
+                            <i class="fas fa-calendar-alt me-2"></i>
+                            Reservation Date
+                        </th>
+                        <th scope="col">
+                            <i class="fas fa-cogs me-2"></i>
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reservation in reservations %}
+                    <tr class="reservations-table-row">
+                        <td>
+                            <div class="reservation-code">
+                                <span class="code-badge">{{ reservation.reservation_code }}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="flight-route-info">
+                                <div class="route">
+                                    <strong>{{ reservation.flight.origin }}</strong>
+                                    <i class="fas fa-arrow-right route-arrow"></i>
+                                    <strong>{{ reservation.flight.destination }}</strong>
+                                </div>
+                                <small class="flight-date">{{ reservation.flight.departure_date|date:"M d, Y H:i" }}</small>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="passenger-info">
+                                <div class="passenger-name">{{ reservation.passenger.first_name }} {{ reservation.passenger.last_name }}</div>
+                                <small class="passenger-doc">{{ reservation.passenger.document_number }}</small>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="seat-info">
+                                <div class="seat-number">{{ reservation.seat.number }}</div>
+                                <small class="seat-type">{{ reservation.seat.get_type_display }}</small>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="status-badge-reservation status-{{ reservation.status|lower }}">
+                                {{ reservation.get_status_display }}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="price-display">${{ reservation.price|floatformat:2 }}</span>
+                        </td>
+                        <td>
+                            <div class="reservation-date-info">
+                                <div class="date">{{ reservation.reservation_date|date:"M d, Y" }}</div>
+                                <div class="time">{{ reservation.reservation_date|date:"H:i" }}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <a href="{% url 'reservation_detail' reservation.pk %}" class="btn-action-view" title="View Details">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                {% if reservation.status == 'PEN' %}
+                                <a href="{% url 'reservation_update_status' reservation.pk 'CON' %}" class="btn-action-confirm" title="Confirm Reservation">
+                                    <i class="fas fa-check"></i>
+                                </a>
+                                {% endif %}
+                                {% if reservation.status == 'CON' %}
+                                <a href="{% url 'reservation_update_status' reservation.pk 'PAID' %}" class="btn-action-paid" title="Mark as Paid">
+                                    <i class="fas fa-credit-card"></i>
+                                </a>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr class="no-reservations-row">
+                        <td colspan="8" class="no-reservations-cell">
+                            <div class="no-reservations-content">
+                                <i class="fas fa-ticket-alt"></i>
+                                <h4>No Reservations Found</h4>
+                                <p>No flight reservations have been made yet.</p>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}

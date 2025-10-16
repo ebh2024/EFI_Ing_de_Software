@@ -1,39 +1,228 @@
 {% extends 'airline/base.html' %}
 
 {% block content %}
-<div class="card">
-    <div class="card-header">
-        <h1 class="card-title mb-0">{{ action }} Flight</h1>
+<!-- Flight Form Header -->
+<div class="flight-form-header">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h1 class="flight-form-title">
+                    <i class="fas fa-{{ action|lower }}"></i>
+                    {{ action }} Flight
+                </h1>
+                <p class="flight-form-subtitle">
+                    {% if action == "Create" %}
+                        Add a new flight to the airline schedule
+                    {% else %}
+                        Update flight information and details
+                    {% endif %}
+                </p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <a href="{% url 'flight_list' %}" class="btn-flight-back">
+                    <i class="fas fa-arrow-left me-2"></i>
+                    Back to Flights
+                </a>
+            </div>
+        </div>
     </div>
-    <div class="card-body">
-        <form method="post">
-            {% csrf_token %}
-            {% if form.non_field_errors %}
-                <div class="alert alert-danger">
-                    {% for error in form.non_field_errors %}
-                        <p>{{ error }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
-            <div class="form-row">
-                {% for field in form %}
-                    <div class="form-group">
-                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                        {{ field }}
-                        {% if field.help_text %}
-                            <small class="form-text text-muted">{{ field.help_text }}</small>
-                        {% endif %}
-                        {% for error in field.errors %}
-                            <div class="invalid-feedback d-block">{{ error }}</div>
-                        {% endfor %}
+</div>
+
+<!-- Flight Form Container -->
+<div class="container-fluid my-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 col-xl-8">
+            <div class="flight-form-card">
+                <!-- Progress Indicator -->
+                <div class="form-progress">
+                    <div class="progress-step active">
+                        <div class="step-icon">
+                            <i class="fas fa-plane"></i>
+                        </div>
+                        <span>Flight Details</span>
                     </div>
-                {% endfor %}
+                    <div class="progress-line"></div>
+                    <div class="progress-step">
+                        <div class="step-icon">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <span>Complete</span>
+                    </div>
+                </div>
+
+                <!-- Form Content -->
+                <div class="form-content">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                <i class="fas fa-info-circle me-2"></i>
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <form method="post" class="flight-form-modern">
+                        {% csrf_token %}
+
+                        <!-- Flight Route Section -->
+                        <div class="form-section">
+                            <div class="section-header">
+                                <i class="fas fa-route"></i>
+                                <h3>Flight Route</h3>
+                            </div>
+                            <div class="form-row-modern">
+                                <div class="form-group-modern">
+                                    <label for="{{ form.origin.id_for_label }}" class="form-label-modern">
+                                        <i class="fas fa-plane-departure"></i>
+                                        {{ form.origin.label }}
+                                    </label>
+                                    {{ form.origin }}
+                                    {% for error in form.origin.errors %}
+                                        <div class="error-message">
+                                            <i class="fas fa-exclamation-circle"></i>
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="form-group-modern">
+                                    <label for="{{ form.destination.id_for_label }}" class="form-label-modern">
+                                        <i class="fas fa-plane-arrival"></i>
+                                        {{ form.destination.label }}
+                                    </label>
+                                    {{ form.destination }}
+                                    {% for error in form.destination.errors %}
+                                        <div class="error-message">
+                                            <i class="fas fa-exclamation-circle"></i>
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Aircraft & Schedule Section -->
+                        <div class="form-section">
+                            <div class="section-header">
+                                <i class="fas fa-plane"></i>
+                                <h3>Aircraft & Schedule</h3>
+                            </div>
+                            <div class="form-row-modern">
+                                <div class="form-group-modern">
+                                    <label for="{{ form.airplane.id_for_label }}" class="form-label-modern">
+                                        <i class="fas fa-plane"></i>
+                                        {{ form.airplane.label }}
+                                    </label>
+                                    {{ form.airplane }}
+                                    {% for error in form.airplane.errors %}
+                                        <div class="error-message">
+                                            <i class="fas fa-exclamation-circle"></i>
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="form-group-modern">
+                                    <label for="{{ form.status.id_for_label }}" class="form-label-modern">
+                                        <i class="fas fa-info-circle"></i>
+                                        {{ form.status.label }}
+                                    </label>
+                                    {{ form.status }}
+                                    {% for error in form.status.errors %}
+                                        <div class="error-message">
+                                            <i class="fas fa-exclamation-circle"></i>
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="form-row-modern">
+                                <div class="form-group-modern">
+                                    <label for="{{ form.departure_date.id_for_label }}" class="form-label-modern">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        {{ form.departure_date.label }}
+                                    </label>
+                                    {{ form.departure_date }}
+                                    {% for error in form.departure_date.errors %}
+                                        <div class="error-message">
+                                            <i class="fas fa-exclamation-circle"></i>
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="form-group-modern">
+                                    <label for="{{ form.arrival_date.id_for_label }}" class="form-label-modern">
+                                        <i class="fas fa-calendar-check"></i>
+                                        {{ form.arrival_date.label }}
+                                    </label>
+                                    {{ form.arrival_date }}
+                                    {% for error in form.arrival_date.errors %}
+                                        <div class="error-message">
+                                            <i class="fas fa-exclamation-circle"></i>
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="form-row-modern">
+                                <div class="form-group-modern">
+                                    <label for="{{ form.duration.id_for_label }}" class="form-label-modern">
+                                        <i class="fas fa-clock"></i>
+                                        {{ form.duration.label }}
+                                    </label>
+                                    {{ form.duration }}
+                                    {% for error in form.duration.errors %}
+                                        <div class="error-message">
+                                            <i class="fas fa-exclamation-circle"></i>
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="form-group-modern">
+                                    <label for="{{ form.base_price.id_for_label }}" class="form-label-modern">
+                                        <i class="fas fa-dollar-sign"></i>
+                                        {{ form.base_price.label }}
+                                    </label>
+                                    {{ form.base_price }}
+                                    {% for error in form.base_price.errors %}
+                                        <div class="error-message">
+                                            <i class="fas fa-exclamation-circle"></i>
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="form-actions-modern">
+                            <button type="submit" class="btn-flight-save">
+                                <i class="fas fa-save me-2"></i>
+                                {{ action }} Flight
+                            </button>
+                            <a href="{% url 'flight_list' %}" class="btn-flight-cancel">
+                                <i class="fas fa-times me-2"></i>
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="mt-3">
-                <button type="submit" class="btn btn-primary">Save</button>
-                <a href="{% url 'flight_list' %}" class="btn btn-secondary">Cancel</a>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 {% endblock %}
