@@ -1,45 +1,131 @@
 {% extends 'airline/base.html' %}
 
 {% block content %}
-<div class="container">
-    <h1 class="my-4">Welcome to the Airline Management System!</h1>
-    <p>This is the home page. Here are the available flights:</p>
+<!-- Hero Banner -->
+<div class="hero-banner">
+    <div class="hero-overlay">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="hero-title">✈️ Airlines</h1>
+                    <p class="hero-subtitle">Discover amazing destinations with our premium flight services</p>
+                    {% if not user.is_authenticated %}
+                    <div class="hero-buttons">
+                        <a href="{% url 'login' %}" class="btn btn-light btn-lg me-3">Login</a>
+                        <a href="{% url 'register' %}" class="btn btn-warning btn-lg">Get Started</a>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="col-lg-6 text-center">
+                    <div class="plane-animation">
+                        <i class="fas fa-plane"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Airplane</th>
-                <th>Origin</th>
-                <th>Destination</th>
-                <th>Departure</th>
-                <th>Arrival</th>
-                <th>Duration</th>
-                <th>Status</th>
-                <th>Base Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for flight in flights %}
-            <tr>
-                <td>{{ flight.airplane.model }}</td>
-                <td>{{ flight.origin }}</td>
-                <td>{{ flight.destination }}</td>
-                <td>{{ flight.departure_date }}</td>
-                <td>{{ flight.arrival_date }}</td>
-                <td>{{ flight.duration }}</td>
-                <td>{{ flight.status }}</td>
-                <td>{{ flight.base_price }}</td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="8">No flights available.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<!-- Flights Grid -->
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="section-title text-center mb-5">
+                <i class="fas fa-route text-primary me-2"></i>
+                Available Flights
+            </h2>
+        </div>
+    </div>
 
-    {% if not user.is_authenticated %}
-    <p>You can <a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}">Register</a> to manage flights.</p>
+    {% if flights %}
+    <div class="row g-4">
+        {% for flight in flights %}
+        <div class="col-xl-4 col-lg-6 col-md-6">
+            <div class="flight-card-modern">
+                <div class="card-header-modern">
+                    <div class="route-info">
+                        <h5 class="route">{{ flight.origin }} <i class="fas fa-arrow-right"></i> {{ flight.destination }}</h5>
+                        <span class="aircraft">{{ flight.airplane.model_name }}</span>
+                    </div>
+                    <div class="status-badge status-{{ flight.status|lower }}">
+                        {{ flight.status }}
+                    </div>
+                </div>
+
+                <div class="card-body-modern">
+                    <div class="flight-times">
+                        <div class="time-block">
+                            <div class="time">{{ flight.departure_date|date:"H:i" }}</div>
+                            <div class="date">{{ flight.departure_date|date:"M d" }}</div>
+                            <div class="label">Departure</div>
+                        </div>
+                        <div class="flight-duration">
+                            <i class="fas fa-plane"></i>
+                            <span>{{ flight.duration }}</span>
+                        </div>
+                        <div class="time-block">
+                            <div class="time">{{ flight.arrival_date|date:"H:i" }}</div>
+                            <div class="date">{{ flight.arrival_date|date:"M d" }}</div>
+                            <div class="label">Arrival</div>
+                        </div>
+                    </div>
+
+                    <div class="flight-price-modern">
+                        <div class="price-tag">
+                            <span class="currency">$</span>
+                            <span class="amount">{{ flight.base_price }}</span>
+                            <span class="per-person">per person</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer-modern">
+                    <a href="{% url 'flight_detail_with_seats' flight.pk %}" class="btn btn-book-modern">
+                        <i class="fas fa-ticket-alt me-2"></i>
+                        Book Flight
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="no-flights-modern">
+        <div class="empty-state">
+            <i class="fas fa-plane-slash"></i>
+            <h3>No Flights Available</h3>
+            <p>We're working on adding new routes. Check back soon!</p>
+        </div>
+    </div>
     {% endif %}
+</div>
+
+<!-- Stats Section -->
+<div class="stats-section">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-4">
+                <div class="stat-item">
+                    <i class="fas fa-plane"></i>
+                    <h3>{{ flights|length }}</h3>
+                    <p>Active Flights</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-item">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <h3>50+</h3>
+                    <p>Destinations</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-item">
+                    <i class="fas fa-users"></i>
+                    <h3>1000+</h3>
+                    <p>Happy Passengers</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

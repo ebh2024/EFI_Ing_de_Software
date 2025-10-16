@@ -6,17 +6,180 @@ body {
     color: #343a40; /* Dark text color */
 }
 
-.navbar {
-    background-color: #007bff !important; /* Primary blue for navbar */
-    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+/* Modern Navbar */
+.navbar-custom {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding: 0.75rem 0;
 }
 
-.navbar-brand, .nav-link {
-    color: #ffffff !important; /* White text for navbar items */
+.navbar-brand {
+    font-weight: 700 !important;
+    font-size: 1.5rem !important;
+    color: #ffffff !important;
+    display: flex;
+    align-items: center;
 }
 
-.navbar-brand:hover, .nav-link:hover {
-    color: #e2e6ea !important; /* Lighter white on hover */
+.navbar-brand:hover {
+    color: #e8f4f8 !important;
+    transform: scale(1.02);
+    transition: all 0.3s ease;
+}
+
+.navbar-brand i {
+    color: #ffc107;
+    font-size: 1.8rem;
+}
+
+.brand-text {
+    background: linear-gradient(45deg, #ffffff, #e8f4f8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-weight: 500;
+    padding: 0.5rem 1rem !important;
+    margin: 0 0.25rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-link:hover {
+    color: #ffffff !important;
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
+}
+
+.nav-link i {
+    margin-right: 0.25rem;
+}
+
+.btn-login, .btn-register {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    padding: 0.5rem 1.25rem !important;
+    border-radius: 25px !important;
+    margin: 0 0.25rem;
+    transition: all 0.3s ease !important;
+    backdrop-filter: blur(10px);
+}
+
+.btn-login:hover, .btn-register:hover {
+    background: rgba(255, 255, 255, 0.25) !important;
+    border-color: rgba(255, 255, 255, 0.5) !important;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.btn-register {
+    background: linear-gradient(135deg, #ffc107, #ff8c00) !important;
+    border: none !important;
+    color: #212529 !important;
+}
+
+.btn-register:hover {
+    background: linear-gradient(135deg, #ff8c00, #ff6b00) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+}
+
+.user-menu {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 20px !important;
+    padding: 0.5rem 1rem !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    font-weight: 600 !important;
+}
+
+.user-menu:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.dropdown-menu {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px);
+    border: none !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+    margin-top: 0.5rem !important;
+}
+
+.dropdown-item {
+    color: #495057 !important;
+    font-weight: 500;
+    padding: 0.75rem 1.25rem;
+    border-radius: 6px;
+    margin: 0.25rem 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background: linear-gradient(135deg, #667eea, #764ba2) !important;
+    color: #ffffff !important;
+    transform: translateX(5px);
+}
+
+.dropdown-header {
+    color: #667eea !important;
+    font-weight: 600 !important;
+    border-bottom: 1px solid #e9ecef;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.navbar-toggler {
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='m4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+/* Mobile navbar adjustments */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        margin-top: 1rem;
+        padding: 1rem;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .navbar-nav .nav-link {
+        color: #495057 !important;
+        margin: 0.25rem 0;
+    }
+
+    .navbar-nav .nav-link:hover {
+        background: linear-gradient(135deg, #667eea, #764ba2) !important;
+        color: #ffffff !important;
+    }
+
+    .btn-login, .btn-register {
+        background: linear-gradient(135deg, #667eea, #764ba2) !important;
+        color: #ffffff !important;
+        border: none !important;
+        margin: 0.25rem 0;
+        width: 100%;
+    }
+
+    .btn-register {
+        background: linear-gradient(135deg, #ffc107, #ff8c00) !important;
+        color: #212529 !important;
+    }
 }
 
 .container.mt-4 {
@@ -108,4 +271,846 @@ body {
     position: relative;
     bottom: 0;
     width: 100%;
+}
+
+/* Hero Banner */
+.hero-banner {
+    position: relative;
+    height: 60vh;
+    min-height: 400px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    overflow: hidden;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2rem;
+    font-weight: 300;
+}
+
+.hero-buttons .btn-light {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #667eea;
+    border: none;
+    font-weight: 600;
+}
+
+.hero-buttons .btn-light:hover {
+    background-color: white;
+    color: #667eea;
+    transform: translateY(-2px);
+}
+
+.hero-buttons .btn-warning {
+    background-color: #ffc107;
+    color: #212529;
+    border: none;
+    font-weight: 600;
+}
+
+.hero-buttons .btn-warning:hover {
+    background-color: #e0a800;
+    color: #212529;
+    transform: translateY(-2px);
+}
+
+.plane-animation {
+    font-size: 8rem;
+    color: rgba(255, 255, 255, 0.8);
+    animation: fly 3s ease-in-out infinite;
+}
+
+@keyframes fly {
+    0%, 100% { transform: translateX(0) rotate(0deg); }
+    25% { transform: translateX(20px) rotate(2deg); }
+    75% { transform: translateX(-20px) rotate(-2deg); }
+}
+
+/* Modern Flight Cards */
+.flight-card-modern {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    height: 100%;
+    border: 1px solid #e9ecef;
+}
+
+.flight-card-modern:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.card-header-modern {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+    color: white;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.route-info h5 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.route-info .aircraft {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    display: block;
+    margin-top: 0.25rem;
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-scheduled {
+    background-color: #28a745;
+    color: white;
+}
+
+.status-delayed {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.status-cancelled {
+    background-color: #dc3545;
+    color: white;
+}
+
+.status-on-time {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.status-boarding {
+    background-color: #6f42c1;
+    color: white;
+}
+
+.status-departed {
+    background-color: #6c757d;
+    color: white;
+}
+
+.card-body-modern {
+    padding: 1.5rem;
+}
+
+.flight-times {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.time-block {
+    text-align: center;
+    flex: 1;
+}
+
+.time-block .time {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #343a40;
+}
+
+.time-block .date {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-top: 0.25rem;
+}
+
+.time-block .label {
+    font-size: 0.8rem;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 0.25rem;
+}
+
+.flight-duration {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 1rem;
+}
+
+.flight-duration i {
+    font-size: 1.5rem;
+    color: #6c757d;
+    margin-bottom: 0.25rem;
+}
+
+.flight-duration span {
+    font-size: 0.9rem;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.flight-price-modern {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.price-tag {
+    display: inline-flex;
+    align-items: baseline;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.price-tag .currency {
+    font-size: 1.2rem;
+    margin-right: 0.25rem;
+}
+
+.price-tag .amount {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.price-tag .per-person {
+    font-size: 0.8rem;
+    opacity: 0.9;
+    margin-left: 0.5rem;
+}
+
+.card-footer-modern {
+    padding: 1.5rem;
+    text-align: center;
+    background-color: #f8f9fa;
+}
+
+.btn-book-modern {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.btn-book-modern:hover {
+    background: linear-gradient(135deg, #ee5a24 0%, #dc4523 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+}
+
+.no-flights-modern {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.empty-state i {
+    font-size: 4rem;
+    color: #6c757d;
+    margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+    color: #343a40;
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+    color: #6c757d;
+}
+
+/* Stats Section */
+.stats-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 3rem 0;
+    margin-top: 3rem;
+}
+
+.stat-item {
+    padding: 2rem;
+}
+
+.stat-item i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.8;
+}
+
+.stat-item h3 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.stat-item p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin: 0;
+}
+
+/* Section Title */
+.section-title {
+    font-weight: 700;
+    color: #343a40;
+    margin-bottom: 3rem;
+}
+
+.flight-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.flight-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+.flight-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1.5rem;
+}
+
+.flight-route {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.flight-airplane {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.flight-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.flight-details {
+    flex-grow: 1;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 0.5rem;
+}
+
+.detail-item i {
+    margin-right: 0.5rem;
+    color: #667eea;
+    width: 16px;
+}
+
+.status-scheduled {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-delayed {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-cancelled {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.status-on-time {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+.status-boarding {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-departed {
+    background-color: #e2e3e5;
+    color: #383d41;
+}
+
+.flight-price {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.price {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #667eea;
+}
+
+.flight-footer {
+    padding: 0 1.5rem 1.5rem;
+    text-align: center;
+}
+
+.btn-flight-details {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 0.5rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-flight-details:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.no-flights {
+    padding: 3rem;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+/* Call to Action Section */
+.cta-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.cta-section h3 {
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.cta-section p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.btn-cta-primary {
+    background-color: #fff;
+    color: #667eea;
+    border: 2px solid #fff;
+    font-weight: 600;
+    border-radius: 25px;
+    padding: 0.5rem 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn-cta-primary:hover {
+    background-color: transparent;
+    color: #fff;
+}
+
+.btn-cta-secondary {
+    background-color: transparent;
+    color: #fff;
+    border: 2px solid #fff;
+    font-weight: 600;
+    border-radius: 25px;
+    padding: 0.5rem 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn-cta-secondary:hover {
+    background-color: #fff;
+    color: #667eea;
+}
+
+/* Login Page Styles */
+.login-hero {
+    position: relative;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    overflow: hidden;
+}
+
+.login-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+}
+
+.login-card-modern {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.login-header {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+    color: white;
+    padding: 2rem 2rem 1.5rem;
+    text-align: center;
+}
+
+.logo-section i {
+    font-size: 3rem;
+    color: #ffc107;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.logo-section h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.logo-section p {
+    opacity: 0.9;
+    margin: 0;
+    font-size: 1rem;
+}
+
+.login-body {
+    padding: 2rem;
+}
+
+.login-form {
+    width: 100%;
+}
+
+.form-group-modern {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.form-label-modern {
+    display: block;
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-label-modern i {
+    margin-right: 0.5rem;
+    color: #667eea;
+    width: 16px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    background: white;
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.error-message i {
+    margin-right: 0.5rem;
+    font-size: 0.8rem;
+}
+
+.form-actions {
+    margin-top: 2rem;
+}
+
+.btn-login-modern {
+    width: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 0.875rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-login-modern:hover {
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.form-footer {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e9ecef;
+}
+
+.register-link {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.register-link:hover {
+    color: #5a67d8;
+    text-decoration: underline;
+}
+
+/* Register Page Styles */
+.register-hero {
+    position: relative;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    overflow: hidden;
+}
+
+.register-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+}
+
+.register-card-modern {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.register-header {
+    background: linear-gradient(135deg, #ffc107 0%, #ff8c00 100%);
+    color: #212529;
+    padding: 2rem 2rem 1.5rem;
+    text-align: center;
+}
+
+.register-header .logo-section i {
+    font-size: 3rem;
+    color: #495057;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.register-header .logo-section h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.register-header .logo-section p {
+    opacity: 0.8;
+    margin: 0;
+    font-size: 1rem;
+}
+
+.register-body {
+    padding: 2rem;
+}
+
+.register-form {
+    width: 100%;
+}
+
+.form-row-modern {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-group-modern {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.form-label-modern {
+    display: block;
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-label-modern i {
+    margin-right: 0.5rem;
+    color: #667eea;
+    width: 16px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    background: white;
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.error-message i {
+    margin-right: 0.5rem;
+    font-size: 0.8rem;
+}
+
+.form-actions {
+    margin-top: 2rem;
+}
+
+.btn-register-modern {
+    width: 100%;
+    background: linear-gradient(135deg, #ffc107 0%, #ff8c00 100%);
+    color: #212529;
+    border: none;
+    border-radius: 12px;
+    padding: 0.875rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-register-modern:hover {
+    background: linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 193, 7, 0.4);
+}
+
+.register-form .form-footer {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e9ecef;
+}
+
+.login-link {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.login-link:hover {
+    color: #5a67d8;
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+
+    .flight-info {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .search-card {
+        padding: 1.5rem;
+    }
+
+    .login-card-modern, .register-card-modern {
+        margin: 1rem;
+    }
+
+    .login-header, .register-header {
+        padding: 1.5rem 1.5rem 1rem;
+    }
+
+    .logo-section h2 {
+        font-size: 1.5rem;
+    }
+
+    .login-body, .register-body {
+        padding: 1.5rem;
+    }
+
+    .form-row-modern {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
 }
