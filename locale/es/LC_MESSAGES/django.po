@@ -141,6 +141,10 @@ msgstr "Gestión de Vuelos"
 msgid "Manage and monitor all airline flights"
 msgstr "Gestiona y monitoriza todos los vuelos de la aerolínea"
 
+#: airline/templates/airline/passenger_list.html:7
+msgid "Passenger Management"
+msgstr "Gestión de Pasajeros"
+
 #: airline/templates/airline/flight_list.html:19
 msgid "Add New Flight"
 msgstr "Añadir Nuevo Vuelo"
