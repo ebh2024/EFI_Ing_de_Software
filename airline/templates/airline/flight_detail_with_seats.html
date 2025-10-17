@@ -1,23 +1,24 @@
 {% extends 'airline/base.html' %}
+{% load i18n %}
 
 {% block content %}
 <div class="container mt-4">
-    <h2>Flight {{ flight.origin }} to {{ flight.destination }}</h2>
-    <p>Departure: {{ flight.departure_date }}</p>
-    <p>Arrival: {{ flight.arrival_date }}</p>
-    <p>Airplane: {{ flight.airplane.model }} (Capacity: {{ flight.airplane.capacity }})</p>
-    <p>Base Price: ${{ flight.base_price }}</p>
+    <h2>{% trans "Flight" %} {{ flight.origin }} {% trans "to" %} {{ flight.destination }}</h2>
+    <p>{% trans "Departure" %}: {{ flight.departure_date }}</p>
+    <p>{% trans "Arrival" %}: {{ flight.arrival_date }}</p>
+    <p>{% trans "Airplane" %}: {{ flight.airplane.model }} ({% trans "Capacity" %}: {{ flight.airplane.capacity }})</p>
+    <p>{% trans "Base Price" %}: ${{ flight.base_price }}</p>
 
-    <h3>Seat Map</h3>
+    <h3>{% trans "Seat Map" %}</h3>
     <div class="seat-map">
         {% for row_number, seats_in_row in seats_by_row.items %}
             <div class="seat-row d-flex justify-content-center mb-2">
-                <div class="row-label me-3">Row {{ row_number }}</div>
+                <div class="row-label me-3">{% trans "Row" %} {{ row_number }}</div>
                 {% for seat in seats_in_row %}
                     <a href="{% if not seat.is_reserved %}{% url 'reserve_seat' flight.pk seat.pk %}{% else %}#{% endif %}" 
                        class="seat-box {% if seat.is_reserved %}reserved{% else %}available{% endif %} 
                               {% if seat.type == 'PRE' %}premium{% elif seat.type == 'EXE' %}executive{% endif %}"
-                       title="Seat {{ seat.number }} ({{ seat.get_type_display }}) - {% if seat.is_reserved %}Reserved{% else %}Available{% endif %}">
+                       title="{% trans 'Seat' %} {{ seat.number }} ({{ seat.get_type_display }}) - {% if seat.is_reserved %}{% trans 'Reserved' %}{% else %}{% trans 'Available' %}{% endif %}">
                         {{ seat.column }}
                     </a>
                 {% endfor %}
@@ -26,18 +27,18 @@
     </div>
 
     <div class="mt-4">
-        <h4>Legend:</h4>
+        <h4>{% trans "Legend" %}:</h4>
         <div class="d-flex align-items-center mb-2">
-            <div class="seat-box available me-2"></div> Available
+            <div class="seat-box available me-2"></div> {% trans "Available" %}
         </div>
         <div class="d-flex align-items-center mb-2">
-            <div class="seat-box reserved me-2"></div> Reserved
+            <div class="seat-box reserved me-2"></div> {% trans "Reserved" %}
         </div>
         <div class="d-flex align-items-center mb-2">
-            <div class="seat-box premium me-2"></div> Premium
+            <div class="seat-box premium me-2"></div> {% trans "Premium" %}
         </div>
         <div class="d-flex align-items-center mb-2">
-            <div class="seat-box executive me-2"></div> Executive
+            <div class="seat-box executive me-2"></div> {% trans "Executive" %}
         </div>
     </div>
 </div>
