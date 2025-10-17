@@ -1,0 +1,120 @@
+/* Hero Banner */
+.hero-banner {
+    position: relative;
+    height: 60vh;
+    min-height: 400px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    overflow: hidden;
+    z-index: -1; /* Ensure hero banner is always behind other content */
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    z-index: -1; /* Ensure hero overlay is always behind other content */
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2rem;
+    font-weight: 300;
+}
+
+.hero-buttons .btn-light {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #667eea;
+    border: none;
+    font-weight: 600;
+}
+
+.hero-buttons .btn-light:hover {
+    background-color: white;
+    color: #667eea;
+    transform: translateY(-2px);
+}
+
+.hero-buttons .btn-warning {
+    background-color: #ffc107;
+    color: #212529;
+    border: none;
+    font-weight: 600;
+}
+
+.hero-buttons .btn-warning:hover {
+    background-color: #e0a800;
+    color: #212529;
+    transform: translateY(-2px);
+}
+
+.plane-animation {
+    font-size: 8rem;
+    color: rgba(255, 255, 255, 0.8);
+    animation: fly 3s ease-in-out infinite;
+}
+
+@keyframes fly {
+    0%, 100% { transform: translateX(0) rotate(0deg); }
+    25% { transform: translateX(20px) rotate(2deg); }
+    75% { transform: translateX(-20px) rotate(-2deg); }
+}
+
+/* Stats Section */
+.stats-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 3rem 0;
+    margin-top: 3rem;
+}
+
+.stat-item {
+    padding: 2rem;
+}
+
+.stat-item i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.8;
+}
+
+.stat-item h3 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.stat-item p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin: 0;
+}
+
+/* Call to Action Section */
+.cta-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.cta-section h3 {
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.cta-section p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}

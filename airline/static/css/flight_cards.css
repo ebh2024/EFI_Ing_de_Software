@@ -1,0 +1,265 @@
+/* Modern Flight Cards */
+.flight-card-modern {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    height: 100%;
+    border: 1px solid #e9ecef;
+}
+
+.flight-card-modern:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.card-header-modern {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+    color: white;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.route-info h5 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.route-info .aircraft {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    display: block;
+    margin-top: 0.25rem;
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-scheduled {
+    background-color: #28a745;
+    color: white;
+}
+
+.status-delayed {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.status-cancelled {
+    background-color: #dc3545;
+    color: white;
+}
+
+.status-on-time {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.status-boarding {
+    background-color: #6f42c1;
+    color: white;
+}
+
+.status-departed {
+    background-color: #6c757d;
+    color: white;
+}
+
+.card-body-modern {
+    padding: 1.5rem;
+}
+
+.flight-times {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.time-block {
+    text-align: center;
+    flex: 1;
+}
+
+.time-block .time {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #343a40;
+}
+
+.time-block .date {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-top: 0.25rem;
+}
+
+.time-block .label {
+    font-size: 0.8rem;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 0.25rem;
+}
+
+.flight-duration {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 1rem;
+}
+
+.flight-duration i {
+    font-size: 1.5rem;
+    color: #6c757d;
+    margin-bottom: 0.25rem;
+}
+
+.flight-duration span {
+    font-size: 0.9rem;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.flight-price-modern {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.price-tag {
+    display: inline-flex;
+    align-items: baseline;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.price-tag .currency {
+    font-size: 1.2rem;
+    margin-right: 0.25rem;
+}
+
+.price-tag .amount {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.price-tag .per-person {
+    font-size: 0.8rem;
+    opacity: 0.9;
+    margin-left: 0.5rem;
+}
+
+.card-footer-modern {
+    padding: 1.5rem;
+    text-align: center;
+    background-color: #f8f9fa;
+}
+
+.no-flights-modern {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.empty-state i {
+    font-size: 4rem;
+    color: #6c757d;
+    margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+    color: #343a40;
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+    color: #6c757d;
+}
+
+.flight-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.flight-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+.flight-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1.5rem;
+}
+
+.flight-route {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.flight-airplane {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.flight-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.flight-details {
+    flex-grow: 1;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 0.5rem;
+}
+
+.detail-item i {
+    margin-right: 0.5rem;
+    color: #667eea;
+    width: 16px;
+}
+
+.flight-price {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.price {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #667eea;
+}
+
+.flight-footer {
+    padding: 0 1.5rem 1.5rem;
+    text-align: center;
+}
+
+.no-flights {
+    padding: 3rem;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}

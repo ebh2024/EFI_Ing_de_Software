@@ -1,0 +1,154 @@
+/* Login Page Styles */
+.login-hero {
+    position: relative;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    overflow: hidden;
+}
+
+.login-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+}
+
+.login-card-modern {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.login-header {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+    color: white;
+    padding: 2rem 2rem 1.5rem;
+    text-align: center;
+}
+
+.logo-section i {
+    font-size: 3rem;
+    color: #ffc107;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.logo-section h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.logo-section p {
+    opacity: 0.9;
+    margin: 0;
+    font-size: 1rem;
+}
+
+.login-body {
+    padding: 2rem;
+}
+
+.login-form {
+    width: 100%;
+}
+
+.register-link {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.register-link:hover {
+    color: #5a67d8;
+    text-decoration: underline;
+}
+
+/* Register Page Styles */
+.register-hero {
+    position: relative;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    overflow: hidden;
+}
+
+.register-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+}
+
+.register-card-modern {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.register-header {
+    background: linear-gradient(135deg, #ffc107 0%, #ff8c00 100%);
+    color: #212529;
+    padding: 2rem 2rem 1.5rem;
+    text-align: center;
+}
+
+.register-header .logo-section i {
+    font-size: 3rem;
+    color: #495057;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.register-header .logo-section h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.register-header .logo-section p {
+    opacity: 0.8;
+    margin: 0;
+    font-size: 1rem;
+}
+
+.register-body {
+    padding: 2rem;
+}
+
+.register-form {
+    width: 100%;
+}
+
+.register-form .form-footer {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e9ecef;
+}
+
+.login-link {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.login-link:hover {
+    color: #5a67d8;
+    text-decoration: underline;
+}
