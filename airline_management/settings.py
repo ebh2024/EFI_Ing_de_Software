@@ -123,6 +123,7 @@ LANGUAGES = [
 
 LOCALE_PATHS = [
     BASE_DIR / 'locale',
+    BASE_DIR / 'airline/locale',
 ]
 
 # Custom datetime input formats for HTML5 datetime-local input

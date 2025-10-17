@@ -1,0 +1,290 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-10-17 16:33+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: airline/templates/airline/base.html:7
+msgid "Airline Management"
+msgstr ""
+
+#: airline/templates/airline/base.html:34
+msgid "Home"
+msgstr ""
+
+#: airline/templates/airline/base.html:40
+msgid "Flights"
+msgstr ""
+
+#: airline/templates/airline/base.html:43
+msgid "Manage Flights"
+msgstr ""
+
+#: airline/templates/airline/base.html:44
+msgid "View Flights"
+msgstr ""
+
+#: airline/templates/airline/base.html:49
+#: airline/templates/airline/flight_list.html:173
+msgid "Passengers"
+msgstr ""
+
+#: airline/templates/airline/base.html:54
+msgid "Reservations"
+msgstr ""
+
+#: airline/templates/airline/base.html:62
+msgid "Language"
+msgstr ""
+
+#: airline/templates/airline/base.html:87
+msgid "Welcome back!"
+msgstr ""
+
+#: airline/templates/airline/base.html:93
+msgid "Logout"
+msgstr ""
+
+#: airline/templates/airline/base.html:102
+#: airline/templates/airline/home.html:15
+msgid "Login"
+msgstr ""
+
+#: airline/templates/airline/base.html:107
+msgid "Register"
+msgstr ""
+
+#: airline/templates/airline/flight_detail_with_seats.html:6
+msgid "Flight"
+msgstr ""
+
+#: airline/templates/airline/flight_detail_with_seats.html:6
+msgid "to"
+msgstr ""
+
+#: airline/templates/airline/flight_detail_with_seats.html:7
+#: airline/templates/airline/flight_list.html:93
+#: airline/templates/airline/home.html:61
+msgid "Departure"
+msgstr ""
+
+#: airline/templates/airline/flight_detail_with_seats.html:8
+#: airline/templates/airline/flight_list.html:97
+#: airline/templates/airline/home.html:70
+msgid "Arrival"
+msgstr ""
+
+#: airline/templates/airline/flight_detail_with_seats.html:9
+msgid "Airplane"
+msgstr ""
+
+#: airline/templates/airline/flight_detail_with_seats.html:9
+msgid "Capacity"
+msgstr ""
+
+#: airline/templates/airline/flight_detail_with_seats.html:10
+msgid "Base Price"
+msgstr ""
+
+#: airline/templates/airline/flight_detail_with_seats.html:12
+msgid "Seat Map"
+msgstr ""
+
+#: airline/templates/airline/flight_detail_with_seats.html:16
+msgid "Row"
+msgstr ""
+
+#: airline/templates/airline/flight_detail_with_seats.html:21
+msgid "Seat"
+msgstr ""
+
+#: airline/templates/airline/flight_detail_with_seats.html:21
+#: airline/templates/airline/flight_detail_with_seats.html:35
+msgid "Reserved"
+msgstr ""
+
+#: airline/templates/airline/flight_detail_with_seats.html:21
+#: airline/templates/airline/flight_detail_with_seats.html:32
+msgid "Available"
+msgstr ""
+
+#: airline/templates/airline/flight_detail_with_seats.html:30
+msgid "Legend"
+msgstr ""
+
+#: airline/templates/airline/flight_detail_with_seats.html:38
+msgid "Premium"
+msgstr ""
+
+#: airline/templates/airline/flight_detail_with_seats.html:41
+msgid "Executive"
+msgstr ""
+
+#: airline/templates/airline/flight_list.html:12
+msgid "Flight Management"
+msgstr ""
+
+#: airline/templates/airline/flight_list.html:14
+msgid "Manage and monitor all airline flights"
+msgstr ""
+
+#: airline/templates/airline/flight_list.html:19
+msgid "Add New Flight"
+msgstr ""
+
+#: airline/templates/airline/flight_list.html:36
+msgid "Total Flights"
+msgstr ""
+
+#: airline/templates/airline/flight_list.html:47
+msgid "Scheduled Today"
+msgstr ""
+
+#: airline/templates/airline/flight_list.html:58
+msgid "Passengers Today"
+msgstr ""
+
+#: airline/templates/airline/flight_list.html:69
+msgid "Revenue Today"
+msgstr ""
+
+#: airline/templates/airline/flight_list.html:85
+msgid "Aircraft"
+msgstr ""
+
+#: airline/templates/airline/flight_list.html:89
+msgid "Route"
+msgstr ""
+
+#: airline/templates/airline/flight_list.html:101
+msgid "Duration"
+msgstr ""
+
+#: airline/templates/airline/flight_list.html:105
+msgid "Status"
+msgstr ""
+
+#: airline/templates/airline/flight_list.html:109
+msgid "Price"
+msgstr ""
+
+#: airline/templates/airline/flight_list.html:113
+msgid "Actions"
+msgstr ""
+
+#: airline/templates/airline/flight_list.html:117
+msgid "Reports"
+msgstr ""
+
+#: airline/templates/airline/flight_list.html:162
+msgid "Edit Flight"
+msgstr ""
+
+#: airline/templates/airline/flight_list.html:165
+msgid "Delete Flight"
+msgstr ""
+
+#: airline/templates/airline/flight_list.html:171
+msgid "View Passengers"
+msgstr ""
+
+#: airline/templates/airline/flight_list.html:182
+#: airline/templates/airline/home.html:97
+msgid "No Flights Available"
+msgstr ""
+
+#: airline/templates/airline/flight_list.html:183
+msgid "No flights have been added to the system yet."
+msgstr ""
+
+#: airline/templates/airline/flight_list.html:186
+msgid "Add Your First Flight"
+msgstr ""
+
+#: airline/templates/airline/home.html:11
+msgid "Airlines"
+msgstr ""
+
+#: airline/templates/airline/home.html:12
+msgid "Discover amazing destinations with our premium flight services"
+msgstr ""
+
+#: airline/templates/airline/home.html:16
+msgid "Get Started"
+msgstr ""
+
+#: airline/templates/airline/home.html:36
+msgid "Available Flights"
+msgstr ""
+
+#: airline/templates/airline/home.html:78
+msgid "per person"
+msgstr ""
+
+#: airline/templates/airline/home.html:86
+msgid "Book Flight"
+msgstr ""
+
+#: airline/templates/airline/home.html:98
+msgid "We're working on adding new routes. Check back soon!"
+msgstr ""
+
+#: airline/templates/airline/home.html:112
+msgid "Active Flights"
+msgstr ""
+
+#: airline/templates/airline/home.html:119
+msgid "Destinations"
+msgstr ""
+
+#: airline/templates/airline/home.html:126
+msgid "Happy Passengers"
+msgstr ""
+
+#: airline/templates/airline/register.html:15
+msgid "Join Airlines"
+msgstr ""
+
+#: airline/templates/airline/register.html:16
+msgid "Create your account and start booking flights"
+msgstr ""
+
+#: airline/templates/airline/register.html:132
+#: airline/templates/registration/login.html:80
+msgid "Create Account"
+msgstr ""
+
+#: airline/templates/airline/register.html:137
+msgid "Already have an account?"
+msgstr ""
+
+#: airline/templates/airline/register.html:140
+#: airline/templates/registration/login.html:72
+msgid "Sign In"
+msgstr ""
+
+#: airline/templates/registration/login.html:15
+msgid "Welcome Back"
+msgstr ""
+
+#: airline/templates/registration/login.html:16
+msgid "Sign in to your Airlines account"
+msgstr ""
+
+#: airline/templates/registration/login.html:77
+msgid "Don't have an account?"
+msgstr ""
