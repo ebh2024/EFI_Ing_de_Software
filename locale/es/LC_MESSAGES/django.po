@@ -1,0 +1,187 @@
+# Spanish translations for airline_management project.
+# Copyright (C) 2025 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the airline_management package.
+# FULL NAME <EMAIL@ADDRESS>, 2025.
+msgid ""
+msgstr ""
+"Project-Id-Version: airline_management\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-10-17 15:40+0000\n"
+"PO-Revision-Date: 2025-10-17 15:41+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Spanish <es@li.org>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: airline/templates/airline/base.html:7
+msgid "Airline Management"
+msgstr "Gestión de Aerolíneas"
+
+#: airline/templates/airline/base.html:34
+msgid "Home"
+msgstr "Inicio"
+
+#: airline/templates/airline/base.html:40
+msgid "Flights"
+msgstr "Vuelos"
+
+#: airline/templates/airline/base.html:43
+msgid "Manage Flights"
+msgstr "Administrar Vuelos"
+
+#: airline/templates/airline/base.html:44
+msgid "View Flights"
+msgstr "Ver Vuelos"
+
+#: airline/templates/airline/base.html:49
+msgid "Passengers"
+msgstr "Pasajeros"
+
+#: airline/templates/airline/base.html:54
+msgid "Reservations"
+msgstr "Reservas"
+
+#: airline/templates/airline/base.html:62
+msgid "Language"
+msgstr "Idioma"
+
+#: airline/templates/airline/base.html:87
+msgid "Welcome back!"
+msgstr "¡Bienvenido de nuevo!"
+
+#: airline/templates/airline/base.html:93
+msgid "Logout"
+msgstr "Cerrar Sesión"
+
+#: airline/templates/airline/base.html:102
+#: airline/templates/airline/home.html:15
+msgid "Login"
+msgstr "Iniciar Sesión"
+
+#: airline/templates/airline/base.html:107
+msgid "Register"
+msgstr "Registrarse"
+
+#: airline/templates/airline/home.html:11
+msgid "Airlines"
+msgstr "Aerolíneas"
+
+#: airline/templates/airline/home.html:12
+msgid "Discover amazing destinations with our premium flight services"
+msgstr "Descubre destinos increíbles con nuestros servicios de vuelo premium"
+
+#: airline/templates/airline/home.html:16
+msgid "Get Started"
+msgstr "Empezar"
+
+#: airline/templates/airline/home.html:36
+msgid "Available Flights"
+msgstr "Vuelos Disponibles"
+
+#: airline/templates/airline/home.html:61
+msgid "Departure"
+msgstr "Salida"
+
+#: airline/templates/airline/home.html:70
+msgid "Arrival"
+msgstr "Llegada"
+
+#: airline/templates/airline/home.html:78
+msgid "per person"
+msgstr "por persona"
+
+#: airline/templates/airline/home.html:86
+msgid "Book Flight"
+msgstr "Reservar Vuelo"
+
+#: airline/templates/airline/home.html:97
+msgid "No Flights Available"
+msgstr "No hay Vuelos Disponibles"
+
+#: airline/templates/airline/home.html:98
+msgid "We're working on adding new routes. Check back soon!"
+msgstr "Estamos trabajando en añadir nuevas rutas. ¡Vuelve pronto!"
+
+#: airline/templates/airline/home.html:112
+msgid "Active Flights"
+msgstr "Vuelos Activos"
+
+#: airline/templates/airline/home.html:119
+msgid "Destinations"
+msgstr "Destinos"
+
+#: airline/templates/airline/home.html:126
+msgid "Happy Passengers"
+msgstr "Pasajeros Satisfechos"
+
+#: airline/templates/airline/register.html:15
+msgid "Join Airlines"
+msgstr "Únete a Aerolíneas"
+
+#: airline/templates/airline/register.html:16
+msgid "Create your account and start booking flights"
+msgstr "Crea tu cuenta y empieza a reservar vuelos"
+
+#: airline/templates/airline/register.html:132
+#: airline/templates/registration/login.html:80
+msgid "Create Account"
+msgstr "Crear Cuenta"
+
+#: airline/templates/airline/register.html:137
+msgid "Already have an account?"
+msgstr "¿Ya tienes una cuenta?"
+
+#: airline/templates/airline/register.html:140
+#: airline/templates/registration/login.html:72
+msgid "Sign In"
+msgstr "Iniciar Sesión"
+
+#: airline/templates/registration/login.html:15
+msgid "Welcome Back"
+msgstr "Bienvenido de Nuevo"
+
+#: airline/templates/registration/login.html:16
+msgid "Sign in to your Airlines account"
+msgstr "Inicia sesión en tu cuenta de Aerolíneas"
+
+#: airline/templates/registration/login.html:77
+msgid "Don't have an account?"
+msgstr "¿No tienes una cuenta?"
+
+# Form labels (from forms.py, but captured by makemessages)
+msgid "First name"
+msgstr "Nombre"
+
+msgid "Last name"
+msgstr "Apellido"
+
+msgid "Username"
+msgstr "Nombre de usuario"
+
+msgid "Email address"
+msgstr "Correo electrónico"
+
+msgid "Password"
+msgstr "Contraseña"
+
+msgid "Password confirmation"
+msgstr "Confirmación de contraseña"
+
+# Statuses (assuming these are the possible values for flight.status)
+msgid "Scheduled"
+msgstr "Programado"
+
+msgid "Delayed"
+msgstr "Retrasado"
+
+msgid "Departed"
+msgstr "Salido"
+
+msgid "Arrived"
+msgstr "Llegado"
+
+msgid "Cancelled"
+msgstr "Cancelado"

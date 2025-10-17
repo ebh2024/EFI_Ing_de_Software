@@ -1,4 +1,5 @@
 {% extends 'airline/base.html' %}
+{% load i18n %}
 
 {% block content %}
 <!-- Register Hero Section -->
@@ -11,8 +12,8 @@
                         <div class="register-header">
                             <div class="logo-section">
                                 <i class="fas fa-user-plus"></i>
-                                <h2>Join Airlines</h2>
-                                <p>Create your account and start booking flights</p>
+                                <h2>{% trans "Join Airlines" %}</h2>
+                                <p>{% trans "Create your account and start booking flights" %}</p>
                             </div>
                         </div>
 
@@ -33,7 +34,7 @@
                                     <div class="form-group-modern">
                                         <label for="{{ form.first_name.id_for_label }}" class="form-label-modern">
                                             <i class="fas fa-user"></i>
-                                            {{ form.first_name.label }}
+                                            {% trans form.first_name.label %}
                                         </label>
                                         {{ form.first_name }}
                                         {% for error in form.first_name.errors %}
@@ -47,7 +48,7 @@
                                     <div class="form-group-modern">
                                         <label for="{{ form.last_name.id_for_label }}" class="form-label-modern">
                                             <i class="fas fa-user"></i>
-                                            {{ form.last_name.label }}
+                                            {% trans form.last_name.label %}
                                         </label>
                                         {{ form.last_name }}
                                         {% for error in form.last_name.errors %}
@@ -62,7 +63,7 @@
                                 <div class="form-group-modern">
                                     <label for="{{ form.username.id_for_label }}" class="form-label-modern">
                                         <i class="fas fa-at"></i>
-                                        {{ form.username.label }}
+                                        {% trans form.username.label %}
                                     </label>
                                     {{ form.username }}
                                     {% for error in form.username.errors %}
@@ -76,22 +77,22 @@
                                 <div class="form-group-modern">
                                     <label for="{{ form.email.id_for_label }}" class="form-label-modern">
                                         <i class="fas fa-envelope"></i>
-                                        {{ form.email.label }}
+                                        {% trans form.email.label %}
                                     </label>
                                     {{ form.email }}
                                     {% for error in form.email.errors %}
                                         <div class="error-message">
                                             <i class="fas fa-exclamation-circle"></i>
                                             {{ error }}
-                                        </div>
-                                    {% endfor %}
+                                            </div>
+                                        {% endfor %}
                                 </div>
 
                                 <div class="form-row-modern">
                                     <div class="form-group-modern">
                                         <label for="{{ form.password1.id_for_label }}" class="form-label-modern">
                                             <i class="fas fa-lock"></i>
-                                            {{ form.password1.label }}
+                                            {% trans form.password1.label %}
                                         </label>
                                         {{ form.password1 }}
                                         {% for error in form.password1.errors %}
@@ -105,7 +106,7 @@
                                     <div class="form-group-modern">
                                         <label for="{{ form.password2.id_for_label }}" class="form-label-modern">
                                             <i class="fas fa-lock"></i>
-                                            {{ form.password2.label }}
+                                            {% trans form.password2.label %}
                                         </label>
                                         {{ form.password2 }}
                                         {% for error in form.password2.errors %}
@@ -128,15 +129,15 @@
                                 <div class="form-actions">
                                     <button type="submit" class="btn-register-modern">
                                         <i class="fas fa-user-plus me-2"></i>
-                                        Create Account
+                                        {% trans "Create Account" %}
                                     </button>
                                 </div>
 
                                 <div class="form-footer">
-                                    <p>Already have an account?
+                                    <p>{% trans "Already have an account?" %}
                                         <a href="{% url 'login' %}" class="login-link">
                                             <i class="fas fa-sign-in-alt me-1"></i>
-                                            Sign In
+                                            {% trans "Sign In" %}
                                         </a>
                                     </p>
                                 </div>
