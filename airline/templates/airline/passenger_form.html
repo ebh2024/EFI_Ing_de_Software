@@ -1,4 +1,5 @@
 {% extends 'airline/base.html' %}
+{% load i18n %}
 
 {% block content %}
 <!-- Passenger Form Header -->
@@ -8,20 +9,20 @@
             <div class="col-md-6">
                 <h1 class="passenger-form-title">
                     <i class="fas fa-{{ action|lower }}"></i>
-                    {{ action }} Passenger
+                    {% blocktrans %}{{ action }} Passenger{% endblocktrans %}
                 </h1>
                 <p class="passenger-form-subtitle">
                     {% if action == "Create" %}
-                        Add a new passenger to the airline system
+                        {% trans "Add a new passenger to the airline system" %}
                     {% else %}
-                        Update passenger information and details
+                        {% trans "Update passenger information and details" %}
                     {% endif %}
                 </p>
             </div>
             <div class="col-md-6 text-md-end">
                 <a href="{% url 'passenger_list' %}" class="btn-passenger-back">
                     <i class="fas fa-arrow-left me-2"></i>
-                    Back to Passengers
+                    {% trans "Back to Passengers" %}
                 </a>
             </div>
         </div>
@@ -39,14 +40,14 @@
                         <div class="step-icon">
                             <i class="fas fa-user"></i>
                         </div>
-                        <span>Passenger Details</span>
+                        <span>{% trans "Passenger Details" %}</span>
                     </div>
                     <div class="progress-line"></div>
                     <div class="progress-step">
                         <div class="step-icon">
                             <i class="fas fa-check"></i>
                         </div>
-                        <span>Complete</span>
+                        <span>{% trans "Complete" %}</span>
                     </div>
                 </div>
 
@@ -78,7 +79,7 @@
                         <div class="form-section">
                             <div class="section-header">
                                 <i class="fas fa-user"></i>
-                                <h3>Personal Information</h3>
+                                <h3>{% trans "Personal Information" %}</h3>
                             </div>
                             <div class="form-row-modern">
                                 <div class="form-group-modern">
@@ -145,7 +146,7 @@
                         <div class="form-section">
                             <div class="section-header">
                                 <i class="fas fa-id-card"></i>
-                                <h3>Document & Contact Information</h3>
+                                <h3>{% trans "Document & Contact Information" %}</h3>
                             </div>
                             <div class="form-row-modern">
                                 <div class="form-group-modern">
@@ -202,11 +203,11 @@
                         <div class="form-actions-modern">
                             <button type="submit" class="btn-passenger-save">
                                 <i class="fas fa-save me-2"></i>
-                                {{ action }} Passenger
+                                {% blocktrans %}{{ action }} Passenger{% endblocktrans %}
                             </button>
                             <a href="{% url 'passenger_list' %}" class="btn-passenger-cancel">
                                 <i class="fas fa-times me-2"></i>
-                                Cancel
+                                {% trans "Cancel" %}
                             </a>
                         </div>
                     </form>

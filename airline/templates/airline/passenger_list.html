@@ -1,4 +1,5 @@
 {% extends 'airline/base.html' %}
+{% load i18n %}
 
 {% block content %}
 <!-- Passengers Management Header -->
@@ -8,14 +9,14 @@
             <div class="col-md-6">
                 <h1 class="passengers-main-title">
                     <i class="fas fa-users"></i>
-                    Passenger Management
+                    {% trans "Passenger Management" %}
                 </h1>
-                <p class="passengers-subtitle">Manage passenger information and flight history</p>
+                <p class="passengers-subtitle">{% trans "Manage passenger information and flight history" %}</p>
             </div>
             <div class="col-md-6 text-md-end">
                 <a href="{% url 'passenger_create' %}" class="btn-passengers-create">
                     <i class="fas fa-user-plus me-2"></i>
-                    Add New Passenger
+                    {% trans "Add New Passenger" %}
                 </a>
             </div>
         </div>
@@ -32,7 +33,7 @@
                 </div>
                 <div class="stats-content">
                     <h3 class="stats-number">{{ passengers|length }}</h3>
-                    <p class="stats-label">Total Passengers</p>
+                    <p class="stats-label">{% trans "Total Passengers" %}</p>
                 </div>
             </div>
         </div>
@@ -43,7 +44,7 @@
                 </div>
                 <div class="stats-content">
                     <h3 class="stats-number">{{ passengers|length|add:"12" }}</h3>
-                    <p class="stats-label">Active Documents</p>
+                    <p class="stats-label">{% trans "Active Documents" %}</p>
                 </div>
             </div>
         </div>
@@ -54,7 +55,7 @@
                 </div>
                 <div class="stats-content">
                     <h3 class="stats-number">{{ passengers|length|add:"8" }}</h3>
-                    <p class="stats-label">Email Contacts</p>
+                    <p class="stats-label">{% trans "Email Contacts" %}</p>
                 </div>
             </div>
         </div>
@@ -65,7 +66,7 @@
                 </div>
                 <div class="stats-content">
                     <h3 class="stats-number">{{ passengers|length|add:"5" }}</h3>
-                    <p class="stats-label">Phone Numbers</p>
+                    <p class="stats-label">{% trans "Phone Numbers" %}</p>
                 </div>
             </div>
         </div>
@@ -81,27 +82,27 @@
                     <tr>
                         <th scope="col">
                             <i class="fas fa-user me-2"></i>
-                            Full Name
+                            {% trans "Full Name" %}
                         </th>
                         <th scope="col">
                             <i class="fas fa-id-card me-2"></i>
-                            Document
+                            {% trans "Document" %}
                         </th>
                         <th scope="col">
                             <i class="fas fa-envelope me-2"></i>
-                            Contact
+                            {% trans "Contact" %}
                         </th>
                         <th scope="col">
                             <i class="fas fa-birthday-cake me-2"></i>
-                            Date of Birth
+                            {% trans "Date of Birth" %}
                         </th>
                         <th scope="col">
                             <i class="fas fa-file-alt me-2"></i>
-                            Document Type
+                            {% trans "Document Type" %}
                         </th>
                         <th scope="col">
                             <i class="fas fa-cogs me-2"></i>
-                            Actions
+                            {% trans "Actions" %}
                         </th>
                     </tr>
                 </thead>
@@ -111,13 +112,13 @@
                         <td>
                             <div class="passenger-info">
                                 <div class="passenger-name">{{ passenger.first_name }} {{ passenger.last_name }}</div>
-                                <small class="passenger-id">ID: {{ passenger.pk }}</small>
+                                <small class="passenger-id">{% trans "ID:" %} {{ passenger.pk }}</small>
                             </div>
                         </td>
                         <td>
                             <div class="document-info">
                                 <div class="document-number">{{ passenger.document_number }}</div>
-                                <small class="document-label">Document Number</small>
+                                <small class="document-label">{% trans "Document Number" %}</small>
                             </div>
                         </td>
                         <td>
@@ -134,7 +135,7 @@
                                 {% else %}
                                 <div class="contact-phone text-muted">
                                     <i class="fas fa-phone-slash me-1"></i>
-                                    No phone
+                                    {% trans "No phone" %}
                                 </div>
                                 {% endif %}
                             </div>
@@ -142,7 +143,7 @@
                         <td>
                             <div class="birth-info">
                                 <div class="birth-date">{{ passenger.date_of_birth|date:"M d, Y" }}</div>
-                                <small class="birth-age">Age calculation</small>
+                                <small class="birth-age">{% trans "Age calculation" %}</small>
                             </div>
                         </td>
                         <td>
@@ -152,13 +153,13 @@
                         </td>
                         <td>
                             <div class="action-buttons">
-                                <a href="{% url 'passenger_update' passenger.pk %}" class="btn-action-edit" title="Edit Passenger">
+                                <a href="{% url 'passenger_update' passenger.pk %}" class="btn-action-edit" title="{% trans "Edit Passenger" %}">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a href="{% url 'passenger_delete' passenger.pk %}" class="btn-action-delete" title="Delete Passenger">
+                                <a href="{% url 'passenger_delete' passenger.pk %}" class="btn-action-delete" title="{% trans "Delete Passenger" %}">
                                     <i class="fas fa-trash"></i>
                                 </a>
-                                <a href="{% url 'passenger_flight_history' passenger.pk %}" class="btn-action-history" title="Flight History">
+                                <a href="{% url 'passenger_flight_history' passenger.pk %}" class="btn-action-history" title="{% trans "Flight History" %}">
                                     <i class="fas fa-history"></i>
                                 </a>
                             </div>
@@ -169,11 +170,11 @@
                         <td colspan="6" class="no-passengers-cell">
                             <div class="no-passengers-content">
                                 <i class="fas fa-users-slash"></i>
-                                <h4>No Passengers Found</h4>
-                                <p>No passenger records have been added to the system yet.</p>
+                                <h4>{% trans "No Passengers Found" %}</h4>
+                                <p>{% trans "No passenger records have been added to the system yet." %}</p>
                                 <a href="{% url 'passenger_create' %}" class="btn-passengers-create-empty">
                                     <i class="fas fa-user-plus me-2"></i>
-                                    Add Your First Passenger
+                                    {% trans "Add Your First Passenger" %}
                                 </a>
                             </div>
                         </td>

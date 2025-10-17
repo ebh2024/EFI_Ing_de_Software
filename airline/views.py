@@ -129,7 +129,7 @@ def generate_ticket(request, reservation_pk):
 
 def _generate_ticket_pdf(ticket, reservation):
     html_string = render_to_string('airline/ticket_template.html', {'ticket': ticket, 'reservation': reservation})
-    html = HTML(string=html_string)
+    html = HTML(string=html_string, lang='es')
     pdf = html.write_pdf()
 
     response = HttpResponse(pdf, content_type='application/pdf')

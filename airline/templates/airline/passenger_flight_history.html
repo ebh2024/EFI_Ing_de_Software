@@ -1,21 +1,22 @@
 {% extends 'airline/base.html' %}
+{% load i18n %}
 
 {% block content %}
-<h1 class="mb-4">Flight History for {{ passenger.first_name }} {{ passenger.last_name }}</h1>
+<h1 class="mb-4">{% blocktrans %}Flight History for {{ passenger.first_name }} {{ passenger.last_name }}{% endblocktrans %}</h1>
 
-<a href="{% url 'passenger_list' %}" class="btn btn-secondary mb-3">Back to Passenger List</a>
+<a href="{% url 'passenger_list' %}" class="btn btn-secondary mb-3">{% trans "Back to Passenger List" %}</a>
 
 {% if flight_history %}
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>Flight</th>
-            <th>Origin</th>
-            <th>Destination</th>
-            <th>Departure Date</th>
-            <th>Booking Date</th>
-            <th>Seat Number</th>
-            <th>Price Paid</th>
+            <th>{% trans "Flight" %}</th>
+            <th>{% trans "Origin" %}</th>
+            <th>{% trans "Destination" %}</th>
+            <th>{% trans "Departure Date" %}</th>
+            <th>{% trans "Booking Date" %}</th>
+            <th>{% trans "Seat Number" %}</th>
+            <th>{% trans "Price Paid" %}</th>
         </tr>
     </thead>
     <tbody>
@@ -33,6 +34,6 @@
     </tbody>
 </table>
 {% else %}
-<p>No flight history found for this passenger.</p>
+<p>{% trans "No flight history found for this passenger." %}</p>
 {% endif %}
 {% endblock %}
