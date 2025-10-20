@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: airline_management\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-20 17:14+0000\n"
+"POT-Creation-Date: 2025-10-20 18:06+0000\n"
 "PO-Revision-Date: 2025-10-17 16:34+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -21,10 +21,8 @@ msgid "Messages"
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/contrib/sitemaps/apps.py:8
-#, fuzzy
-#| msgid "Seat Map"
 msgid "Site Maps"
-msgstr "Mapa de Asientos"
+msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/contrib/staticfiles/apps.py:9
 msgid "Static Files"
@@ -70,10 +68,8 @@ msgid "Enter a valid integer."
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:211
-#, fuzzy
-#| msgid "Email address"
 msgid "Enter a valid email address."
-msgstr "Correo electrónico"
+msgstr ""
 
 #. Translators: "letters" means latin letters: a-z and A-Z.
 #: venv/lib/python3.12/site-packages/django/core/validators.py:289
@@ -329,11 +325,11 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1868
 msgid "Duration"
-msgstr "Duración"
+msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1920
 msgid "Email address"
-msgstr "Correo electrónico"
+msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1945
 msgid "File path"
@@ -366,16 +362,12 @@ msgid "Small integer"
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2188
-#, fuzzy
-#| msgid "Email address"
 msgid "IPv4 address"
-msgstr "Correo electrónico"
+msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2219
-#, fuzzy
-#| msgid "Email address"
 msgid "IP address"
-msgstr "Correo electrónico"
+msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2310
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2311
@@ -615,10 +607,8 @@ msgid "Order"
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/forms/formsets.py:499
-#, fuzzy
-#| msgid "Delete Flight"
 msgid "Delete"
-msgstr "Eliminar Vuelo"
+msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/forms/models.py:901
 #, python-format
@@ -796,10 +786,8 @@ msgid "Fri"
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:21
-#, fuzzy
-#| msgid "Seat"
 msgid "Sat"
-msgstr "Asiento"
+msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:22
 msgid "Sun"
@@ -1251,382 +1239,3 @@ msgstr ""
 #: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:236
 msgid "Connect, get help, or contribute"
 msgstr ""
-
-#~ msgid "Airline Management"
-#~ msgstr "Gestión de Aerolíneas"
-
-#~ msgid "Home"
-#~ msgstr "Inicio"
-
-#~ msgid "Flights"
-#~ msgstr "Vuelos"
-
-#~ msgid "Manage Flights"
-#~ msgstr "Administrar Vuelos"
-
-#~ msgid "View Flights"
-#~ msgstr "Ver Vuelos"
-
-#~ msgid "Passengers"
-#~ msgstr "Pasajeros"
-
-#~ msgid "Reservations"
-#~ msgstr "Reservas"
-
-#~ msgid "Language"
-#~ msgstr "Idioma"
-
-#~ msgid "Welcome back!"
-#~ msgstr "¡Bienvenido de nuevo!"
-
-#~ msgid "Logout"
-#~ msgstr "Cerrar Sesión"
-
-#~ msgid "Login"
-#~ msgstr "Iniciar Sesión"
-
-#~ msgid "Register"
-#~ msgstr "Registrarse"
-
-#~ msgid "Flight"
-#~ msgstr "Vuelo"
-
-#~ msgid "to"
-#~ msgstr "a"
-
-#~ msgid "Departure"
-#~ msgstr "Salida"
-
-#~ msgid "Arrival"
-#~ msgstr "Llegada"
-
-#~ msgid "Airplane"
-#~ msgstr "Avión"
-
-#~ msgid "Capacity"
-#~ msgstr "Capacidad"
-
-#~ msgid "Base Price"
-#~ msgstr "Precio Base"
-
-#~ msgid "Seat Map"
-#~ msgstr "Mapa de Asientos"
-
-#~ msgid "Row"
-#~ msgstr "Fila"
-
-#~ msgid "Seat"
-#~ msgstr "Asiento"
-
-#~ msgid "Reserved"
-#~ msgstr "Reservado"
-
-#~ msgid "Available"
-#~ msgstr "Disponible"
-
-#~ msgid "Legend"
-#~ msgstr "Leyenda"
-
-#~ msgid "Premium"
-#~ msgstr "Premium"
-
-#~ msgid "Executive"
-#~ msgstr "Ejecutivo"
-
-#~ msgid "Flight Management"
-#~ msgstr "Gestión de Vuelos"
-
-#~ msgid "Manage and monitor all airline flights"
-#~ msgstr "Gestiona y monitoriza todos los vuelos de la aerolínea"
-
-#~ msgid "Passenger Management"
-#~ msgstr "Gestión de Pasajeros"
-
-#~ msgid "Add New Flight"
-#~ msgstr "Añadir Nuevo Vuelo"
-
-#~ msgid "Total Flights"
-#~ msgstr "Total de Vuelos"
-
-#~ msgid "Scheduled Today"
-#~ msgstr "Programados Hoy"
-
-#~ msgid "Passengers Today"
-#~ msgstr "Pasajeros Hoy"
-
-#~ msgid "Revenue Today"
-#~ msgstr "Ingresos Hoy"
-
-#~ msgid "Aircraft"
-#~ msgstr "Aeronave"
-
-#~ msgid "Route"
-#~ msgstr "Ruta"
-
-#~ msgid "Status"
-#~ msgstr "Estado"
-
-#~ msgid "Price"
-#~ msgstr "Precio"
-
-#~ msgid "Actions"
-#~ msgstr "Acciones"
-
-#~ msgid "Reports"
-#~ msgstr "Informes"
-
-#~ msgid "Edit Flight"
-#~ msgstr "Editar Vuelo"
-
-#~ msgid "Delete Flight"
-#~ msgstr "Eliminar Vuelo"
-
-#~ msgid "View Passengers"
-#~ msgstr "Ver Pasajeros"
-
-#~ msgid "No Flights Available"
-#~ msgstr "No hay Vuelos Disponibles"
-
-#~ msgid "No flights have been added to the system yet."
-#~ msgstr "Aún no se han añadido vuelos al sistema."
-
-#~ msgid "Add Your First Flight"
-#~ msgstr "Añade tu Primer Vuelo"
-
-#~ msgid "Airlines"
-#~ msgstr "Aerolíneas"
-
-#~ msgid "Discover amazing destinations with our premium flight services"
-#~ msgstr ""
-#~ "Descubre destinos increíbles con nuestros servicios de vuelo premium"
-
-#~ msgid "Get Started"
-#~ msgstr "Empezar"
-
-#~ msgid "Available Flights"
-#~ msgstr "Vuelos Disponibles"
-
-#~ msgid "per person"
-#~ msgstr "por persona"
-
-#~ msgid "Book Flight"
-#~ msgstr "Reservar Vuelo"
-
-#~ msgid "We're working on adding new routes. Check back soon!"
-#~ msgstr "Estamos trabajando en añadir nuevas rutas. ¡Vuelve pronto!"
-
-#~ msgid "Active Flights"
-#~ msgstr "Vuelos Activos"
-
-#~ msgid "Destinations"
-#~ msgstr "Destinos"
-
-#~ msgid "Happy Passengers"
-#~ msgstr "Pasajeros Satisfechos"
-
-#~ msgid "Delete Passenger"
-#~ msgstr "Eliminar Pasajero"
-
-#, python-format
-#~ msgid ""
-#~ "Are you sure you want to delete passenger \"%(passenger.first_name)s "
-#~ "%(passenger.last_name)s\" (Document: %(passenger.document_number)s)?"
-#~ msgstr ""
-#~ "¿Estás seguro de que quieres eliminar al pasajero "
-#~ "\"%(passenger.first_name)s %(passenger.last_name)s\" (Documento: "
-#~ "%(passenger.document_number)s)?"
-
-#, fuzzy
-#~| msgid "Delete Flight"
-#~ msgid "Yes, Delete"
-#~ msgstr "Sí, Eliminar"
-
-#, fuzzy
-#~| msgid "Cancelled"
-#~ msgid "Cancel"
-#~ msgstr "Cancelar"
-
-#, python-format
-#~ msgid "Flight History for %(passenger.first_name)s %(passenger.last_name)s"
-#~ msgstr ""
-#~ "Historial de Vuelos para %(passenger.first_name)s %(passenger.last_name)s"
-
-#, fuzzy
-#~| msgid "Happy Passengers"
-#~ msgid "Back to Passenger List"
-#~ msgstr "Volver a la Lista de Pasajeros"
-
-#~ msgid "Origin"
-#~ msgstr "Origen"
-
-#, fuzzy
-#~| msgid "Destinations"
-#~ msgid "Destination"
-#~ msgstr "Destino"
-
-#, fuzzy
-#~| msgid "Departure"
-#~ msgid "Departure Date"
-#~ msgstr "Fecha de Salida"
-
-#, fuzzy
-#~| msgid "Book Flight"
-#~ msgid "Booking Date"
-#~ msgstr "Fecha de Reserva"
-
-#, fuzzy
-#~| msgid "Document Number"
-#~ msgid "Seat Number"
-#~ msgstr "Número de Asiento"
-
-#, fuzzy
-#~| msgid "Price"
-#~ msgid "Price Paid"
-#~ msgstr "Precio Pagado"
-
-#~ msgid "No flight history found for this passenger."
-#~ msgstr "No se encontró historial de vuelos para este pasajero."
-
-#, fuzzy, python-format
-#~| msgid "Happy Passengers"
-#~ msgid "%(action)s Passenger"
-#~ msgstr "%(action)s Pasajero"
-
-#~ msgid "Add a new passenger to the airline system"
-#~ msgstr "Añadir un nuevo pasajero al sistema de la aerolínea"
-
-#, fuzzy
-#~| msgid "Manage passenger information and flight history"
-#~ msgid "Update passenger information and details"
-#~ msgstr "Actualizar información y detalles del pasajero"
-
-#, fuzzy
-#~| msgid "Happy Passengers"
-#~ msgid "Back to Passengers"
-#~ msgstr "Volver a Pasajeros"
-
-#, fuzzy
-#~| msgid "Passengers"
-#~ msgid "Passenger Details"
-#~ msgstr "Detalles del Pasajero"
-
-#~ msgid "Complete"
-#~ msgstr "Completar"
-
-#, fuzzy
-#~| msgid "Password confirmation"
-#~ msgid "Personal Information"
-#~ msgstr "Información Personal"
-
-#~ msgid "Document & Contact Information"
-#~ msgstr "Información de Documento y Contacto"
-
-#~ msgid "Manage passenger information and flight history"
-#~ msgstr "Gestionar información de pasajeros e historial de vuelos"
-
-#~ msgid "Add New Passenger"
-#~ msgstr "Añadir Nuevo Pasajero"
-
-#~ msgid "Total Passengers"
-#~ msgstr "Total de Pasajeros"
-
-#~ msgid "Active Documents"
-#~ msgstr "Documentos Activos"
-
-#~ msgid "Email Contacts"
-#~ msgstr "Contactos de Correo Electrónico"
-
-#~ msgid "Phone Numbers"
-#~ msgstr "Números de Teléfono"
-
-#~ msgid "Full Name"
-#~ msgstr "Nombre Completo"
-
-#~ msgid "Document"
-#~ msgstr "Documento"
-
-#~ msgid "Contact"
-#~ msgstr "Contacto"
-
-#~ msgid "Date of Birth"
-#~ msgstr "Fecha de Nacimiento"
-
-#~ msgid "Document Type"
-#~ msgstr "Tipo de Documento"
-
-#~ msgid "ID:"
-#~ msgstr "ID:"
-
-#~ msgid "Document Number"
-#~ msgstr "Número de Documento"
-
-#~ msgid "No phone"
-#~ msgstr "Sin teléfono"
-
-#~ msgid "Age calculation"
-#~ msgstr "Cálculo de edad"
-
-#~ msgid "Edit Passenger"
-#~ msgstr "Editar Pasajero"
-
-#~ msgid "Flight History"
-#~ msgstr "Historial de Vuelos"
-
-#~ msgid "No Passengers Found"
-#~ msgstr "No se Encontraron Pasajeros"
-
-#~ msgid "No passenger records have been added to the system yet."
-#~ msgstr "Aún no se han añadido registros de pasajeros al sistema."
-
-#~ msgid "Add Your First Passenger"
-#~ msgstr "Añade tu Primer Pasajero"
-
-#~ msgid "Join Airlines"
-#~ msgstr "Únete a Aerolíneas"
-
-#~ msgid "Create your account and start booking flights"
-#~ msgstr "Crea tu cuenta y empieza a reservar vuelos"
-
-#~ msgid "Create Account"
-#~ msgstr "Crear Cuenta"
-
-#~ msgid "Already have an account?"
-#~ msgstr "¿Ya tienes una cuenta?"
-
-#~ msgid "Sign In"
-#~ msgstr "Iniciar Sesión"
-
-#~ msgid "Welcome Back"
-#~ msgstr "Bienvenido de Nuevo"
-
-#~ msgid "Sign in to your Airlines account"
-#~ msgstr "Inicia sesión en tu cuenta de Aerolíneas"
-
-#~ msgid "Don't have an account?"
-#~ msgstr "¿No tienes una cuenta?"
-
-# Form labels (from forms.py, but captured by makemessages)
-#~ msgid "First name"
-#~ msgstr "Nombre"
-
-#~ msgid "Last name"
-#~ msgstr "Apellido"
-
-#~ msgid "Username"
-#~ msgstr "Nombre de usuario"
-
-#~ msgid "Password"
-#~ msgstr "Contraseña"
-
-# Statuses (assuming these are the possible values for flight.status)
-#~ msgid "Scheduled"
-#~ msgstr "Programado"
-
-#~ msgid "Delayed"
-#~ msgstr "Retrasado"
-
-#~ msgid "Departed"
-#~ msgstr "Salido"
-
-#~ msgid "Arrived"
-#~ msgstr "Llegado"

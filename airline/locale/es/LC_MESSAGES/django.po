@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: airline_management\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-20 17:14+0000\n"
+"POT-Creation-Date: 2025-10-20 18:06+0000\n"
 "PO-Revision-Date: 2025-10-17 16:34+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -18,255 +18,255 @@ msgstr ""
 
 #: airline/templates/airline/base.html:7
 msgid "Airline Management"
-msgstr "Gestión de Aerolíneas"
+msgstr ""
 
 #: airline/templates/airline/base.html:34
 msgid "Home"
-msgstr "Inicio"
+msgstr ""
 
 #: airline/templates/airline/base.html:40
 msgid "Flights"
-msgstr "Vuelos"
+msgstr ""
 
 #: airline/templates/airline/base.html:43
 msgid "Manage Flights"
-msgstr "Administrar Vuelos"
+msgstr ""
 
 #: airline/templates/airline/base.html:44
 msgid "View Flights"
-msgstr "Ver Vuelos"
+msgstr ""
 
 #: airline/templates/airline/base.html:49
 #: airline/templates/airline/flight_list.html:173
 msgid "Passengers"
-msgstr "Pasajeros"
+msgstr ""
 
 #: airline/templates/airline/base.html:54
 msgid "Reservations"
-msgstr "Reservas"
+msgstr ""
 
 #: airline/templates/airline/base.html:62
 msgid "Language"
-msgstr "Idioma"
+msgstr ""
 
 #: airline/templates/airline/base.html:87
 msgid "Welcome back!"
-msgstr "¡Bienvenido de nuevo!"
+msgstr ""
 
 #: airline/templates/airline/base.html:93
 msgid "Logout"
-msgstr "Cerrar Sesión"
+msgstr ""
 
 #: airline/templates/airline/base.html:102
 #: airline/templates/airline/home.html:15
 msgid "Login"
-msgstr "Iniciar Sesión"
+msgstr ""
 
 #: airline/templates/airline/base.html:107
 msgid "Register"
-msgstr "Registrarse"
+msgstr ""
 
 #: airline/templates/airline/flight_detail_with_seats.html:6
 #: airline/templates/airline/passenger_flight_history.html:13
 msgid "Flight"
-msgstr "Vuelo"
+msgstr ""
 
 #: airline/templates/airline/flight_detail_with_seats.html:6
 #: airline/templates/airline/reservation_detail.html:13
 #: airline/templates/airline/reserve_seat.html:6
 #: airline/templates/airline/ticket_detail.html:25
 msgid "to"
-msgstr "a"
+msgstr ""
 
 #: airline/templates/airline/flight_detail_with_seats.html:7
 #: airline/templates/airline/flight_list.html:93
 #: airline/templates/airline/home.html:61
 msgid "Departure"
-msgstr "Salida"
+msgstr ""
 
 #: airline/templates/airline/flight_detail_with_seats.html:8
 #: airline/templates/airline/flight_list.html:97
 #: airline/templates/airline/home.html:70
 msgid "Arrival"
-msgstr "Llegada"
+msgstr ""
 
 #: airline/templates/airline/flight_detail_with_seats.html:9
 msgid "Airplane"
-msgstr "Avión"
+msgstr ""
 
 #: airline/templates/airline/flight_detail_with_seats.html:9
 msgid "Capacity"
-msgstr "Capacidad"
+msgstr ""
 
 #: airline/templates/airline/flight_detail_with_seats.html:10
 msgid "Base Price"
-msgstr "Precio Base"
+msgstr ""
 
 #: airline/templates/airline/flight_detail_with_seats.html:12
 msgid "Seat Map"
-msgstr "Mapa de Asientos"
+msgstr ""
 
 #: airline/templates/airline/flight_detail_with_seats.html:16
 msgid "Row"
-msgstr "Fila"
+msgstr ""
 
 #: airline/templates/airline/flight_detail_with_seats.html:21
 #: airline/templates/airline/reservation_list.html:99
 msgid "Seat"
-msgstr "Asiento"
+msgstr ""
 
 #: airline/templates/airline/flight_detail_with_seats.html:21
 #: airline/templates/airline/flight_detail_with_seats.html:35
 msgid "Reserved"
-msgstr "Reservado"
+msgstr ""
 
 #: airline/templates/airline/flight_detail_with_seats.html:21
 #: airline/templates/airline/flight_detail_with_seats.html:32
 msgid "Available"
-msgstr "Disponible"
+msgstr ""
 
 #: airline/templates/airline/flight_detail_with_seats.html:30
 msgid "Legend"
-msgstr "Leyenda"
+msgstr ""
 
 #: airline/templates/airline/flight_detail_with_seats.html:38
 msgid "Premium"
-msgstr "Premium"
+msgstr ""
 
 #: airline/templates/airline/flight_detail_with_seats.html:41
 msgid "Executive"
-msgstr "Ejecutivo"
+msgstr ""
 
 #: airline/templates/airline/flight_list.html:12
 msgid "Flight Management"
-msgstr "Gestión de Vuelos"
+msgstr ""
 
 #: airline/templates/airline/flight_list.html:14
 msgid "Manage and monitor all airline flights"
-msgstr "Gestiona y monitoriza todos los vuelos de la aerolínea"
+msgstr ""
 
 #: airline/templates/airline/flight_list.html:19
 msgid "Add New Flight"
-msgstr "Añadir Nuevo Vuelo"
+msgstr ""
 
 #: airline/templates/airline/flight_list.html:36
 msgid "Total Flights"
-msgstr "Total de Vuelos"
+msgstr ""
 
 #: airline/templates/airline/flight_list.html:47
 msgid "Scheduled Today"
-msgstr "Programados Hoy"
+msgstr ""
 
 #: airline/templates/airline/flight_list.html:58
 msgid "Passengers Today"
-msgstr "Pasajeros Hoy"
+msgstr ""
 
 #: airline/templates/airline/flight_list.html:69
 msgid "Revenue Today"
-msgstr "Ingresos Hoy"
+msgstr ""
 
 #: airline/templates/airline/flight_list.html:85
 msgid "Aircraft"
-msgstr "Aeronave"
+msgstr ""
 
 #: airline/templates/airline/flight_list.html:89
 msgid "Route"
-msgstr "Ruta"
+msgstr ""
 
 #: airline/templates/airline/flight_list.html:101
 msgid "Duration"
-msgstr "Duración"
+msgstr ""
 
 #: airline/templates/airline/flight_list.html:105
 #: airline/templates/airline/reservation_list.html:103
 msgid "Status"
-msgstr "Estado"
+msgstr ""
 
 #: airline/templates/airline/flight_list.html:109
 #: airline/templates/airline/reservation_list.html:107
 msgid "Price"
-msgstr "Precio"
+msgstr ""
 
 #: airline/templates/airline/flight_list.html:113
 #: airline/templates/airline/passenger_list.html:105
 #: airline/templates/airline/reservation_detail.html:24
 #: airline/templates/airline/reservation_list.html:115
 msgid "Actions"
-msgstr "Acciones"
+msgstr ""
 
 #: airline/templates/airline/flight_list.html:117
 msgid "Reports"
-msgstr "Informes"
+msgstr ""
 
 #: airline/templates/airline/flight_list.html:162
 msgid "Edit Flight"
-msgstr "Editar Vuelo"
+msgstr ""
 
 #: airline/templates/airline/flight_list.html:165
 msgid "Delete Flight"
-msgstr "Eliminar Vuelo"
+msgstr ""
 
 #: airline/templates/airline/flight_list.html:171
 msgid "View Passengers"
-msgstr "Ver Pasajeros"
+msgstr ""
 
 #: airline/templates/airline/flight_list.html:182
 #: airline/templates/airline/home.html:97
 msgid "No Flights Available"
-msgstr "No hay Vuelos Disponibles"
+msgstr ""
 
 #: airline/templates/airline/flight_list.html:183
 msgid "No flights have been added to the system yet."
-msgstr "Aún no se han añadido vuelos al sistema."
+msgstr ""
 
 #: airline/templates/airline/flight_list.html:186
 msgid "Add Your First Flight"
-msgstr "Añade tu Primer Vuelo"
+msgstr ""
 
 #: airline/templates/airline/home.html:11
 msgid "Airlines"
-msgstr "Aerolíneas"
+msgstr ""
 
 #: airline/templates/airline/home.html:12
 msgid "Discover amazing destinations with our premium flight services"
-msgstr "Descubre destinos increíbles con nuestros servicios de vuelo premium"
+msgstr ""
 
 #: airline/templates/airline/home.html:16
 msgid "Get Started"
-msgstr "Empezar"
+msgstr ""
 
 #: airline/templates/airline/home.html:36
 msgid "Available Flights"
-msgstr "Vuelos Disponibles"
+msgstr ""
 
 #: airline/templates/airline/home.html:78
 msgid "per person"
-msgstr "por persona"
+msgstr ""
 
 #: airline/templates/airline/home.html:86
 msgid "Book Flight"
-msgstr "Reservar Vuelo"
+msgstr ""
 
 #: airline/templates/airline/home.html:98
 msgid "We're working on adding new routes. Check back soon!"
-msgstr "Estamos trabajando en añadir nuevas rutas. ¡Vuelve pronto!"
+msgstr ""
 
 #: airline/templates/airline/home.html:112
 msgid "Active Flights"
-msgstr "Vuelos Activos"
+msgstr ""
 
 #: airline/templates/airline/home.html:119
 msgid "Destinations"
-msgstr "Destinos"
+msgstr ""
 
 #: airline/templates/airline/home.html:126
 msgid "Happy Passengers"
-msgstr "Pasajeros Satisfechos"
+msgstr ""
 
 #: airline/templates/airline/passenger_confirm_delete.html:5
 #: airline/templates/airline/passenger_list.html:159
 msgid "Delete Passenger"
-msgstr "Eliminar Pasajero"
+msgstr ""
 
 #: airline/templates/airline/passenger_confirm_delete.html:6
 #, python-format
@@ -274,418 +274,415 @@ msgid ""
 "Are you sure you want to delete passenger \"%(passenger.first_name)s "
 "%(passenger.last_name)s\" (Document: %(passenger.document_number)s)?"
 msgstr ""
-"¿Estás seguro de que quieres eliminar al pasajero \"%(passenger.first_name)s "
-"%(passenger.last_name)s\" (Documento: %(passenger.document_number)s)?"
 
 #: airline/templates/airline/passenger_confirm_delete.html:9
 msgid "Yes, Delete"
-msgstr "Sí, Eliminar"
+msgstr ""
 
 #: airline/templates/airline/passenger_confirm_delete.html:10
 #: airline/templates/airline/passenger_form.html:210
 #: airline/templates/airline/reserve_seat.html:18
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr ""
 
 #: airline/templates/airline/passenger_flight_history.html:5
 #, python-format
 msgid "Flight History for %(passenger.first_name)s %(passenger.last_name)s"
 msgstr ""
-"Historial de Vuelos para %(passenger.first_name)s %(passenger.last_name)s"
 
 #: airline/templates/airline/passenger_flight_history.html:7
 msgid "Back to Passenger List"
-msgstr "Volver a la Lista de Pasajeros"
+msgstr ""
 
 #: airline/templates/airline/passenger_flight_history.html:14
 msgid "Origin"
-msgstr "Origen"
+msgstr ""
 
 #: airline/templates/airline/passenger_flight_history.html:15
 msgid "Destination"
-msgstr "Destino"
+msgstr ""
 
 #: airline/templates/airline/passenger_flight_history.html:16
 msgid "Departure Date"
-msgstr "Fecha de Salida"
+msgstr ""
 
 #: airline/templates/airline/passenger_flight_history.html:17
 msgid "Booking Date"
-msgstr "Fecha de Reserva"
+msgstr ""
 
 #: airline/templates/airline/passenger_flight_history.html:18
 msgid "Seat Number"
-msgstr "Número de Asiento"
+msgstr ""
 
 #: airline/templates/airline/passenger_flight_history.html:19
 msgid "Price Paid"
-msgstr "Precio Pagado"
+msgstr ""
 
 #: airline/templates/airline/passenger_flight_history.html:37
 msgid "No flight history found for this passenger."
-msgstr "No se encontró historial de vuelos para este pasajero."
+msgstr ""
 
 #: airline/templates/airline/passenger_form.html:12
 #: airline/templates/airline/passenger_form.html:206
 #, python-format
 msgid "%(action)s Passenger"
-msgstr "%(action)s Pasajero"
+msgstr ""
 
 #: airline/templates/airline/passenger_form.html:16
 msgid "Add a new passenger to the airline system"
-msgstr "Añadir un nuevo pasajero al sistema de la aerolínea"
+msgstr ""
 
 #: airline/templates/airline/passenger_form.html:18
 msgid "Update passenger information and details"
-msgstr "Actualizar información y detalles del pasajero"
+msgstr ""
 
 #: airline/templates/airline/passenger_form.html:25
 msgid "Back to Passengers"
-msgstr "Volver a Pasajeros"
+msgstr ""
 
 #: airline/templates/airline/passenger_form.html:43
 msgid "Passenger Details"
-msgstr "Detalles del Pasajero"
+msgstr ""
 
 #: airline/templates/airline/passenger_form.html:50
 msgid "Complete"
-msgstr "Completar"
+msgstr ""
 
 #: airline/templates/airline/passenger_form.html:82
 msgid "Personal Information"
-msgstr "Información Personal"
+msgstr ""
 
 #: airline/templates/airline/passenger_form.html:149
 msgid "Document & Contact Information"
-msgstr "Información de Documento y Contacto"
+msgstr ""
 
 #: airline/templates/airline/passenger_list.html:12
 msgid "Passenger Management"
-msgstr "Gestión de Pasajeros"
+msgstr ""
 
 #: airline/templates/airline/passenger_list.html:14
 msgid "Manage passenger information and flight history"
-msgstr "Gestionar información de pasajeros e historial de vuelos"
+msgstr ""
 
 #: airline/templates/airline/passenger_list.html:19
 msgid "Add New Passenger"
-msgstr "Añadir Nuevo Pasajero"
+msgstr ""
 
 #: airline/templates/airline/passenger_list.html:36
 msgid "Total Passengers"
-msgstr "Total de Pasajeros"
+msgstr ""
 
 #: airline/templates/airline/passenger_list.html:47
 msgid "Active Documents"
-msgstr "Documentos Activos"
+msgstr ""
 
 #: airline/templates/airline/passenger_list.html:58
 msgid "Email Contacts"
-msgstr "Contactos de Correo Electrónico"
+msgstr ""
 
 #: airline/templates/airline/passenger_list.html:69
 msgid "Phone Numbers"
-msgstr "Números de Teléfono"
+msgstr ""
 
 #: airline/templates/airline/passenger_list.html:85
 msgid "Full Name"
-msgstr "Nombre Completo"
+msgstr ""
 
 #: airline/templates/airline/passenger_list.html:89
 msgid "Document"
-msgstr "Documento"
+msgstr ""
 
 #: airline/templates/airline/passenger_list.html:93
 msgid "Contact"
-msgstr "Contacto"
+msgstr ""
 
 #: airline/templates/airline/passenger_list.html:97
 msgid "Date of Birth"
-msgstr "Fecha de Nacimiento"
+msgstr ""
 
 #: airline/templates/airline/passenger_list.html:101
 msgid "Document Type"
-msgstr "Tipo de Documento"
+msgstr ""
 
 #: airline/templates/airline/passenger_list.html:115
 msgid "ID:"
-msgstr "ID:"
+msgstr ""
 
 #: airline/templates/airline/passenger_list.html:121
 msgid "Document Number"
-msgstr "Número de Documento"
+msgstr ""
 
 #: airline/templates/airline/passenger_list.html:138
 msgid "No phone"
-msgstr "Sin teléfono"
+msgstr ""
 
 #: airline/templates/airline/passenger_list.html:146
 msgid "Age calculation"
-msgstr "Cálculo de edad"
+msgstr ""
 
 #: airline/templates/airline/passenger_list.html:156
 msgid "Edit Passenger"
-msgstr "Editar Pasajero"
+msgstr ""
 
 #: airline/templates/airline/passenger_list.html:162
 msgid "Flight History"
-msgstr "Historial de Vuelos"
+msgstr ""
 
 #: airline/templates/airline/passenger_list.html:173
 msgid "No Passengers Found"
-msgstr "No se Encontraron Pasajeros"
+msgstr ""
 
 #: airline/templates/airline/passenger_list.html:174
 msgid "No passenger records have been added to the system yet."
-msgstr "Aún no se han añadido registros de pasajeros al sistema."
+msgstr ""
 
 #: airline/templates/airline/passenger_list.html:177
 msgid "Add Your First Passenger"
-msgstr "Añade tu Primer Pasajero"
+msgstr ""
 
 #: airline/templates/airline/register.html:15
 msgid "Join Airlines"
-msgstr "Únete a Aerolíneas"
+msgstr ""
 
 #: airline/templates/airline/register.html:16
 msgid "Create your account and start booking flights"
-msgstr "Crea tu cuenta y empieza a reservar vuelos"
+msgstr ""
 
 #: airline/templates/airline/register.html:132
 #: airline/templates/registration/login.html:80
 msgid "Create Account"
-msgstr "Crear Cuenta"
+msgstr ""
 
 #: airline/templates/airline/register.html:137
 msgid "Already have an account?"
-msgstr "¿Ya tienes una cuenta?"
+msgstr ""
 
 #: airline/templates/airline/register.html:140
 #: airline/templates/registration/login.html:72
 msgid "Sign In"
-msgstr "Iniciar Sesión"
+msgstr ""
 
 #: airline/templates/airline/reservation_detail.html:6
 #: airline/templates/airline/ticket_detail.html:21
 msgid "Reservation Details"
-msgstr "Detalles de la Reserva"
+msgstr ""
 
 #: airline/templates/airline/reservation_detail.html:10
 msgid "Reservation Information"
-msgstr "Información de la Reserva"
+msgstr ""
 
 #: airline/templates/airline/reservation_detail.html:13
 #: airline/templates/airline/ticket_detail.html:25
 msgid "Flight:"
-msgstr "Vuelo:"
+msgstr ""
 
 #: airline/templates/airline/reservation_detail.html:14
 #: airline/templates/airline/ticket_detail.html:27
 msgid "Passenger:"
-msgstr "Pasajero:"
+msgstr ""
 
 #: airline/templates/airline/reservation_detail.html:15
 #: airline/templates/airline/ticket_detail.html:28
 msgid "Seat:"
-msgstr "Asiento:"
+msgstr ""
 
 #: airline/templates/airline/reservation_detail.html:16
 #: airline/templates/airline/ticket_detail.html:14
 msgid "Status:"
-msgstr "Estado:"
+msgstr ""
 
 #: airline/templates/airline/reservation_detail.html:17
 #: airline/templates/airline/ticket_detail.html:29
 msgid "Price:"
-msgstr "Precio:"
+msgstr ""
 
 #: airline/templates/airline/reservation_detail.html:18
 msgid "Reservation Date:"
-msgstr "Fecha de Reserva:"
+msgstr ""
 
 #: airline/templates/airline/reservation_detail.html:28
 #: airline/templates/airline/reservation_list.html:169
 #: airline/templates/airline/reserve_seat.html:17
 msgid "Confirm Reservation"
-msgstr "Confirmar Reserva"
+msgstr ""
 
 #: airline/templates/airline/reservation_detail.html:29
 #: airline/templates/airline/reservation_detail.html:33
 #: airline/templates/airline/reservation_detail.html:36
 msgid "Cancel Reservation"
-msgstr "Cancelar Reserva"
+msgstr ""
 
 #: airline/templates/airline/reservation_detail.html:31
 #: airline/templates/airline/reservation_list.html:174
 msgid "Mark as Paid"
-msgstr "Marcar como Pagado"
+msgstr ""
 
 #: airline/templates/airline/reservation_detail.html:32
 #: airline/templates/airline/reservation_detail.html:35
 msgid "Generate E-Ticket"
-msgstr "Generar Billete Electrónico"
+msgstr ""
 
 #: airline/templates/airline/reservation_detail.html:38
 msgid "Back to Reservations"
-msgstr "Volver a Reservas"
+msgstr ""
 
 #: airline/templates/airline/reservation_detail.html:45
 msgid "Associated Ticket"
-msgstr "Billete Asociado"
+msgstr ""
 
 #: airline/templates/airline/reservation_detail.html:48
 #: airline/templates/airline/ticket_detail.html:13
 msgid "Ticket Barcode:"
-msgstr "Código de Barras del Billete:"
+msgstr ""
 
 #: airline/templates/airline/reservation_detail.html:49
 msgid "Ticket Status:"
-msgstr "Estado del Billete:"
+msgstr ""
 
 #: airline/templates/airline/reservation_detail.html:50
 #: airline/templates/airline/ticket_detail.html:15
 msgid "Issue Date:"
-msgstr "Fecha de Emisión:"
+msgstr ""
 
 #: airline/templates/airline/reservation_detail.html:51
 msgid "View Ticket Details"
-msgstr "Ver Detalles del Billete"
+msgstr ""
 
 #: airline/templates/airline/reservation_detail.html:52
 msgid "Download Ticket PDF"
-msgstr "Descargar Billete en PDF"
+msgstr ""
 
 #: airline/templates/airline/reservation_error.html:7
 msgid "Reservation Error!"
-msgstr "¡Error de Reserva!"
+msgstr ""
 
 #: airline/templates/airline/reservation_error.html:10
 msgid "Please go back and try again."
-msgstr "Por favor, vuelve e inténtalo de nuevo."
+msgstr ""
 
 #: airline/templates/airline/reservation_error.html:12
 msgid "Go to Home"
-msgstr "Ir a Inicio"
+msgstr ""
 
 #: airline/templates/airline/reservation_list.html:12
 msgid "Reservation Management"
-msgstr "Gestión de Reservas"
+msgstr ""
 
 #: airline/templates/airline/reservation_list.html:14
 msgid "Manage and monitor all flight reservations"
-msgstr "Gestiona y monitoriza todas las reservas de vuelos"
+msgstr ""
 
 #: airline/templates/airline/reservation_list.html:20
 msgid "Total"
-msgstr "Total"
+msgstr ""
 
 #: airline/templates/airline/reservation_list.html:38
 msgid "Total Reservations"
-msgstr "Total de Reservas"
+msgstr ""
 
 #: airline/templates/airline/reservation_list.html:49
 msgid "Confirmed"
-msgstr "Confirmadas"
+msgstr ""
 
 #: airline/templates/airline/reservation_list.html:60
 msgid "Pending"
-msgstr "Pendientes"
+msgstr ""
 
 #: airline/templates/airline/reservation_list.html:71
 msgid "Total Revenue"
-msgstr "Ingresos Totales"
+msgstr ""
 
 #: airline/templates/airline/reservation_list.html:87
 msgid "Reservation Code"
-msgstr "Código de Reserva"
+msgstr ""
 
 #: airline/templates/airline/reservation_list.html:91
 msgid "Flight Route"
-msgstr "Ruta del Vuelo"
+msgstr ""
 
 #: airline/templates/airline/reservation_list.html:95
 msgid "Passenger"
-msgstr "Pasajero"
+msgstr ""
 
 #: airline/templates/airline/reservation_list.html:111
 msgid "Reservation Date"
-msgstr "Fecha de Reserva"
+msgstr ""
 
 #: airline/templates/airline/reservation_list.html:165
 msgid "View Details"
-msgstr "Ver Detalles"
+msgstr ""
 
 #: airline/templates/airline/reservation_list.html:186
 msgid "No Reservations Found"
-msgstr "No se Encontraron Reservas"
+msgstr ""
 
 #: airline/templates/airline/reservation_list.html:187
 msgid "No flight reservations have been made yet."
-msgstr "Aún no se han realizado reservas de vuelos."
+msgstr ""
 
 #: airline/templates/airline/reserve_seat.html:6
 msgid "Reserve Seat"
-msgstr "Reservar Asiento"
+msgstr ""
 
 #: airline/templates/airline/reserve_seat.html:6
 msgid "on Flight"
-msgstr "en Vuelo"
+msgstr ""
 
 #: airline/templates/airline/reserve_seat.html:7
 #: airline/templates/airline/ticket_detail.html:26
 msgid "Departure:"
-msgstr "Salida:"
+msgstr ""
 
 #: airline/templates/airline/reserve_seat.html:8
 msgid "Arrival:"
-msgstr "Llegada:"
+msgstr ""
 
 #: airline/templates/airline/reserve_seat.html:9
 msgid "Seat Type:"
-msgstr "Tipo de Asiento:"
+msgstr ""
 
 #: airline/templates/airline/reserve_seat.html:10
 msgid "Estimated Price:"
-msgstr "Precio Estimado:"
+msgstr ""
 
 #: airline/templates/airline/reserve_seat.html:11
 #, python-format
 msgid "(Premium +20%%)"
-msgstr "(Premium +20%%)"
+msgstr ""
 
 #: airline/templates/airline/reserve_seat.html:11
 #, python-format
 msgid "(Executive +50%%)"
-msgstr "(Executive +50%%)"
+msgstr ""
 
 #: airline/templates/airline/ticket_detail.html:6
 msgid "E-Ticket Details"
-msgstr "Detalles del Billete Electrónico"
+msgstr ""
 
 #: airline/templates/airline/ticket_detail.html:10
 msgid "Ticket Information"
-msgstr "Información del Billete"
+msgstr ""
 
 #: airline/templates/airline/ticket_detail.html:24
 msgid "Reservation Code:"
-msgstr "Código de Reserva:"
+msgstr ""
 
 #: airline/templates/airline/ticket_detail.html:34
 msgid "Download PDF Ticket"
-msgstr "Descargar Billete en PDF"
+msgstr ""
 
 #: airline/templates/airline/ticket_detail.html:35
 msgid "Back to Reservation"
-msgstr "Volver a la Reserva"
+msgstr ""
 
 #: airline/templates/registration/login.html:15
 msgid "Welcome Back"
-msgstr "Bienvenido de Nuevo"
+msgstr ""
 
 #: airline/templates/registration/login.html:16
 msgid "Sign in to your Airlines account"
-msgstr "Inicia sesión en tu cuenta de Aerolíneas"
+msgstr ""
 
 #: airline/templates/registration/login.html:77
 msgid "Don't have an account?"
-msgstr "¿No tienes una cuenta?"
+msgstr ""
