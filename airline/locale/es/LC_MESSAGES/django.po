@@ -651,12 +651,12 @@ msgstr "Precio Estimado:"
 #: airline/templates/airline/reserve_seat.html:11
 #, python-format
 msgid "(Premium +20%%)"
-msgstr "(Premium +20%)"
+msgstr "(Premium +20%%)"
 
 #: airline/templates/airline/reserve_seat.html:11
 #, python-format
 msgid "(Executive +50%%)"
-msgstr "(Executive +50%)"
+msgstr "(Executive +50%%)"
 
 #: airline/templates/airline/ticket_detail.html:6
 msgid "E-Ticket Details"
