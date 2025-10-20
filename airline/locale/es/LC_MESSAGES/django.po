@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: airline_management\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-20 23:16+0000\n"
+"POT-Creation-Date: 2025-10-20 23:44+0000\n"
 "PO-Revision-Date: 2025-10-17 16:34+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -240,11 +240,14 @@ msgstr "Código de reserva"
 msgid ""
 "The seat must be in \"Reserved\" or \"Occupied\" status for a confirmed/paid "
 "reservation."
-msgstr "El asiento debe estar en estado \"Reservado\" u \"Ocupado\" para una reserva confirmada/pagada."
+msgstr ""
+"El asiento debe estar en estado \"Reservado\" u \"Ocupado\" para una reserva "
+"confirmada/pagada."
 
 #: airline/models.py:250
 msgid "The seat must be in \"Available\" status for a cancelled reservation."
-msgstr "El asiento debe estar en estado \"Disponible\" para una reserva cancelada."
+msgstr ""
+"El asiento debe estar en estado \"Disponible\" para una reserva cancelada."
 
 #: airline/models.py:299
 msgid "Issued"
@@ -387,6 +390,53 @@ msgstr "Premium"
 msgid "Executive"
 msgstr "Ejecutivo"
 
+#: airline/templates/airline/flight_form.html:13
+#: airline/templates/airline/flight_form.html:221
+msgid "Create Flight"
+msgstr "Crear Vuelo"
+
+#: airline/templates/airline/flight_form.html:15
+#: airline/templates/airline/flight_form.html:223
+msgid "Update Flight"
+msgstr "Actualizar Vuelo"
+
+#: airline/templates/airline/flight_form.html:20
+msgid "Add a new flight to the airline schedule"
+msgstr "Añadir un nuevo vuelo al horario de la aerolínea"
+
+#: airline/templates/airline/flight_form.html:22
+msgid "Update flight information and details"
+msgstr "Actualizar la información y los detalles del vuelo"
+
+#: airline/templates/airline/flight_form.html:29
+msgid "Back to Flights"
+msgstr "Volver a Vuelos"
+
+#: airline/templates/airline/flight_form.html:47
+msgid "Flight Details"
+msgstr "Detalles del Vuelo"
+
+#: airline/templates/airline/flight_form.html:54
+#: airline/templates/airline/passenger_form.html:50
+msgid "Complete"
+msgstr "Completar"
+
+#: airline/templates/airline/flight_form.html:86
+#: airline/templates/airline/reservation_list.html:91
+msgid "Flight Route"
+msgstr "Ruta del Vuelo"
+
+#: airline/templates/airline/flight_form.html:123
+msgid "Aircraft & Schedule"
+msgstr "Aeronave y Horario"
+
+#: airline/templates/airline/flight_form.html:228
+#: airline/templates/airline/passenger_confirm_delete.html:10
+#: airline/templates/airline/passenger_form.html:210
+#: airline/templates/airline/reserve_seat.html:18
+msgid "Cancel"
+msgstr "Cancelar"
+
 #: airline/templates/airline/flight_list.html:12
 msgid "Flight Management"
 msgstr "Gestión de Vuelos"
@@ -519,29 +569,23 @@ msgid "Delete Passenger"
 msgstr "Eliminar Pasajero"
 
 #: airline/templates/airline/passenger_confirm_delete.html:6
-#, python-format
-msgid ""
-"Are you sure you want to delete passenger \"%(passenger.first_name)s "
-"%(passenger.last_name)s\" (Document: %(passenger.document_number)s)?"
+msgid "Are you sure you want to delete passenger"
 msgstr ""
-"¿Estás seguro de que quieres eliminar al pasajero \"%(passenger.first_name)s "
-"%(passenger.last_name)s\" (Documento: %(passenger.document_number)s)?"
+
+#: airline/templates/airline/passenger_confirm_delete.html:6
+#: airline/templates/airline/passenger_list.html:89
+msgid "Document"
+msgstr "Documento"
 
 #: airline/templates/airline/passenger_confirm_delete.html:9
 msgid "Yes, Delete"
 msgstr "Sí, Eliminar"
 
-#: airline/templates/airline/passenger_confirm_delete.html:10
-#: airline/templates/airline/passenger_form.html:210
-#: airline/templates/airline/reserve_seat.html:18
-msgid "Cancel"
-msgstr "Cancelar"
-
 #: airline/templates/airline/passenger_flight_history.html:5
-#, python-format
-msgid "Flight History for %(passenger.first_name)s %(passenger.last_name)s"
-msgstr ""
-"Historial de Vuelos para %(passenger.first_name)s %(passenger.last_name)s"
+#, fuzzy
+#| msgid "Flight History"
+msgid "Flight History for"
+msgstr "Historial de Vuelos"
 
 #: airline/templates/airline/passenger_flight_history.html:7
 msgid "Back to Passenger List"
@@ -597,10 +641,6 @@ msgstr "Volver a Pasajeros"
 msgid "Passenger Details"
 msgstr "Detalles del Pasajero"
 
-#: airline/templates/airline/passenger_form.html:50
-msgid "Complete"
-msgstr "Completar"
-
 #: airline/templates/airline/passenger_form.html:82
 msgid "Personal Information"
 msgstr "Información Personal"
@@ -641,15 +681,11 @@ msgstr "Números de Teléfono"
 msgid "Full Name"
 msgstr "Nombre Completo"
 
-#: airline/templates/airline/passenger_list.html:89
-msgid "Document"
-msgstr "Documento"
-
 #: airline/templates/airline/passenger_list.html:93
 msgid "Contact"
 msgstr "Contacto"
 
-#: airline/templates/airline/passenger_.html:97
+#: airline/templates/airline/passenger_list.html:97
 msgid "Date of Birth"
 msgstr "Fecha de Nacimiento"
 
@@ -841,10 +877,6 @@ msgstr "Ingresos Totales"
 msgid "Reservation Code"
 msgstr "Código de Reserva"
 
-#: airline/templates/airline/reservation_list.html:91
-msgid "Flight Route"
-msgstr "Ruta del Vuelo"
-
 #: airline/templates/airline/reservation_list.html:95
 msgid "Passenger"
 msgstr "Pasajero"
@@ -931,3 +963,17 @@ msgstr "Inicia sesión en tu cuenta de Aerolíneas"
 #: airline/templates/registration/login.html:77
 msgid "Don't have an account?"
 msgstr "¿No tienes una cuenta?"
+
+#, python-format
+#~ msgid ""
+#~ "Are you sure you want to delete passenger \"%(passenger.first_name)s "
+#~ "%(passenger.last_name)s\" (Document: %(passenger.document_number)s)?"
+#~ msgstr ""
+#~ "¿Estás seguro de que quieres eliminar al pasajero "
+#~ "\"%(passenger.first_name)s %(passenger.last_name)s\" (Documento: "
+#~ "%(passenger.document_number)s)?"
+
+#, python-format
+#~ msgid "Flight History for %(passenger.first_name)s %(passenger.last_name)s"
+#~ msgstr ""
+#~ "Historial de Vuelos para %(passenger.first_name)s %(passenger.last_name)s"

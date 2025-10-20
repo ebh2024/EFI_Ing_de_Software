@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-20 17:14+0000\n"
+"POT-Creation-Date: 2025-10-20 23:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,256 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: airline/forms.py:101
+msgid "Email"
+msgstr ""
+
+#: airline/forms.py:114
+msgid "This email address is already in use."
+msgstr ""
+
+#: airline/forms.py:121
+msgid "The two password fields didn't match."
+msgstr ""
+
+#: airline/forms.py:125
+msgid "Username"
+msgstr ""
+
+#: airline/forms.py:126
+msgid "Password"
+msgstr ""
+
+#: airline/models.py:12
+msgid "layout name"
+msgstr ""
+
+#: airline/models.py:13
+msgid "rows"
+msgstr ""
+
+#: airline/models.py:14
+msgid "columns"
+msgstr ""
+
+#: airline/models.py:33
+msgid "model name"
+msgstr ""
+
+#: airline/models.py:34
+msgid "manufacturer"
+msgstr ""
+
+#: airline/models.py:35
+msgid "registration number"
+msgstr ""
+
+#: airline/models.py:36
+msgid "year of manufacture"
+msgstr ""
+
+#: airline/models.py:37
+msgid "capacity"
+msgstr ""
+
+#: airline/models.py:38 airline/models.py:156
+msgid "seat layout"
+msgstr ""
+
+#: airline/models.py:39
+msgid "last maintenance date"
+msgstr ""
+
+#: airline/models.py:40
+msgid "technical notes"
+msgstr ""
+
+#: airline/models.py:59
+msgid "airplane"
+msgstr ""
+
+#: airline/models.py:60
+msgid "origin"
+msgstr ""
+
+#: airline/models.py:61
+msgid "destination"
+msgstr ""
+
+#: airline/models.py:62
+msgid "departure date"
+msgstr ""
+
+#: airline/models.py:63
+msgid "arrival date"
+msgstr ""
+
+#: airline/models.py:64
+msgid "duration"
+msgstr ""
+
+#: airline/models.py:65 airline/models.py:218 airline/models.py:306
+msgid "status"
+msgstr ""
+
+#: airline/models.py:66
+msgid "base price"
+msgstr ""
+
+#: airline/models.py:74
+msgid "Arrival date must be after departure date."
+msgstr ""
+
+#: airline/models.py:76
+msgid "Departure date cannot be in the past."
+msgstr ""
+
+#: airline/models.py:86
+msgid "National Identity Document"
+msgstr ""
+
+#: airline/models.py:87
+msgid "Passport"
+msgstr ""
+
+#: airline/models.py:88
+msgid "Enrollment Booklet"
+msgstr ""
+
+#: airline/models.py:89
+msgid "Civic Booklet"
+msgstr ""
+
+#: airline/models.py:91
+msgid "first name"
+msgstr ""
+
+#: airline/models.py:92
+msgid "last name"
+msgstr ""
+
+#: airline/models.py:93
+msgid "document number"
+msgstr ""
+
+#: airline/models.py:94
+msgid "email"
+msgstr ""
+
+#: airline/models.py:95
+msgid "phone"
+msgstr ""
+
+#: airline/models.py:96
+msgid "date of birth"
+msgstr ""
+
+#: airline/models.py:97
+msgid "document type"
+msgstr ""
+
+#: airline/models.py:105
+msgid "First name cannot be empty."
+msgstr ""
+
+#: airline/models.py:107
+msgid "Document number cannot be empty."
+msgstr ""
+
+#: airline/models.py:139
+msgid "name"
+msgstr ""
+
+#: airline/models.py:140
+msgid "code"
+msgstr ""
+
+#: airline/models.py:141
+msgid "price multiplier"
+msgstr ""
+
+#: airline/models.py:157
+msgid "seat type"
+msgstr ""
+
+#: airline/models.py:158
+msgid "row"
+msgstr ""
+
+#: airline/models.py:159
+msgid "column"
+msgstr ""
+
+#: airline/models.py:210 airline/templates/airline/reservation_list.html:60
+msgid "Pending"
+msgstr ""
+
+#: airline/models.py:211 airline/templates/airline/reservation_list.html:49
+msgid "Confirmed"
+msgstr ""
+
+#: airline/models.py:212 airline/models.py:300
+msgid "Cancelled"
+msgstr ""
+
+#: airline/models.py:213
+msgid "Paid"
+msgstr ""
+
+#: airline/models.py:215
+msgid "flight"
+msgstr ""
+
+#: airline/models.py:216
+msgid "passenger"
+msgstr ""
+
+#: airline/models.py:217
+msgid "seat"
+msgstr ""
+
+#: airline/models.py:219
+msgid "reservation date"
+msgstr ""
+
+#: airline/models.py:220
+msgid "price"
+msgstr ""
+
+#: airline/models.py:221
+msgid "reservation code"
+msgstr ""
+
+#: airline/models.py:247
+msgid ""
+"The seat must be in \"Reserved\" or \"Occupied\" status for a confirmed/paid "
+"reservation."
+msgstr ""
+
+#: airline/models.py:250
+msgid "The seat must be in \"Available\" status for a cancelled reservation."
+msgstr ""
+
+#: airline/models.py:299
+msgid "Issued"
+msgstr ""
+
+#: airline/models.py:301
+msgid "Used"
+msgstr ""
+
+#: airline/models.py:303
+msgid "reservation"
+msgstr ""
+
+#: airline/models.py:304
+msgid "barcode"
+msgstr ""
+
+#: airline/models.py:305
+msgid "issue date"
+msgstr ""
 
 #: airline/templates/airline/base.html:7
 msgid "Airline Management"
@@ -137,6 +387,53 @@ msgstr ""
 
 #: airline/templates/airline/flight_detail_with_seats.html:41
 msgid "Executive"
+msgstr ""
+
+#: airline/templates/airline/flight_form.html:13
+#: airline/templates/airline/flight_form.html:221
+msgid "Create Flight"
+msgstr ""
+
+#: airline/templates/airline/flight_form.html:15
+#: airline/templates/airline/flight_form.html:223
+msgid "Update Flight"
+msgstr ""
+
+#: airline/templates/airline/flight_form.html:20
+msgid "Add a new flight to the airline schedule"
+msgstr ""
+
+#: airline/templates/airline/flight_form.html:22
+msgid "Update flight information and details"
+msgstr ""
+
+#: airline/templates/airline/flight_form.html:29
+msgid "Back to Flights"
+msgstr ""
+
+#: airline/templates/airline/flight_form.html:47
+msgid "Flight Details"
+msgstr ""
+
+#: airline/templates/airline/flight_form.html:54
+#: airline/templates/airline/passenger_form.html:50
+msgid "Complete"
+msgstr ""
+
+#: airline/templates/airline/flight_form.html:86
+#: airline/templates/airline/reservation_list.html:91
+msgid "Flight Route"
+msgstr ""
+
+#: airline/templates/airline/flight_form.html:123
+msgid "Aircraft & Schedule"
+msgstr ""
+
+#: airline/templates/airline/flight_form.html:228
+#: airline/templates/airline/passenger_confirm_delete.html:10
+#: airline/templates/airline/passenger_form.html:210
+#: airline/templates/airline/reserve_seat.html:18
+msgid "Cancel"
 msgstr ""
 
 #: airline/templates/airline/flight_list.html:12
@@ -271,25 +568,20 @@ msgid "Delete Passenger"
 msgstr ""
 
 #: airline/templates/airline/passenger_confirm_delete.html:6
-#, python-format
-msgid ""
-"Are you sure you want to delete passenger \"%(passenger.first_name)s "
-"%(passenger.last_name)s\" (Document: %(passenger.document_number)s)?"
+msgid "Are you sure you want to delete passenger"
+msgstr ""
+
+#: airline/templates/airline/passenger_confirm_delete.html:6
+#: airline/templates/airline/passenger_list.html:89
+msgid "Document"
 msgstr ""
 
 #: airline/templates/airline/passenger_confirm_delete.html:9
 msgid "Yes, Delete"
 msgstr ""
 
-#: airline/templates/airline/passenger_confirm_delete.html:10
-#: airline/templates/airline/passenger_form.html:210
-#: airline/templates/airline/reserve_seat.html:18
-msgid "Cancel"
-msgstr ""
-
 #: airline/templates/airline/passenger_flight_history.html:5
-#, python-format
-msgid "Flight History for %(passenger.first_name)s %(passenger.last_name)s"
+msgid "Flight History for"
 msgstr ""
 
 #: airline/templates/airline/passenger_flight_history.html:7
@@ -346,10 +638,6 @@ msgstr ""
 msgid "Passenger Details"
 msgstr ""
 
-#: airline/templates/airline/passenger_form.html:50
-msgid "Complete"
-msgstr ""
-
 #: airline/templates/airline/passenger_form.html:82
 msgid "Personal Information"
 msgstr ""
@@ -388,10 +676,6 @@ msgstr ""
 
 #: airline/templates/airline/passenger_list.html:85
 msgid "Full Name"
-msgstr ""
-
-#: airline/templates/airline/passenger_list.html:89
-msgid "Document"
 msgstr ""
 
 #: airline/templates/airline/passenger_list.html:93
@@ -582,24 +866,12 @@ msgstr ""
 msgid "Total Reservations"
 msgstr ""
 
-#: airline/templates/airline/reservation_list.html:49
-msgid "Confirmed"
-msgstr ""
-
-#: airline/templates/airline/reservation_list.html:60
-msgid "Pending"
-msgstr ""
-
 #: airline/templates/airline/reservation_list.html:71
 msgid "Total Revenue"
 msgstr ""
 
 #: airline/templates/airline/reservation_list.html:87
 msgid "Reservation Code"
-msgstr ""
-
-#: airline/templates/airline/reservation_list.html:91
-msgid "Flight Route"
 msgstr ""
 
 #: airline/templates/airline/reservation_list.html:95
