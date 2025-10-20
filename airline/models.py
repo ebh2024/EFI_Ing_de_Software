@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 import uuid
 from .validators import (
     validate_positive_number, validate_year_of_manufacture, validate_phone_number,
@@ -8,9 +9,9 @@ from .validators import (
 )
 
 class SeatLayout(models.Model):
-    layout_name = models.CharField(max_length=100, unique=True)
-    rows = models.IntegerField()
-    columns = models.IntegerField() # Max number of columns
+    layout_name = models.CharField(_('layout name'), max_length=100, unique=True)
+    rows = models.IntegerField(_('rows'))
+    columns = models.IntegerField(_('columns')) # Max number of columns
 
     def __str__(self):
         return self.layout_name
@@ -29,14 +30,14 @@ class SeatLayout(models.Model):
             raise ValidationError(errors)
 
 class Airplane(models.Model):
-    model_name = models.CharField(max_length=100, default="Default Model")
-    manufacturer = models.CharField(max_length=100, blank=True, null=True)
-    registration_number = models.CharField(max_length=20, unique=True, default=uuid.uuid4().hex[:20])
-    year_of_manufacture = models.IntegerField(blank=True, null=True)
-    capacity = models.IntegerField()
-    seat_layout = models.ForeignKey(SeatLayout, on_delete=models.SET_NULL, null=True, blank=True)
-    last_maintenance_date = models.DateField(blank=True, null=True)
-    technical_notes = models.TextField(blank=True, null=True)
+    model_name = models.CharField(_('model name'), max_length=100, default="Default Model")
+    manufacturer = models.CharField(_('manufacturer'), max_length=100, blank=True, null=True)
+    registration_number = models.CharField(_('registration number'), max_length=20, unique=True, default=uuid.uuid4().hex[:20])
+    year_of_manufacture = models.IntegerField(_('year of manufacture'), blank=True, null=True)
+    capacity = models.IntegerField(_('capacity'))
+    seat_layout = models.ForeignKey(SeatLayout, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('seat layout'))
+    last_maintenance_date = models.DateField(_('last maintenance date'), blank=True, null=True)
+    technical_notes = models.TextField(_('technical notes'), blank=True, null=True)
 
     def __str__(self):
         return f"{self.model_name} ({self.registration_number})"
@@ -55,14 +56,14 @@ class Airplane(models.Model):
             raise ValidationError(errors)
 
 class Flight(models.Model):
-    airplane = models.ForeignKey(Airplane, on_delete=models.CASCADE)
-    origin = models.CharField(max_length=100)
-    destination = models.CharField(max_length=100)
-    departure_date = models.DateTimeField()
-    arrival_date = models.DateTimeField()
-    duration = models.DurationField()
-    status = models.CharField(max_length=50)
-    base_price = models.DecimalField(max_digits=10, decimal_places=2)
+    airplane = models.ForeignKey(Airplane, on_delete=models.CASCADE, verbose_name=_('airplane'))
+    origin = models.CharField(_('origin'), max_length=100)
+    destination = models.CharField(_('destination'), max_length=100)
+    departure_date = models.DateTimeField(_('departure date'))
+    arrival_date = models.DateTimeField(_('arrival date'))
+    duration = models.DurationField(_('duration'))
+    status = models.CharField(_('status'), max_length=50)
+    base_price = models.DecimalField(_('base price'), max_digits=10, decimal_places=2)
 
     def __str__(self):
         return f"Flight {self.origin} to {self.destination} on {self.departure_date.strftime('%Y-%m-%d %H:%M')}"
@@ -70,9 +71,9 @@ class Flight(models.Model):
     def clean(self):
         errors = {}
         if self.arrival_date and self.departure_date and self.arrival_date <= self.departure_date:
-            errors['arrival_date'] = 'Arrival date must be after departure date.'
+            errors['arrival_date'] = _('Arrival date must be after departure date.')
         if self.departure_date and self.departure_date < timezone.now():
-            errors['departure_date'] = 'Departure date cannot be in the past.'
+            errors['departure_date'] = _('Departure date cannot be in the past.')
         try:
             validate_positive_number(self.base_price, 'base_price')
         except ValidationError as e:
@@ -82,18 +83,18 @@ class Flight(models.Model):
 
 class Passenger(models.Model):
     DOCUMENT_TYPE_CHOICES = [
-        ('DNI', 'National Identity Document'),
-        ('PAS', 'Passport'),
-        ('LE', 'Enrollment Booklet'),
-        ('LC', 'Civic Booklet'),
+        ('DNI', _('National Identity Document')),
+        ('PAS', _('Passport')),
+        ('LE', _('Enrollment Booklet')),
+        ('LC', _('Civic Booklet')),
     ]
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100, blank=True, null=True)
-    document_number = models.CharField(max_length=20, unique=True)
-    email = models.EmailField(unique=True)
-    phone = models.CharField(max_length=20, blank=True, null=True)
-    date_of_birth = models.DateField()
-    document_type = models.CharField(max_length=3, choices=DOCUMENT_TYPE_CHOICES, default='DNI')
+    first_name = models.CharField(_('first name'), max_length=100)
+    last_name = models.CharField(_('last name'), max_length=100, blank=True, null=True)
+    document_number = models.CharField(_('document number'), max_length=20, unique=True)
+    email = models.EmailField(_('email'), unique=True)
+    phone = models.CharField(_('phone'), max_length=20, blank=True, null=True)
+    date_of_birth = models.DateField(_('date of birth'))
+    document_type = models.CharField(_('document type'), max_length=3, choices=DOCUMENT_TYPE_CHOICES, default='DNI')
 
     def __str__(self):
         return f"{self.first_name} {self.last_name or ''}".strip()
@@ -101,9 +102,9 @@ class Passenger(models.Model):
     def clean(self):
         errors = {}
         if not self.first_name:
-            errors['first_name'] = 'First name cannot be empty.'
+            errors['first_name'] = _('First name cannot be empty.')
         if not self.document_number:
-            errors['document_number'] = 'Document number cannot be empty.'
+            errors['document_number'] = _('Document number cannot be empty.')
         try:
             validate_date_of_birth(self.date_of_birth)
         except ValidationError as e:
@@ -135,9 +136,9 @@ class FlightHistory(models.Model):
             raise ValidationError(errors)
 
 class SeatType(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-    code = models.CharField(max_length=10, unique=True)
-    price_multiplier = models.DecimalField(max_digits=5, decimal_places=2, default=1.00)
+    name = models.CharField(_('name'), max_length=50, unique=True)
+    code = models.CharField(_('code'), max_length=10, unique=True)
+    price_multiplier = models.DecimalField(_('price multiplier'), max_digits=5, decimal_places=2, default=1.00)
 
     def __str__(self):
         return self.name
@@ -152,10 +153,10 @@ class SeatType(models.Model):
             raise ValidationError(errors)
 
 class SeatLayoutPosition(models.Model):
-    seat_layout = models.ForeignKey(SeatLayout, on_delete=models.CASCADE, related_name='positions')
-    seat_type = models.ForeignKey(SeatType, on_delete=models.CASCADE)
-    row = models.IntegerField()
-    column = models.CharField(max_length=2)
+    seat_layout = models.ForeignKey(SeatLayout, on_delete=models.CASCADE, related_name='positions', verbose_name=_('seat layout'))
+    seat_type = models.ForeignKey(SeatType, on_delete=models.CASCADE, verbose_name=_('seat type'))
+    row = models.IntegerField(_('row'))
+    column = models.CharField(_('column'), max_length=2)
 
     class Meta:
         unique_together = (('seat_layout', 'row', 'column'),)
@@ -206,18 +207,18 @@ class Seat(models.Model):
 
 class Reservation(models.Model):
     RESERVATION_STATUS_CHOICES = [
-        ('PEN', 'Pending'),
-        ('CON', 'Confirmed'),
-        ('CAN', 'Cancelled'),
-        ('PAID', 'Paid'),
+        ('PEN', _('Pending')),
+        ('CON', _('Confirmed')),
+        ('CAN', _('Cancelled')),
+        ('PAID', _('Paid')),
     ]
-    flight = models.ForeignKey(Flight, on_delete=models.CASCADE)
-    passenger = models.ForeignKey(Passenger, on_delete=models.CASCADE)
-    seat = models.OneToOneField(Seat, on_delete=models.CASCADE)
-    status = models.CharField(max_length=4, choices=RESERVATION_STATUS_CHOICES, default='PEN')
-    reservation_date = models.DateTimeField(auto_now_add=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    reservation_code = models.CharField(max_length=20, unique=True)
+    flight = models.ForeignKey(Flight, on_delete=models.CASCADE, verbose_name=_('flight'))
+    passenger = models.ForeignKey(Passenger, on_delete=models.CASCADE, verbose_name=_('passenger'))
+    seat = models.OneToOneField(Seat, on_delete=models.CASCADE, verbose_name=_('seat'))
+    status = models.CharField(_('status'), max_length=4, choices=RESERVATION_STATUS_CHOICES, default='PEN')
+    reservation_date = models.DateTimeField(_('reservation date'), auto_now_add=True)
+    price = models.DecimalField(_('price'), max_digits=10, decimal_places=2)
+    reservation_code = models.CharField(_('reservation code'), max_length=20, unique=True)
 
     class Meta:
         unique_together = (('flight', 'seat'), ('flight', 'passenger'))
@@ -243,10 +244,10 @@ class Reservation(models.Model):
         # Restriction: Seat statuses must be consistent with reservations
         if self.status == 'CON' or self.status == 'PAID':
             if self.seat.status not in ['Reserved', 'Occupied']:
-                raise ValidationError('The seat must be in "Reserved" or "Occupied" status for a confirmed/paid reservation.')
+                raise ValidationError(_('The seat must be in "Reserved" or "Occupied" status for a confirmed/paid reservation.'))
         elif self.status == 'CAN':
             if self.seat.status != 'Available':
-                raise ValidationError('The seat must be in "Available" status for a cancelled reservation.')
+                raise ValidationError(_('The seat must be in "Available" status for a cancelled reservation.'))
 
     def save(self, *args, **kwargs):
         self._update_associated_seat_status()
@@ -295,14 +296,14 @@ class UserProfile(models.Model):
 
 class Ticket(models.Model):
     TICKET_STATUS_CHOICES = [
-        ('EMI', 'Issued'),
-        ('CAN', 'Cancelled'),
-        ('USED', 'Used'),
+        ('EMI', _('Issued')),
+        ('CAN', _('Cancelled')),
+        ('USED', _('Used')),
     ]
-    reservation = models.OneToOneField(Reservation, on_delete=models.CASCADE)
-    barcode = models.CharField(max_length=50, unique=True)
-    issue_date = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=4, choices=TICKET_STATUS_CHOICES, default='EMI')
+    reservation = models.OneToOneField(Reservation, on_delete=models.CASCADE, verbose_name=_('reservation'))
+    barcode = models.CharField(_('barcode'), max_length=50, unique=True)
+    issue_date = models.DateTimeField(_('issue date'), auto_now_add=True)
+    status = models.CharField(_('status'), max_length=4, choices=TICKET_STATUS_CHOICES, default='EMI')
 
     @property
     def ticket_number(self):

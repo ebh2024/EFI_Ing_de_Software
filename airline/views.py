@@ -40,9 +40,8 @@ def register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('home') # Redirect to home page after registration
+            form.save()
+            return redirect('login')
     else:
         form = CustomUserCreationForm()
     return render(request, 'airline/register.html', {'form': form})
@@ -129,7 +128,7 @@ def generate_ticket(request, reservation_pk):
 
 def _generate_ticket_pdf(ticket, reservation):
     html_string = render_to_string('airline/ticket_template.html', {'ticket': ticket, 'reservation': reservation})
-    html = HTML(string=html_string, lang='es')
+    html = HTML(string=html_string)
     pdf = html.write_pdf()
 
     response = HttpResponse(pdf, content_type='application/pdf')

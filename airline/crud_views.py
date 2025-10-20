@@ -66,7 +66,11 @@ def passenger_update(request, pk):
 
 @login_required
 def passenger_delete(request, pk):
-    return delete_object(request, pk, Passenger, 'passenger_list', 'airline/passenger_confirm_delete.html', 'passenger')
+    passenger = get_object_or_404(Passenger, pk=pk)
+    if request.method == 'POST':
+        passenger.delete()
+        return redirect('passenger_list')
+    return render(request, 'airline/passenger_confirm_delete.html', {'passenger': passenger})
 
 # Airplane CRUD Views
 @login_required

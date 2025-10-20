@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: airline_management\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-20 18:06+0000\n"
+"POT-Creation-Date: 2025-10-20 23:16+0000\n"
 "PO-Revision-Date: 2025-10-17 16:34+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -15,6 +15,256 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: airline/forms.py:101
+msgid "Email"
+msgstr "Correo Electrónico"
+
+#: airline/forms.py:114
+msgid "This email address is already in use."
+msgstr "Esta dirección de correo electrónico ya está en uso."
+
+#: airline/forms.py:121
+msgid "The two password fields didn't match."
+msgstr "Los dos campos de contraseña no coinciden."
+
+#: airline/forms.py:125
+msgid "Username"
+msgstr "Nombre de usuario"
+
+#: airline/forms.py:126
+msgid "Password"
+msgstr "Contraseña"
+
+#: airline/models.py:12
+msgid "layout name"
+msgstr "Nombre del diseño"
+
+#: airline/models.py:13
+msgid "rows"
+msgstr "Filas"
+
+#: airline/models.py:14
+msgid "columns"
+msgstr "Columnas"
+
+#: airline/models.py:33
+msgid "model name"
+msgstr "Nombre del modelo"
+
+#: airline/models.py:34
+msgid "manufacturer"
+msgstr "Fabricante"
+
+#: airline/models.py:35
+msgid "registration number"
+msgstr "Número de registro"
+
+#: airline/models.py:36
+msgid "year of manufacture"
+msgstr "Año de fabricación"
+
+#: airline/models.py:37
+msgid "capacity"
+msgstr "Capacidad"
+
+#: airline/models.py:38 airline/models.py:156
+msgid "seat layout"
+msgstr "Diseño de asientos"
+
+#: airline/models.py:39
+msgid "last maintenance date"
+msgstr "Última fecha de mantenimiento"
+
+#: airline/models.py:40
+msgid "technical notes"
+msgstr "Notas técnicas"
+
+#: airline/models.py:59
+msgid "airplane"
+msgstr "Avión"
+
+#: airline/models.py:60
+msgid "origin"
+msgstr "Origen"
+
+#: airline/models.py:61
+msgid "destination"
+msgstr "Destino"
+
+#: airline/models.py:62
+msgid "departure date"
+msgstr "Fecha de salida"
+
+#: airline/models.py:63
+msgid "arrival date"
+msgstr "Fecha de llegada"
+
+#: airline/models.py:64
+msgid "duration"
+msgstr "Duración"
+
+#: airline/models.py:65 airline/models.py:218 airline/models.py:306
+msgid "status"
+msgstr "Estado"
+
+#: airline/models.py:66
+msgid "base price"
+msgstr "Precio base"
+
+#: airline/models.py:74
+msgid "Arrival date must be after departure date."
+msgstr "La fecha de llegada debe ser posterior a la fecha de salida."
+
+#: airline/models.py:76
+msgid "Departure date cannot be in the past."
+msgstr "La fecha de salida no puede ser en el pasado."
+
+#: airline/models.py:86
+msgid "National Identity Document"
+msgstr "Documento Nacional de Identidad"
+
+#: airline/models.py:87
+msgid "Passport"
+msgstr "Pasaporte"
+
+#: airline/models.py:88
+msgid "Enrollment Booklet"
+msgstr "Libreta de Enrolamiento"
+
+#: airline/models.py:89
+msgid "Civic Booklet"
+msgstr "Libreta Cívica"
+
+#: airline/models.py:91
+msgid "first name"
+msgstr "Nombre"
+
+#: airline/models.py:92
+msgid "last name"
+msgstr "Apellido"
+
+#: airline/models.py:93
+msgid "document number"
+msgstr "Número de documento"
+
+#: airline/models.py:94
+msgid "email"
+msgstr "Correo electrónico"
+
+#: airline/models.py:95
+msgid "phone"
+msgstr "Teléfono"
+
+#: airline/models.py:96
+msgid "date of birth"
+msgstr "Fecha de nacimiento"
+
+#: airline/models.py:97
+msgid "document type"
+msgstr "Tipo de documento"
+
+#: airline/models.py:105
+msgid "First name cannot be empty."
+msgstr "El nombre no puede estar vacío."
+
+#: airline/models.py:107
+msgid "Document number cannot be empty."
+msgstr "El número de documento no puede estar vacío."
+
+#: airline/models.py:139
+msgid "name"
+msgstr "Nombre"
+
+#: airline/models.py:140
+msgid "code"
+msgstr "Código"
+
+#: airline/models.py:141
+msgid "price multiplier"
+msgstr "Multiplicador de precio"
+
+#: airline/models.py:157
+msgid "seat type"
+msgstr "Tipo de asiento"
+
+#: airline/models.py:158
+msgid "row"
+msgstr "Fila"
+
+#: airline/models.py:159
+msgid "column"
+msgstr "Columna"
+
+#: airline/models.py:210 airline/templates/airline/reservation_list.html:60
+msgid "Pending"
+msgstr "Pendiente"
+
+#: airline/models.py:211 airline/templates/airline/reservation_list.html:49
+msgid "Confirmed"
+msgstr "Confirmado"
+
+#: airline/models.py:212 airline/models.py:300
+msgid "Cancelled"
+msgstr "Cancelado"
+
+#: airline/models.py:213
+msgid "Paid"
+msgstr "Pagado"
+
+#: airline/models.py:215
+msgid "flight"
+msgstr "Vuelo"
+
+#: airline/models.py:216
+msgid "passenger"
+msgstr "Pasajero"
+
+#: airline/models.py:217
+msgid "seat"
+msgstr "Asiento"
+
+#: airline/models.py:219
+msgid "reservation date"
+msgstr "Fecha de reserva"
+
+#: airline/models.py:220
+msgid "price"
+msgstr "Precio"
+
+#: airline/models.py:221
+msgid "reservation code"
+msgstr "Código de reserva"
+
+#: airline/models.py:247
+msgid ""
+"The seat must be in \"Reserved\" or \"Occupied\" status for a confirmed/paid "
+"reservation."
+msgstr "El asiento debe estar en estado \"Reservado\" u \"Ocupado\" para una reserva confirmada/pagada."
+
+#: airline/models.py:250
+msgid "The seat must be in \"Available\" status for a cancelled reservation."
+msgstr "El asiento debe estar en estado \"Disponible\" para una reserva cancelada."
+
+#: airline/models.py:299
+msgid "Issued"
+msgstr "Emitido"
+
+#: airline/models.py:301
+msgid "Used"
+msgstr "Usado"
+
+#: airline/models.py:303
+msgid "reservation"
+msgstr "Reserva"
+
+#: airline/models.py:304
+msgid "barcode"
+msgstr "Código de barras"
+
+#: airline/models.py:305
+msgid "issue date"
+msgstr "Fecha de emisión"
 
 #: airline/templates/airline/base.html:7
 msgid "Airline Management"
@@ -399,7 +649,7 @@ msgstr "Documento"
 msgid "Contact"
 msgstr "Contacto"
 
-#: airline/templates/airline/passenger_list.html:97
+#: airline/templates/airline/passenger_.html:97
 msgid "Date of Birth"
 msgstr "Fecha de Nacimiento"
 
@@ -582,14 +832,6 @@ msgstr "Total"
 #: airline/templates/airline/reservation_list.html:38
 msgid "Total Reservations"
 msgstr "Total de Reservas"
-
-#: airline/templates/airline/reservation_list.html:49
-msgid "Confirmed"
-msgstr "Confirmadas"
-
-#: airline/templates/airline/reservation_list.html:60
-msgid "Pending"
-msgstr "Pendientes"
 
 #: airline/templates/airline/reservation_list.html:71
 msgid "Total Revenue"

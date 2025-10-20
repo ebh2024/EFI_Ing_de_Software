@@ -3,7 +3,7 @@
 
 {% block content %}
 <h1 class="mb-4">{% trans "Delete Passenger" %}</h1>
-<p>{% blocktrans %}Are you sure you want to delete passenger "{{ passenger.first_name }} {{ passenger.last_name }}" (Document: {{ passenger.document_number }})?{% endblocktrans %}</p>
+<p>{% trans "Are you sure you want to delete passenger" %} "{{ passenger.first_name }} {{ passenger.last_name }}" ({% trans "Document" %}: {{ passenger.document_number }})?</p>
 <form method="post">
     {% csrf_token %}
     <button type="submit" class="btn btn-danger">{% trans "Yes, Delete" %}</button>

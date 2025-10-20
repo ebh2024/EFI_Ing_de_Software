@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block content %}
-<h1 class="mb-4">{% blocktrans %}Flight History for {{ passenger.first_name }} {{ passenger.last_name }}{% endblocktrans %}</h1>
+<h1 class="mb-4">{% trans "Flight History for" %} {{ passenger.first_name }} {{ passenger.last_name }}</h1>
 
 <a href="{% url 'passenger_list' %}" class="btn btn-secondary mb-3">{% trans "Back to Passenger List" %}</a>
 

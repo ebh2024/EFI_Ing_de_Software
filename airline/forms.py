@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from .models import Flight, Airplane, Passenger, Seat, Reservation, Ticket, SeatLayout, SeatType, SeatLayoutPosition
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 import datetime
 import uuid
 
@@ -97,7 +98,7 @@ class SeatLayoutPositionForm(forms.ModelForm):
         return cleaned_data
 
 class CustomUserCreationForm(UserCreationForm):
-    email = forms.EmailField(required=True, label="Email")
+    email = forms.EmailField(required=True, label=_("Email"))
 
     class Meta(UserCreationForm.Meta):
         model = User
@@ -110,19 +111,19 @@ class CustomUserCreationForm(UserCreationForm):
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if User.objects.filter(email=email).exists():
-            raise ValidationError("This email address is already in use.")
+            raise ValidationError(_("This email address is already in use."))
         return email
 
     def clean_password2(self):
         password = self.cleaned_data.get('password')
         password2 = self.cleaned_data.get('password2')
         if password and password2 and password != password2:
-            raise forms.ValidationError("The two password fields didn't match.")
+            raise forms.ValidationError(_("The two password fields didn't match."))
         return password2
 
 class CustomAuthenticationForm(AuthenticationForm):
-    username = forms.CharField(label="Username")
-    password = forms.CharField(label="Password", widget=forms.PasswordInput)
+    username = forms.CharField(label=_("Username"))
+    password = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
