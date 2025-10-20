@@ -124,11 +124,6 @@ LANGUAGES = [
 LOCALE_PATHS = [
     BASE_DIR / 'locale',
     BASE_DIR / 'airline/locale',
-    BASE_DIR / 'airline/locale/es/LC_MESSAGES/base',
-    BASE_DIR / 'airline/locale/es/LC_MESSAGES/flights',
-    BASE_DIR / 'airline/locale/es/LC_MESSAGES/passengers',
-    BASE_DIR / 'airline/locale/es/LC_MESSAGES/reservations',
-    BASE_DIR / 'airline/locale/es/LC_MESSAGES/auth',
 ]
 
 # Custom datetime input formats for HTML5 datetime-local input
