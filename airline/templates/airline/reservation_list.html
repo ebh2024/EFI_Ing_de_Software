@@ -1,4 +1,5 @@
 {% extends 'airline/base.html' %}
+{% load i18n %}
 
 {% block content %}
 <!-- Reservations Management Header -->
@@ -8,15 +9,15 @@
             <div class="col-md-6">
                 <h1 class="reservations-main-title">
                     <i class="fas fa-ticket-alt"></i>
-                    Reservation Management
+                    {% trans "Reservation Management" %}
                 </h1>
-                <p class="reservations-subtitle">Manage and monitor all flight reservations</p>
+                <p class="reservations-subtitle">{% trans "Manage and monitor all flight reservations" %}</p>
             </div>
             <div class="col-md-6 text-md-end">
                 <div class="reservations-stats">
                     <span class="stat-item">
                         <i class="fas fa-ticket-alt"></i>
-                        {{ reservations|length }} Total
+                        {{ reservations|length }} {% trans "Total" %}
                     </span>
                 </div>
             </div>
@@ -34,7 +35,7 @@
                 </div>
                 <div class="stats-content">
                     <h3 class="stats-number">{{ reservations|length }}</h3>
-                    <p class="stats-label">Total Reservations</p>
+                    <p class="stats-label">{% trans "Total Reservations" %}</p>
                 </div>
             </div>
         </div>
@@ -45,7 +46,7 @@
                 </div>
                 <div class="stats-content">
                     <h3 class="stats-number">{{ reservations|length|add:"3" }}</h3>
-                    <p class="stats-label">Confirmed</p>
+                    <p class="stats-label">{% trans "Confirmed" %}</p>
                 </div>
             </div>
         </div>
@@ -56,7 +57,7 @@
                 </div>
                 <div class="stats-content">
                     <h3 class="stats-number">{{ reservations|length|add:"1" }}</h3>
-                    <p class="stats-label">Pending</p>
+                    <p class="stats-label">{% trans "Pending" %}</p>
                 </div>
             </div>
         </div>
@@ -67,7 +68,7 @@
                 </div>
                 <div class="stats-content">
                     <h3 class="stats-number">$2,450</h3>
-                    <p class="stats-label">Total Revenue</p>
+                    <p class="stats-label">{% trans "Total Revenue" %}</p>
                 </div>
             </div>
         </div>
@@ -83,35 +84,35 @@
                     <tr>
                         <th scope="col">
                             <i class="fas fa-hashtag me-2"></i>
-                            Reservation Code
+                            {% trans "Reservation Code" %}
                         </th>
                         <th scope="col">
                             <i class="fas fa-plane me-2"></i>
-                            Flight Route
+                            {% trans "Flight Route" %}
                         </th>
                         <th scope="col">
                             <i class="fas fa-user me-2"></i>
-                            Passenger
+                            {% trans "Passenger" %}
                         </th>
                         <th scope="col">
                             <i class="fas fa-chair me-2"></i>
-                            Seat
+                            {% trans "Seat" %}
                         </th>
                         <th scope="col">
                             <i class="fas fa-info-circle me-2"></i>
-                            Status
+                            {% trans "Status" %}
                         </th>
                         <th scope="col">
                             <i class="fas fa-dollar-sign me-2"></i>
-                            Price
+                            {% trans "Price" %}
                         </th>
                         <th scope="col">
                             <i class="fas fa-calendar-alt me-2"></i>
-                            Reservation Date
+                            {% trans "Reservation Date" %}
                         </th>
                         <th scope="col">
                             <i class="fas fa-cogs me-2"></i>
-                            Actions
+                            {% trans "Actions" %}
                         </th>
                     </tr>
                 </thead>
@@ -161,16 +162,16 @@
                         </td>
                         <td>
                             <div class="action-buttons">
-                                <a href="{% url 'reservation_detail' reservation.pk %}" class="btn-action-view" title="View Details">
+                                <a href="{% url 'reservation_detail' reservation.pk %}" class="btn-action-view" title="{% trans "View Details" %}">
                                     <i class="fas fa-eye"></i>
                                 </a>
                                 {% if reservation.status == 'PEN' %}
-                                <a href="{% url 'reservation_update_status' reservation.pk 'CON' %}" class="btn-action-confirm" title="Confirm Reservation">
+                                <a href="{% url 'reservation_update_status' reservation.pk 'CON' %}" class="btn-action-confirm" title="{% trans "Confirm Reservation" %}">
                                     <i class="fas fa-check"></i>
                                 </a>
                                 {% endif %}
                                 {% if reservation.status == 'CON' %}
-                                <a href="{% url 'reservation_update_status' reservation.pk 'PAID' %}" class="btn-action-paid" title="Mark as Paid">
+                                <a href="{% url 'reservation_update_status' reservation.pk 'PAID' %}" class="btn-action-paid" title="{% trans "Mark as Paid" %}">
                                     <i class="fas fa-credit-card"></i>
                                 </a>
                                 {% endif %}
@@ -182,8 +183,8 @@
                         <td colspan="8" class="no-reservations-cell">
                             <div class="no-reservations-content">
                                 <i class="fas fa-ticket-alt"></i>
-                                <h4>No Reservations Found</h4>
-                                <p>No flight reservations have been made yet.</p>
+                                <h4>{% trans "No Reservations Found" %}</h4>
+                                <p>{% trans "No flight reservations have been made yet." %}</p>
                             </div>
                         </td>
                     </tr>

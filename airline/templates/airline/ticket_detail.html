@@ -1,37 +1,38 @@
 {% extends 'airline/base.html' %}
+{% load i18n %}
 
 {% block content %}
 <div class="container mt-4">
-    <h2>E-Ticket Details</h2>
+    <h2>{% trans "E-Ticket Details" %}</h2>
 
     <div class="card mb-3">
         <div class="card-header">
-            Ticket Information
+            {% trans "Ticket Information" %}
         </div>
         <div class="card-body">
-            <p><strong>Ticket Barcode:</strong> {{ ticket.barcode }}</p>
-            <p><strong>Status:</strong> {{ ticket.get_status_display }}</p>
-            <p><strong>Issue Date:</strong> {{ ticket.issue_date }}</p>
+            <p><strong>{% trans "Ticket Barcode:" %}</strong> {{ ticket.barcode }}</p>
+            <p><strong>{% trans "Status:" %}</strong> {{ ticket.get_status_display }}</p>
+            <p><strong>{% trans "Issue Date:" %}</strong> {{ ticket.issue_date }}</p>
         </div>
     </div>
 
     <div class="card mb-3">
         <div class="card-header">
-            Reservation Details
+            {% trans "Reservation Details" %}
         </div>
         <div class="card-body">
-            <p><strong>Reservation Code:</strong> {{ ticket.reservation.reservation_code }}</p>
-            <p><strong>Flight:</strong> {{ ticket.reservation.flight.origin }} to {{ ticket.reservation.flight.destination }}</p>
-            <p><strong>Departure:</strong> {{ ticket.reservation.flight.departure_date }}</p>
-            <p><strong>Passenger:</strong> {{ ticket.reservation.passenger.first_name }} {{ ticket.reservation.passenger.last_name }}</p>
-            <p><strong>Seat:</strong> {{ ticket.reservation.seat.number }} ({{ ticket.reservation.seat.get_type_display }})</p>
-            <p><strong>Price:</strong> ${{ ticket.reservation.price|floatformat:2 }}</p>
+            <p><strong>{% trans "Reservation Code:" %}</strong> {{ ticket.reservation.reservation_code }}</p>
+            <p><strong>{% trans "Flight:" %}</strong> {{ ticket.reservation.flight.origin }} {% trans "to" %} {{ ticket.reservation.flight.destination }}</p>
+            <p><strong>{% trans "Departure:" %}</strong> {{ ticket.reservation.flight.departure_date }}</p>
+            <p><strong>{% trans "Passenger:" %}</strong> {{ ticket.reservation.passenger.first_name }} {{ ticket.reservation.passenger.last_name }}</p>
+            <p><strong>{% trans "Seat:" %}</strong> {{ ticket.reservation.seat.number }} ({{ ticket.reservation.seat.get_type_display }})</p>
+            <p><strong>{% trans "Price:" %}</strong> ${{ ticket.reservation.price|floatformat:2 }}</p>
         </div>
     </div>
 
     <div class="mt-4">
-        <a href="{% url 'generate_ticket' ticket.reservation.pk %}" class="btn btn-primary me-2">Download PDF Ticket</a>
-        <a href="{% url 'reservation_detail' ticket.reservation.pk %}" class="btn btn-secondary">Back to Reservation</a>
+        <a href="{% url 'generate_ticket' ticket.reservation.pk %}" class="btn btn-primary me-2">{% trans "Download PDF Ticket" %}</a>
+        <a href="{% url 'reservation_detail' ticket.reservation.pk %}" class="btn btn-secondary">{% trans "Back to Reservation" %}</a>
     </div>
 </div>
 {% endblock %}

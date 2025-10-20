@@ -1,13 +1,14 @@
 {% extends 'airline/base.html' %}
+{% load i18n %}
 
 {% block content %}
 <div class="container mt-4">
     <div class="alert alert-danger" role="alert">
-        <h4 class="alert-heading">Reservation Error!</h4>
+        <h4 class="alert-heading">{% trans "Reservation Error!" %}</h4>
         <p>{{ message }}</p>
         <hr>
-        <p class="mb-0">Please go back and try again.</p>
+        <p class="mb-0">{% trans "Please go back and try again." %}</p>
     </div>
-    <a href="{% url 'home' %}" class="btn btn-primary">Go to Home</a>
+    <a href="{% url 'home' %}" class="btn btn-primary">{% trans "Go to Home" %}</a>
 </div>
 {% endblock %}

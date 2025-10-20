@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: airline_management\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-17 17:00+0000\n"
+"POT-Creation-Date: 2025-10-20 17:14+0000\n"
 "PO-Revision-Date: 2025-10-17 16:34+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -72,6 +72,9 @@ msgid "Flight"
 msgstr "Vuelo"
 
 #: airline/templates/airline/flight_detail_with_seats.html:6
+#: airline/templates/airline/reservation_detail.html:13
+#: airline/templates/airline/reserve_seat.html:6
+#: airline/templates/airline/ticket_detail.html:25
 msgid "to"
 msgstr "a"
 
@@ -108,6 +111,7 @@ msgid "Row"
 msgstr "Fila"
 
 #: airline/templates/airline/flight_detail_with_seats.html:21
+#: airline/templates/airline/reservation_list.html:99
 msgid "Seat"
 msgstr "Asiento"
 
@@ -140,10 +144,6 @@ msgstr "Gestión de Vuelos"
 #: airline/templates/airline/flight_list.html:14
 msgid "Manage and monitor all airline flights"
 msgstr "Gestiona y monitoriza todos los vuelos de la aerolínea"
-
-#: airline/templates/airline/passenger_list.html:7
-msgid "Passenger Management"
-msgstr "Gestión de Pasajeros"
 
 #: airline/templates/airline/flight_list.html:19
 msgid "Add New Flight"
@@ -178,15 +178,19 @@ msgid "Duration"
 msgstr "Duración"
 
 #: airline/templates/airline/flight_list.html:105
+#: airline/templates/airline/reservation_list.html:103
 msgid "Status"
 msgstr "Estado"
 
 #: airline/templates/airline/flight_list.html:109
+#: airline/templates/airline/reservation_list.html:107
 msgid "Price"
 msgstr "Precio"
 
 #: airline/templates/airline/flight_list.html:113
 #: airline/templates/airline/passenger_list.html:105
+#: airline/templates/airline/reservation_detail.html:24
+#: airline/templates/airline/reservation_list.html:115
 msgid "Actions"
 msgstr "Acciones"
 
@@ -260,6 +264,7 @@ msgid "Happy Passengers"
 msgstr "Pasajeros Satisfechos"
 
 #: airline/templates/airline/passenger_confirm_delete.html:5
+#: airline/templates/airline/passenger_list.html:159
 msgid "Delete Passenger"
 msgstr "Eliminar Pasajero"
 
@@ -277,6 +282,8 @@ msgid "Yes, Delete"
 msgstr "Sí, Eliminar"
 
 #: airline/templates/airline/passenger_confirm_delete.html:10
+#: airline/templates/airline/passenger_form.html:210
+#: airline/templates/airline/reserve_seat.html:18
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -352,6 +359,9 @@ msgstr "Información Personal"
 msgid "Document & Contact Information"
 msgstr "Información de Documento y Contacto"
 
+#: airline/templates/airline/passenger_list.html:12
+msgid "Passenger Management"
+msgstr "Gestión de Pasajeros"
 
 #: airline/templates/airline/passenger_list.html:14
 msgid "Manage passenger information and flight history"
@@ -417,7 +427,6 @@ msgstr "Cálculo de edad"
 msgid "Edit Passenger"
 msgstr "Editar Pasajero"
 
-
 #: airline/templates/airline/passenger_list.html:162
 msgid "Flight History"
 msgstr "Historial de Vuelos"
@@ -455,6 +464,219 @@ msgstr "¿Ya tienes una cuenta?"
 #: airline/templates/registration/login.html:72
 msgid "Sign In"
 msgstr "Iniciar Sesión"
+
+#: airline/templates/airline/reservation_detail.html:6
+#: airline/templates/airline/ticket_detail.html:21
+msgid "Reservation Details"
+msgstr "Detalles de la Reserva"
+
+#: airline/templates/airline/reservation_detail.html:10
+msgid "Reservation Information"
+msgstr "Información de la Reserva"
+
+#: airline/templates/airline/reservation_detail.html:13
+#: airline/templates/airline/ticket_detail.html:25
+msgid "Flight:"
+msgstr "Vuelo:"
+
+#: airline/templates/airline/reservation_detail.html:14
+#: airline/templates/airline/ticket_detail.html:27
+msgid "Passenger:"
+msgstr "Pasajero:"
+
+#: airline/templates/airline/reservation_detail.html:15
+#: airline/templates/airline/ticket_detail.html:28
+msgid "Seat:"
+msgstr "Asiento:"
+
+#: airline/templates/airline/reservation_detail.html:16
+#: airline/templates/airline/ticket_detail.html:14
+msgid "Status:"
+msgstr "Estado:"
+
+#: airline/templates/airline/reservation_detail.html:17
+#: airline/templates/airline/ticket_detail.html:29
+msgid "Price:"
+msgstr "Precio:"
+
+#: airline/templates/airline/reservation_detail.html:18
+msgid "Reservation Date:"
+msgstr "Fecha de Reserva:"
+
+#: airline/templates/airline/reservation_detail.html:28
+#: airline/templates/airline/reservation_list.html:169
+#: airline/templates/airline/reserve_seat.html:17
+msgid "Confirm Reservation"
+msgstr "Confirmar Reserva"
+
+#: airline/templates/airline/reservation_detail.html:29
+#: airline/templates/airline/reservation_detail.html:33
+#: airline/templates/airline/reservation_detail.html:36
+msgid "Cancel Reservation"
+msgstr "Cancelar Reserva"
+
+#: airline/templates/airline/reservation_detail.html:31
+#: airline/templates/airline/reservation_list.html:174
+msgid "Mark as Paid"
+msgstr "Marcar como Pagado"
+
+#: airline/templates/airline/reservation_detail.html:32
+#: airline/templates/airline/reservation_detail.html:35
+msgid "Generate E-Ticket"
+msgstr "Generar Billete Electrónico"
+
+#: airline/templates/airline/reservation_detail.html:38
+msgid "Back to Reservations"
+msgstr "Volver a Reservas"
+
+#: airline/templates/airline/reservation_detail.html:45
+msgid "Associated Ticket"
+msgstr "Billete Asociado"
+
+#: airline/templates/airline/reservation_detail.html:48
+#: airline/templates/airline/ticket_detail.html:13
+msgid "Ticket Barcode:"
+msgstr "Código de Barras del Billete:"
+
+#: airline/templates/airline/reservation_detail.html:49
+msgid "Ticket Status:"
+msgstr "Estado del Billete:"
+
+#: airline/templates/airline/reservation_detail.html:50
+#: airline/templates/airline/ticket_detail.html:15
+msgid "Issue Date:"
+msgstr "Fecha de Emisión:"
+
+#: airline/templates/airline/reservation_detail.html:51
+msgid "View Ticket Details"
+msgstr "Ver Detalles del Billete"
+
+#: airline/templates/airline/reservation_detail.html:52
+msgid "Download Ticket PDF"
+msgstr "Descargar Billete en PDF"
+
+#: airline/templates/airline/reservation_error.html:7
+msgid "Reservation Error!"
+msgstr "¡Error de Reserva!"
+
+#: airline/templates/airline/reservation_error.html:10
+msgid "Please go back and try again."
+msgstr "Por favor, vuelve e inténtalo de nuevo."
+
+#: airline/templates/airline/reservation_error.html:12
+msgid "Go to Home"
+msgstr "Ir a Inicio"
+
+#: airline/templates/airline/reservation_list.html:12
+msgid "Reservation Management"
+msgstr "Gestión de Reservas"
+
+#: airline/templates/airline/reservation_list.html:14
+msgid "Manage and monitor all flight reservations"
+msgstr "Gestiona y monitoriza todas las reservas de vuelos"
+
+#: airline/templates/airline/reservation_list.html:20
+msgid "Total"
+msgstr "Total"
+
+#: airline/templates/airline/reservation_list.html:38
+msgid "Total Reservations"
+msgstr "Total de Reservas"
+
+#: airline/templates/airline/reservation_list.html:49
+msgid "Confirmed"
+msgstr "Confirmadas"
+
+#: airline/templates/airline/reservation_list.html:60
+msgid "Pending"
+msgstr "Pendientes"
+
+#: airline/templates/airline/reservation_list.html:71
+msgid "Total Revenue"
+msgstr "Ingresos Totales"
+
+#: airline/templates/airline/reservation_list.html:87
+msgid "Reservation Code"
+msgstr "Código de Reserva"
+
+#: airline/templates/airline/reservation_list.html:91
+msgid "Flight Route"
+msgstr "Ruta del Vuelo"
+
+#: airline/templates/airline/reservation_list.html:95
+msgid "Passenger"
+msgstr "Pasajero"
+
+#: airline/templates/airline/reservation_list.html:111
+msgid "Reservation Date"
+msgstr "Fecha de Reserva"
+
+#: airline/templates/airline/reservation_list.html:165
+msgid "View Details"
+msgstr "Ver Detalles"
+
+#: airline/templates/airline/reservation_list.html:186
+msgid "No Reservations Found"
+msgstr "No se Encontraron Reservas"
+
+#: airline/templates/airline/reservation_list.html:187
+msgid "No flight reservations have been made yet."
+msgstr "Aún no se han realizado reservas de vuelos."
+
+#: airline/templates/airline/reserve_seat.html:6
+msgid "Reserve Seat"
+msgstr "Reservar Asiento"
+
+#: airline/templates/airline/reserve_seat.html:6
+msgid "on Flight"
+msgstr "en Vuelo"
+
+#: airline/templates/airline/reserve_seat.html:7
+#: airline/templates/airline/ticket_detail.html:26
+msgid "Departure:"
+msgstr "Salida:"
+
+#: airline/templates/airline/reserve_seat.html:8
+msgid "Arrival:"
+msgstr "Llegada:"
+
+#: airline/templates/airline/reserve_seat.html:9
+msgid "Seat Type:"
+msgstr "Tipo de Asiento:"
+
+#: airline/templates/airline/reserve_seat.html:10
+msgid "Estimated Price:"
+msgstr "Precio Estimado:"
+
+#: airline/templates/airline/reserve_seat.html:11
+#, python-format
+msgid "(Premium +20%%)"
+msgstr "(Premium +20%)"
+
+#: airline/templates/airline/reserve_seat.html:11
+#, python-format
+msgid "(Executive +50%%)"
+msgstr "(Executive +50%)"
+
+#: airline/templates/airline/ticket_detail.html:6
+msgid "E-Ticket Details"
+msgstr "Detalles del Billete Electrónico"
+
+#: airline/templates/airline/ticket_detail.html:10
+msgid "Ticket Information"
+msgstr "Información del Billete"
+
+#: airline/templates/airline/ticket_detail.html:24
+msgid "Reservation Code:"
+msgstr "Código de Reserva:"
+
+#: airline/templates/airline/ticket_detail.html:34
+msgid "Download PDF Ticket"
+msgstr "Descargar Billete en PDF"
+
+#: airline/templates/airline/ticket_detail.html:35
+msgid "Back to Reservation"
+msgstr "Volver a la Reserva"
 
 #: airline/templates/registration/login.html:15
 msgid "Welcome Back"
