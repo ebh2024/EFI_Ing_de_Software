@@ -64,6 +64,28 @@ This is a comprehensive Django-based Airline Management System designed to handl
 
     The application will be available at `http://127.0.0.1:8000/`.
 
+## Docker Setup
+
+1.  **Prerequisites**: Ensure Docker and Docker Compose are installed on your system.
+
+2.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/ebh2024/EFI_Ing_de_Software.git
+    cd EFI_Ing_de_Software
+    ```
+
+3.  **Build and run with Docker Compose:**
+    ```bash
+    docker-compose up --build
+    ```
+
+    The application will be available at `http://localhost:8000`.
+
+4.  **Stop the application:**
+    ```bash
+    docker-compose down
+    ```
+
 ## Django Rest Framework API
 
 This project includes a comprehensive RESTful API using Django Rest Framework, secured with JWT authentication.
