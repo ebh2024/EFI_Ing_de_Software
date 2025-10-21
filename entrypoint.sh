@@ -1,4 +1,8 @@
 #!/bin/bash
+# Compile translation messages
+echo "Compiling translation messages..."
+python manage.py compilemessages
+
 # Apply database migrations
 echo "Applying database migrations..."
 python manage.py migrate

@@ -4,7 +4,7 @@ FROM python:3.11-slim
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Install system dependencies for WeasyPrint
+# Install system dependencies for WeasyPrint and gettext
 RUN apt-get update && apt-get install -y \
     libglib2.0-0 \
     libgobject-2.0-0 \
@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y \
     libpangocairo-1.0-0 \
     libffi-dev \
     shared-mime-info \
+    gettext \
     && rm -rf /var/lib/apt/lists/*
 
 # Set work directory
