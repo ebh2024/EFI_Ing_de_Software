@@ -2,12 +2,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
-from .forms import CustomUserCreationForm, ReservationForm, TicketForm
+from .forms import CustomUserCreationForm, ReservationForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
-from .forms import CustomUserCreationForm, ReservationForm, TicketForm
+
 from .models import Flight, Passenger, FlightHistory, Seat, Reservation, Ticket
 from django.http import HttpResponse
 from django.template.loader import render_to_string
