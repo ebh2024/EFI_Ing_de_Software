@@ -3,16 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: airline_management\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-20 23:45+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"POT-Creation-Date: 2025-10-21 13:04+0000\n"
+"PO-Revision-Date: 2025-10-21 13:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language-Team: English <en@li.org>\n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,167 +19,175 @@ msgstr ""
 
 #: airline/forms.py:101
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: airline/forms.py:114
 msgid "This email address is already in use."
-msgstr ""
+msgstr "This email address is already in use."
 
 #: airline/forms.py:121
 msgid "The two password fields didn't match."
-msgstr ""
+msgstr "The two password fields didn't match."
 
 #: airline/forms.py:125
 msgid "Username"
-msgstr ""
+msgstr "Username"
 
 #: airline/forms.py:126
 msgid "Password"
-msgstr ""
+msgstr "Password"
+
+#: airline/forms.py:134
+msgid "Departure date"
+msgstr "Departure date"
+
+#: airline/forms.py:139
+msgid "Arrival date"
+msgstr "Arrival date"
 
 #: airline/models.py:12
 msgid "layout name"
-msgstr ""
+msgstr "layout name"
 
 #: airline/models.py:13
 msgid "rows"
-msgstr ""
+msgstr "rows"
 
 #: airline/models.py:14
 msgid "columns"
-msgstr ""
+msgstr "columns"
 
 #: airline/models.py:33
 msgid "model name"
-msgstr ""
+msgstr "model name"
 
 #: airline/models.py:34
 msgid "manufacturer"
-msgstr ""
+msgstr "manufacturer"
 
 #: airline/models.py:35
 msgid "registration number"
-msgstr ""
+msgstr "registration number"
 
 #: airline/models.py:36
 msgid "year of manufacture"
-msgstr ""
+msgstr "year of manufacture"
 
 #: airline/models.py:37
 msgid "capacity"
-msgstr ""
+msgstr "capacity"
 
 #: airline/models.py:38 airline/models.py:156
 msgid "seat layout"
-msgstr ""
+msgstr "seat layout"
 
 #: airline/models.py:39
 msgid "last maintenance date"
-msgstr ""
+msgstr "last maintenance date"
 
 #: airline/models.py:40
 msgid "technical notes"
-msgstr ""
+msgstr "technical notes"
 
 #: airline/models.py:59
 msgid "airplane"
-msgstr ""
+msgstr "airplane"
 
 #: airline/models.py:60
 msgid "origin"
-msgstr ""
+msgstr "origin"
 
 #: airline/models.py:61
 msgid "destination"
-msgstr ""
+msgstr "destination"
 
 #: airline/models.py:62
 msgid "departure date"
-msgstr ""
+msgstr "departure date"
 
 #: airline/models.py:63
 msgid "arrival date"
-msgstr ""
+msgstr "arrival date"
 
 #: airline/models.py:64
 msgid "duration"
-msgstr ""
+msgstr "duration"
 
 #: airline/models.py:65 airline/models.py:218 airline/models.py:306
 msgid "status"
-msgstr ""
+msgstr "status"
 
 #: airline/models.py:66
 msgid "base price"
-msgstr ""
+msgstr "base price"
 
 #: airline/models.py:74
 msgid "Arrival date must be after departure date."
-msgstr ""
+msgstr "Arrival date must be after departure date."
 
 #: airline/models.py:76
 msgid "Departure date cannot be in the past."
-msgstr ""
+msgstr "Departure date cannot be in the past."
 
 #: airline/models.py:86
 msgid "National Identity Document"
-msgstr ""
+msgstr "National Identity Document"
 
 #: airline/models.py:87
 msgid "Passport"
-msgstr ""
+msgstr "Passport"
 
 #: airline/models.py:88
 msgid "Enrollment Booklet"
-msgstr ""
+msgstr "Enrollment Booklet"
 
 #: airline/models.py:89
 msgid "Civic Booklet"
-msgstr ""
+msgstr "Civic Booklet"
 
 #: airline/models.py:91
 msgid "first name"
-msgstr ""
+msgstr "first name"
 
 #: airline/models.py:92
 msgid "last name"
-msgstr ""
+msgstr "last name"
 
 #: airline/models.py:93
 msgid "document number"
-msgstr ""
+msgstr "document number"
 
 #: airline/models.py:94
 msgid "email"
-msgstr ""
+msgstr "email"
 
 #: airline/models.py:95
 msgid "phone"
-msgstr ""
+msgstr "phone"
 
 #: airline/models.py:96
 msgid "date of birth"
-msgstr ""
+msgstr "date of birth"
 
 #: airline/models.py:97
 msgid "document type"
-msgstr ""
+msgstr "document type"
 
 #: airline/models.py:105
 msgid "First name cannot be empty."
-msgstr ""
+msgstr "First name cannot be empty."
 
 #: airline/models.py:107
 msgid "Document number cannot be empty."
-msgstr ""
+msgstr "Document number cannot be empty."
 
 #: airline/models.py:139
 msgid "name"
-msgstr ""
+msgstr "name"
 
 #: airline/models.py:140
 msgid "code"
-msgstr ""
+msgstr "code"
 
 #: airline/models.py:141
 msgid "price multiplier"

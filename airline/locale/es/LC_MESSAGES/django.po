@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: airline_management\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-20 23:44+0000\n"
+"POT-Creation-Date: 2025-10-21 13:04+0000\n"
 "PO-Revision-Date: 2025-10-17 16:34+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -35,6 +35,14 @@ msgstr "Nombre de usuario"
 #: airline/forms.py:126
 msgid "Password"
 msgstr "Contraseña"
+
+#: airline/forms.py:134
+msgid "Departure date"
+msgstr "Fecha de salida"
+
+#: airline/forms.py:139
+msgid "Arrival date"
+msgstr "Fecha de llegada"
 
 #: airline/models.py:12
 msgid "layout name"
@@ -581,6 +589,7 @@ msgstr "Documento"
 msgid "Yes, Delete"
 msgstr "Sí, Eliminar"
 
+
 #: airline/templates/airline/passenger_flight_history.html:5
 #, fuzzy
 #| msgid "Flight History"
@@ -963,17 +972,3 @@ msgstr "Inicia sesión en tu cuenta de Aerolíneas"
 #: airline/templates/registration/login.html:77
 msgid "Don't have an account?"
 msgstr "¿No tienes una cuenta?"
-
-#, python-format
-#~ msgid ""
-#~ "Are you sure you want to delete passenger \"%(passenger.first_name)s "
-#~ "%(passenger.last_name)s\" (Document: %(passenger.document_number)s)?"
-#~ msgstr ""
-#~ "¿Estás seguro de que quieres eliminar al pasajero "
-#~ "\"%(passenger.first_name)s %(passenger.last_name)s\" (Documento: "
-#~ "%(passenger.document_number)s)?"
-
-#, python-format
-#~ msgid "Flight History for %(passenger.first_name)s %(passenger.last_name)s"
-#~ msgstr ""
-#~ "Historial de Vuelos para %(passenger.first_name)s %(passenger.last_name)s"

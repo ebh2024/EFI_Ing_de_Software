@@ -131,10 +131,12 @@ class CustomAuthenticationForm(AuthenticationForm):
 
 class FlightForm(forms.ModelForm):
     departure_date = forms.DateTimeField(
+        label=_("Departure date"),
         widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}),
         input_formats=['%Y-%m-%dT%H:%M']
     )
     arrival_date = forms.DateTimeField(
+        label=_("Arrival date"),
         widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}),
         input_formats=['%Y-%m-%dT%H:%M']
     )
