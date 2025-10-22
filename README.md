@@ -1,133 +1,133 @@
-# Airline Management System
+# Sistema de Gestión de Aerolíneas
 
-This is a comprehensive Django-based Airline Management System designed to handle various aspects of airline operations, from flight and passenger management to seat reservations and ticket generation. It features both a traditional web interface and a robust RESTful API.
+Este es un sistema integral de gestión de aerolíneas basado en Django, diseñado para manejar varios aspectos de las operaciones aéreas, desde la gestión de vuelos y pasajeros hasta la reserva de asientos y la generación de billetes. Cuenta con una interfaz web tradicional y una robusta API RESTful.
 
-## Features
+## Características
 
--   **User Authentication**: Secure user registration, login, and logout functionalities.
--   **Flight Management**: Create, view, update, and delete flights, including details like origin, destination, departure/arrival times, and associated airplanes.
--   **Airplane Management**: Manage airplane details, including model, manufacturer, registration number, capacity, and seat layouts.
--   **Passenger Management**: Handle passenger information, including personal details, document types, and contact information.
--   **Seat Layout Configuration**: Define flexible seat layouts for different airplane models, specifying rows, columns, and seat types.
--   **Seat Type Management**: Configure various seat types (e.g., Economy, Business, First Class) with customizable price multipliers.
--   **Reservation System**:
-    -   View available seats for specific flights.
-    -   Reserve seats for passengers.
-    -   Track reservation status (Pending, Confirmed, Cancelled, Paid).
-    -   Generate electronic tickets for confirmed reservations.
--   **Flight History Tracking**: Maintain a detailed history of flights taken by each passenger.
--   **Ticket Generation**: Generate and manage unique tickets for each reservation.
--   **Internationalization (i18n)**: Supports multiple languages (English and Spanish) for a broader user base.
--   **RESTful API**: A complete API built with Django Rest Framework for programmatic access to all core functionalities.
--   **API Documentation**: Interactive API documentation powered by DRF-YASG (Swagger/OpenAPI).
+-   **Autenticación de Usuarios**: Funcionalidades seguras de registro, inicio de sesión y cierre de sesión de usuarios.
+-   **Gestión de Vuelos**: Crear, ver, actualizar y eliminar vuelos, incluyendo detalles como origen, destino, horas de salida/llegada y aviones asociados.
+-   **Gestión de Aviones**: Administrar detalles de aviones, incluyendo modelo, fabricante, número de registro, capacidad y diseños de asientos.
+-   **Gestión de Pasajeros**: Manejar información de pasajeros, incluyendo detalles personales, tipos de documentos e información de contacto.
+-   **Configuración de Diseño de Asientos**: Definir diseños de asientos flexibles para diferentes modelos de avión, especificando filas, columnas y tipos de asiento.
+-   **Gestión de Tipos de Asiento**: Configurar varios tipos de asiento (por ejemplo, Económica, Ejecutiva, Primera Clase) con multiplicadores de precio personalizables.
+-   **Sistema de Reservas**:
+    -   Ver asientos disponibles para vuelos específicos.
+    -   Reservar asientos para pasajeros.
+    -   Seguimiento del estado de la reserva (Pendiente, Confirmada, Cancelada, Pagada).
+    -   Generar billetes electrónicos para reservas confirmadas.
+-   **Seguimiento del Historial de Vuelos**: Mantener un historial detallado de los vuelos realizados por cada pasajero.
+-   **Generación de Billetes**: Generar y gestionar billetes únicos para cada reserva.
+-   **Internacionalización (i18n)**: Soporta múltiples idiomas (inglés y español) para una base de usuarios más amplia.
+-   **API RESTful**: Una API completa construida con Django Rest Framework para acceso programático a todas las funcionalidades principales.
+-   **Documentación de la API**: Documentación interactiva de la API impulsada por DRF-YASG (Swagger/OpenAPI).
 
-## Technologies Used
+## Tecnologías Utilizadas
 
 -   **Backend**: Django 5.2.7
--   **Database**: SQLite3 (default for development)
+-   **Base de Datos**: SQLite3 (por defecto para desarrollo)
 -   **API**: Django Rest Framework 3.16.1
--   **Authentication**: Django Rest Framework Simple JWT 5.5.1
--   **API Documentation**: DRF-YASG 1.21.11
--   **PDF Generation**: WeasyPrint 66.0
--   **Frontend**: HTML, CSS, JavaScript (Django Templates)
--   **Internationalization**: Django's built-in i18n
+-   **Autenticación**: Django Rest Framework Simple JWT 5.5.1
+-   **Documentación de la API**: DRF-YASG 1.21.11
+-   **Generación de PDF**: WeasyPrint 66.0
+-   **Frontend**: HTML, CSS, JavaScript (Plantillas de Django)
+-   **Internacionalización**: i18n incorporado de Django
 
-## Setup Instructions
+## Instrucciones de Configuración
 
-1.  **Clone the repository:**
+1.  **Clonar el repositorio:**
     ```bash
     git clone https://github.com/ebh2024/EFI_Ing_de_Software.git
     cd EFI_Ing_de_Software
     ```
 
-2.  **Create a virtual environment and install dependencies:**
+2.  **Crear un entorno virtual e instalar dependencias:**
     ```bash
     python3 -m venv venv
     source venv/bin/activate
     pip install -r requirements.txt
     ```
 
-3.  **Apply database migrations:**
+3.  **Aplicar migraciones de la base de datos:**
     ```bash
     python3 manage.py migrate
     ```
 
-4.  **Create a superuser (for admin access):**
+4.  **Crear un superusuario (para acceso de administrador):**
     ```bash
     python3 manage.py createsuperuser
     ```
 
-5.  **Run the development server:**
+5.  **Ejecutar el servidor de desarrollo:**
     ```bash
     python3 manage.py runserver
     ```
 
-    The application will be available at `http://127.0.0.1:8000/`.
+    La aplicación estará disponible en `http://127.0.0.1:8000/`.
 
-## Docker Setup
+## Configuración de Docker
 
-1.  **Prerequisites**: Ensure Docker and Docker Compose are installed on your system.
+1.  **Requisitos previos**: Asegúrese de tener Docker y Docker Compose instalados en su sistema.
 
-2.  **Clone the repository:**
+2.  **Clonar el repositorio:**
     ```bash
     git clone https://github.com/ebh2024/EFI_Ing_de_Software.git
     cd EFI_Ing_de_Software
     ```
 
-3.  **Build and run with Docker Compose:**
+3.  **Construir y ejecutar con Docker Compose:**
     ```bash
     docker-compose up --build
     ```
 
-    The application will be available at `http://localhost:8000`.
+    La aplicación estará disponible en `http://localhost:8000`.
 
-4.  **Stop the application:**
+4.  **Detener la aplicación:**
     ```bash
     docker-compose down
     ```
 
-## Django Rest Framework API
+## API de Django Rest Framework
 
-This project includes a comprehensive RESTful API using Django Rest Framework, secured with JWT authentication.
+Este proyecto incluye una API RESTful completa utilizando Django Rest Framework, asegurada con autenticación JWT.
 
-### API Endpoints
+### Puntos de Acceso de la API
 
-The API endpoints are available under the `/api/` prefix.
+Los puntos de acceso de la API están disponibles bajo el prefijo `/api/`.
 
--   `/api/airplanes/` - Manage airplanes
--   `/api/flights/` - Manage flights
--   `/api/passengers/` - Manage passengers
--   `/api/reservations/` - Manage reservations
--   `/api/seat_layouts/` - Manage seat layouts
--   `/api/seat_types/` - Manage seat types
--   `/api/seat_layout_positions/` - Manage seat layout positions
--   `/api/flight_history/` - Manage flight histories
--   `/api/tickets/` - Manage tickets
+-   `/api/airplanes/` - Gestionar aviones
+-   `/api/flights/` - Gestionar vuelos
+-   `/api/passengers/` - Gestionar pasajeros
+-   `/api/reservations/` - Gestionar reservas
+-   `/api/seat_layouts/` - Gestionar diseños de asientos
+-   `/api/seat_types/` - Gestionar tipos de asiento
+-   `/api/seat_layout_positions/` - Gestionar posiciones de diseño de asientos
+-   `/api/flight_history/` - Gestionar historiales de vuelo
+-   `/api/tickets/` - Gestionar billetes
 
-Each endpoint supports standard REST operations (GET, POST, PUT, PATCH, DELETE).
+Cada punto de acceso soporta operaciones REST estándar (GET, POST, PUT, PATCH, DELETE).
 
-### API Documentation (Swagger UI)
+### Documentación de la API (Swagger UI)
 
-Interactive API documentation is available at:
+La documentación interactiva de la API está disponible en:
 `http://127.0.0.1:8000/swagger/`
 
-You can use this interface to explore endpoints, test requests, and understand the API schema.
+Puede usar esta interfaz para explorar puntos de acceso, probar solicitudes y comprender el esquema de la API.
 
-## Usage
+## Uso
 
-### Web Interface
+### Interfaz Web
 
-Access the application through your browser at `http://127.0.0.1:8000/`. You can register a new user or log in with a superuser account to access the administrative functionalities.
+Acceda a la aplicación a través de su navegador en `http://127.0.0.1:8000/`. Puede registrar un nuevo usuario o iniciar sesión con una cuenta de superusuario para acceder a las funcionalidades administrativas.
 
-### API Usage
+### Uso de la API
 
-To interact with the API, you will typically need to obtain an authentication token. This project uses Simple JWT.
+Para interactuar con la API, normalmente necesitará obtener un token de autenticación. Este proyecto utiliza Simple JWT.
 
-1.  **Obtain JWT Token**:
-    Send a POST request to `/api/token/` with your username and password to get access and refresh tokens.
+1.  **Obtener Token JWT**:
+    Envíe una solicitud POST a `/api/token/` con su nombre de usuario y contraseña para obtener tokens de acceso y actualización.
 
-2.  **Authenticate API Requests**:
-    Include the access token in the `Authorization` header of your API requests:
-    `Authorization: Bearer YOUR_ACCESS_TOKEN`
+2.  **Autenticar Solicitudes de la API**:
+    Incluya el token de acceso en el encabezado `Authorization` de sus solicitudes de API:
+    `Authorization: Bearer SU_TOKEN_DE_ACCESO`
 
-Refer to the Swagger UI documentation for detailed information on each endpoint and its expected request/response formats.
+Consulte la documentación de Swagger UI para obtener información detallada sobre cada punto de acceso y sus formatos esperados de solicitud/respuesta.
