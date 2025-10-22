@@ -33,10 +33,30 @@ ticket_service = TicketService()
 flight_service = FlightService()
 
 def home(request):
+    """
+    Vista principal que muestra la lista de vuelos disponibles.
+
+    Parámetros:
+        request (HttpRequest): Objeto de solicitud HTTP.
+
+    Retorna:
+        HttpResponse: Respuesta renderizada con la plantilla home.html y la lista de vuelos.
+    """
     flights = Flight.objects.all()
     return render(request, 'airline/home.html', {'flights': flights})
 
 def register(request):
+    """
+    Vista para el registro de nuevos usuarios.
+
+    Maneja tanto solicitudes GET para mostrar el formulario como POST para procesar el registro.
+
+    Parámetros:
+        request (HttpRequest): Objeto de solicitud HTTP.
+
+    Retorna:
+        HttpResponse: Respuesta renderizada con el formulario de registro o redirección al login si es exitoso.
+    """
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
@@ -48,11 +68,35 @@ def register(request):
 
 @login_required
 def passenger_flight_history(request, pk):
+    """
+    Vista que muestra el historial de vuelos de un pasajero específico.
+
+    Requiere autenticación del usuario.
+
+    Parámetros:
+        request (HttpRequest): Objeto de solicitud HTTP.
+        pk (int): Clave primaria del pasajero.
+
+    Retorna:
+        HttpResponse: Respuesta renderizada con el historial de vuelos del pasajero.
+    """
     passenger, flight_history = passenger_service.get_passenger_flight_history(pk)
     return render(request, 'airline/passenger_flight_history.html', {'passenger': passenger, 'flight_history': flight_history})
 
 @login_required
 def flight_detail_with_seats(request, pk):
+    """
+    Vista que muestra los detalles de un vuelo incluyendo el layout de asientos.
+
+    Requiere autenticación del usuario.
+
+    Parámetros:
+        request (HttpRequest): Objeto de solicitud HTTP.
+        pk (int): Clave primaria del vuelo.
+
+    Retorna:
+        HttpResponse: Respuesta renderizada con los detalles del vuelo y asientos organizados por fila.
+    """
     flight, seats_by_row = reservation_service.get_flight_details_with_seats(pk)
     return render(request, 'airline/flight_detail_with_seats.html', {
         'flight': flight,
@@ -61,6 +105,20 @@ def flight_detail_with_seats(request, pk):
 
 @login_required
 def reserve_seat(request, flight_pk, seat_pk):
+    """
+    Vista para reservar un asiento específico en un vuelo.
+
+    Verifica disponibilidad del asiento y maneja la creación de reservas.
+    Requiere autenticación del usuario.
+
+    Parámetros:
+        request (HttpRequest): Objeto de solicitud HTTP.
+        flight_pk (int): Clave primaria del vuelo.
+        seat_pk (int): Clave primaria del asiento.
+
+    Retorna:
+        HttpResponse: Respuesta renderizada con el formulario de reserva o error si el asiento no está disponible.
+    """
     flight = get_object_or_404(Flight, pk=flight_pk)
     seat = get_object_or_404(Seat, pk=seat_pk)
 
@@ -75,9 +133,33 @@ def reserve_seat(request, flight_pk, seat_pk):
         return _handle_get_request(request, flight, seat, passenger)
 
 def _check_seat_availability(flight, seat):
+    """
+    Función auxiliar para verificar si un asiento está disponible en un vuelo.
+
+    Parámetros:
+        flight (Flight): Instancia del vuelo.
+        seat (Seat): Instancia del asiento.
+
+    Retorna:
+        bool: True si el asiento ya está reservado, False si está disponible.
+    """
     return reservation_service.reservation_repo.filter_by_flight_seat_status(flight, seat, ['PEN', 'CON', 'PAID']).exists()
 
 def _handle_post_request(request, flight, seat, passenger):
+    """
+    Función auxiliar para manejar solicitudes POST en la reserva de asientos.
+
+    Procesa el formulario de reserva y crea la reserva si es válido.
+
+    Parámetros:
+        request (HttpRequest): Objeto de solicitud HTTP.
+        flight (Flight): Instancia del vuelo.
+        seat (Seat): Instancia del asiento.
+        passenger (Passenger): Instancia del pasajero.
+
+    Retorna:
+        HttpResponse: Redirección a los detalles de la reserva o renderizado del formulario con errores.
+    """
     form = ReservationForm(request.POST, initial={'flight': flight})
     if form.is_valid():
         reservation = reservation_service.create_reservation(flight.pk, passenger.pk, seat.pk, form.cleaned_data['price'])
@@ -93,6 +175,20 @@ def _handle_post_request(request, flight, seat, passenger):
         })
 
 def _handle_get_request(request, flight, seat, passenger):
+    """
+    Función auxiliar para manejar solicitudes GET en la reserva de asientos.
+
+    Muestra el formulario de reserva con datos iniciales.
+
+    Parámetros:
+        request (HttpRequest): Objeto de solicitud HTTP.
+        flight (Flight): Instancia del vuelo.
+        seat (Seat): Instancia del asiento.
+        passenger (Passenger): Instancia del pasajero.
+
+    Retorna:
+        HttpResponse: Respuesta renderizada con el formulario de reserva.
+    """
     form = ReservationForm(initial={'flight': flight, 'seat': seat, 'passenger': passenger, 'status': 'PEN'})
     return render(request, 'airline/reserve_seat.html', {
         'form': form,
@@ -104,21 +200,73 @@ def _handle_get_request(request, flight, seat, passenger):
 
 @login_required
 def reservation_list(request):
+    """
+    Vista que muestra la lista de todas las reservas.
+
+    Requiere autenticación del usuario.
+
+    Parámetros:
+        request (HttpRequest): Objeto de solicitud HTTP.
+
+    Retorna:
+        HttpResponse: Respuesta renderizada con la lista de reservas.
+    """
     reservations = reservation_service.get_reservations_list()
     return render(request, 'airline/reservation_list.html', {'reservations': reservations})
 
 @login_required
 def reservation_detail(request, pk):
+    """
+    Vista que muestra los detalles de una reserva específica.
+
+    Requiere autenticación del usuario.
+
+    Parámetros:
+        request (HttpRequest): Objeto de solicitud HTTP.
+        pk (int): Clave primaria de la reserva.
+
+    Retorna:
+        HttpResponse: Respuesta renderizada con los detalles de la reserva.
+    """
     reservation = get_object_or_404(Reservation, pk=pk)
     return render(request, 'airline/reservation_detail.html', {'reservation': reservation})
 
 @login_required
 def reservation_update_status(request, pk, new_status):
+    """
+    Vista para actualizar el estado de una reserva.
+
+    Requiere autenticación del usuario.
+
+    Parámetros:
+        request (HttpRequest): Objeto de solicitud HTTP.
+        pk (int): Clave primaria de la reserva.
+        new_status (str): Nuevo estado para la reserva.
+
+    Retorna:
+        HttpResponse: Redirección a los detalles de la reserva actualizada.
+
+    Efectos secundarios:
+        Actualiza el estado de la reserva y posiblemente el estado del asiento asociado.
+    """
     reservation = reservation_service.update_reservation_status(pk, new_status)
     return redirect('reservation_detail', pk=reservation.pk)
 
 @login_required
 def generate_ticket(request, reservation_pk):
+    """
+    Vista para generar un ticket PDF a partir de una reserva confirmada.
+
+    Solo permite generar tickets para reservas confirmadas o pagadas.
+    Requiere autenticación del usuario.
+
+    Parámetros:
+        request (HttpRequest): Objeto de solicitud HTTP.
+        reservation_pk (int): Clave primaria de la reserva.
+
+    Retorna:
+        HttpResponse: Archivo PDF del ticket o página de error si no es elegible.
+    """
     reservation = get_object_or_404(Reservation, pk=reservation_pk)
     if reservation.status not in ['CON', 'PAID']:
         return render(request, 'airline/reservation_error.html', {'message': 'Ticket can only be generated for confirmed or paid reservations.'})
@@ -127,6 +275,18 @@ def generate_ticket(request, reservation_pk):
     return _generate_ticket_pdf(ticket, reservation)
 
 def _generate_ticket_pdf(ticket, reservation):
+    """
+    Función auxiliar para generar un archivo PDF del ticket.
+
+    Utiliza WeasyPrint para convertir HTML a PDF.
+
+    Parámetros:
+        ticket (Ticket): Instancia del ticket.
+        reservation (Reservation): Instancia de la reserva asociada.
+
+    Retorna:
+        HttpResponse: Respuesta HTTP con el archivo PDF adjunto.
+    """
     html_string = render_to_string('airline/ticket_template.html', {'ticket': ticket, 'reservation': reservation})
     html = HTML(string=html_string)
     pdf = html.write_pdf()
@@ -137,11 +297,35 @@ def _generate_ticket_pdf(ticket, reservation):
 
 @login_required
 def ticket_detail(request, pk):
+    """
+    Vista que muestra los detalles de un ticket específico.
+
+    Requiere autenticación del usuario.
+
+    Parámetros:
+        request (HttpRequest): Objeto de solicitud HTTP.
+        pk (int): Clave primaria del ticket.
+
+    Retorna:
+        HttpResponse: Respuesta renderizada con los detalles del ticket.
+    """
     ticket = ticket_service.get_ticket_detail(pk)
     return render(request, 'airline/ticket_detail.html', {'ticket': ticket})
 
 @login_required
 def passenger_list_by_flight(request, flight_pk):
+    """
+    Vista que muestra la lista de pasajeros de un vuelo específico.
+
+    Requiere autenticación del usuario.
+
+    Parámetros:
+        request (HttpRequest): Objeto de solicitud HTTP.
+        flight_pk (int): Clave primaria del vuelo.
+
+    Retorna:
+        HttpResponse: Respuesta renderizada con la lista de pasajeros del vuelo.
+    """
     flight, reservations = reservation_service.get_passengers_by_flight(flight_pk)
     context = {
         'flight': flight,
