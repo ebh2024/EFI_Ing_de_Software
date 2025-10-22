@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: airline_management\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-21 13:04+0000\n"
+"POT-Creation-Date: 2025-10-22 12:42+0000\n"
 "PO-Revision-Date: 2025-10-17 16:34+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -16,31 +16,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: airline/forms.py:101
+#: airline/crud_views.py:16
+msgid "Create"
+msgstr "Crear"
+
+#: airline/crud_views.py:27
+msgid "Update"
+msgstr "Actualizar"
+
+#: airline/forms.py:100
 msgid "Email"
 msgstr "Correo Electrónico"
 
-#: airline/forms.py:114
+#: airline/forms.py:113
 msgid "This email address is already in use."
 msgstr "Esta dirección de correo electrónico ya está en uso."
 
-#: airline/forms.py:121
+#: airline/forms.py:120
 msgid "The two password fields didn't match."
 msgstr "Los dos campos de contraseña no coinciden."
 
-#: airline/forms.py:125
-msgid "Username"
-msgstr "Nombre de usuario"
-
 #: airline/forms.py:126
-msgid "Password"
-msgstr "Contraseña"
-
-#: airline/forms.py:134
 msgid "Departure date"
 msgstr "Fecha de salida"
 
-#: airline/forms.py:139
+#: airline/forms.py:131
 msgid "Arrival date"
 msgstr "Fecha de llegada"
 
@@ -589,7 +589,6 @@ msgstr "Documento"
 msgid "Yes, Delete"
 msgstr "Sí, Eliminar"
 
-
 #: airline/templates/airline/passenger_flight_history.html:5
 #, fuzzy
 #| msgid "Flight History"
@@ -972,3 +971,9 @@ msgstr "Inicia sesión en tu cuenta de Aerolíneas"
 #: airline/templates/registration/login.html:77
 msgid "Don't have an account?"
 msgstr "¿No tienes una cuenta?"
+
+#~ msgid "Username"
+#~ msgstr "Nombre de usuario"
+
+#~ msgid "Password"
+#~ msgstr "Contraseña"

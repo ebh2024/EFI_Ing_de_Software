@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.utils.translation import gettext_lazy as _
 from .forms import FlightForm, PassengerForm, AirplaneForm, SeatLayoutForm, SeatTypeForm, SeatLayoutPositionForm
 from .models import Flight, Passenger, Airplane, SeatLayout, SeatType, SeatLayoutPosition
 
@@ -12,7 +13,7 @@ def create_object(request, form_class, redirect_url, template_name, context_name
             return redirect(redirect_url)
     else:
         form = form_class()
-    return render(request, template_name, {'form': form, 'action': 'Create'})
+    return render(request, template_name, {'form': form, 'action': _('Create')})
 
 def update_object(request, pk, model_class, form_class, redirect_url, template_name, context_name):
     obj = get_object_or_404(model_class, pk=pk)
@@ -23,7 +24,7 @@ def update_object(request, pk, model_class, form_class, redirect_url, template_n
             return redirect(redirect_url)
     else:
         form = form_class(instance=obj)
-    return render(request, template_name, {'form': form, 'action': 'Update', context_name: obj})
+    return render(request, template_name, {'form': form, 'action': _('Update'), context_name: obj})
 
 def delete_object(request, pk, model_class, redirect_url, template_name, context_name):
     obj = get_object_or_404(model_class, pk=pk)
